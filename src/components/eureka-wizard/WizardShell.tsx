@@ -202,6 +202,9 @@ export default function WizardShell() {
         wizardState.setSubmissionStatus('submitting');
         
         try {
+          // IMPORTANT: Save the very final state (including Eureka ID from Step 5) before submitting
+          await saveRegistrationDraft(wizardState.registrationId, wizardState.draftToken, wizardState);
+          
           const result = await submitRegistration(wizardState.registrationId, wizardState.draftToken);
           if (result && result.success) {
             wizardState.setReferenceCode(result.referenceCode);
