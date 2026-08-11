@@ -144,8 +144,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
       return (
         <div className="bg-[#1a1a1a] border border-white/10 p-4 rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#1A6FF5]/10 rounded-full flex items-center justify-center">
-              <CheckCircle2 size={20} className="text-[#1A6FF5]" />
+            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+              <CheckCircle2 size={20} className="text-primary" />
             </div>
             <div>
               <p className="text-white font-medium text-sm">{fileName || 'Pitch Deck Uploaded'}</p>
@@ -168,8 +168,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
       <div 
         className={`border-2 border-dashed rounded-xl p-6 text-center transition-all ${
           isDraggingDeck 
-            ? 'border-[#1A6FF5] bg-[#1A6FF5]/5 scale-[1.02]' 
-            : deckUploadError ? 'border-[#FF253A]/50 bg-[#FF253A]/5' : 'border-white/10 hover:border-white/30 hover:bg-white/5'
+            ? 'border-primary bg-primary/5 scale-[1.02]' 
+            : deckUploadError ? 'border-error/50 bg-error/5' : 'border-white/10 hover:border-white/30 hover:bg-white/5'
         }`}
         onDragOver={onDragOverDeck}
         onDragLeave={onDragLeaveDeck}
@@ -187,13 +187,13 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
         
         {isUploadingDeck ? (
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="w-8 h-8 text-[#1A6FF5] animate-spin" />
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
             <div className="text-sm text-gray-300 font-medium">Uploading...</div>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3 cursor-pointer">
             <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-              isDraggingDeck ? 'bg-[#1A6FF5] text-white' : 'bg-[#1E1E1E] text-gray-400'
+              isDraggingDeck ? 'bg-primary text-white' : 'bg-[#1E1E1E] text-gray-400'
             }`}>
               <Upload size={24} />
             </div>
@@ -213,7 +213,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
   const renderError = (field: string) => {
     if (errors[field]) {
-      return <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium text-left">{errors[field]}</p>;
+      return <p className="text-error text-xs mt-1.5 font-inter font-medium text-left">{errors[field]}</p>;
     }
     return null;
   };
@@ -222,18 +222,18 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
     return (
       <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
         <h2 className="text-3xl font-black text-white mb-3 font-poppins tracking-tight">Idea Details</h2>
-        <p className="text-[#888888] mb-10 font-inter text-lg">Tell us about your proposed idea.</p>
+        <p className="text-text-muted mb-10 font-inter text-lg">Tell us about your proposed idea.</p>
         
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Idea Name <span className="text-[#1A6FF5]">*</span>
+              Idea Name <span className="text-primary">*</span>
             </label>
             <input
               type="text"
               value={studentIdeaDetails.ideaName}
               onChange={(e) => updateStudentIdeaDetails({ ideaName: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white ${errors.ideaName ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white ${errors.ideaName ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               placeholder="e.g. Smart Waste AI"
             />
             {renderError('ideaName')}
@@ -241,12 +241,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Problem Statement <span className="text-[#1A6FF5]">*</span>
+              Problem Statement <span className="text-primary">*</span>
             </label>
             <textarea
               value={studentIdeaDetails.problemStatement}
               onChange={(e) => updateStudentIdeaDetails({ problemStatement: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white min-h-[120px] resize-y ${errors.problemStatement ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.problemStatement ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               placeholder="What problem are you solving?"
             />
             {renderError('problemStatement')}
@@ -254,12 +254,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Proposed Solution <span className="text-[#1A6FF5]">*</span>
+              Proposed Solution <span className="text-primary">*</span>
             </label>
             <textarea
               value={studentIdeaDetails.proposedSolution}
               onChange={(e) => updateStudentIdeaDetails({ proposedSolution: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white min-h-[120px] resize-y ${errors.proposedSolution ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.proposedSolution ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               placeholder="How does your idea solve this problem?"
             />
             {renderError('proposedSolution')}
@@ -268,12 +268,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-                Domain / Category <span className="text-[#1A6FF5]">*</span>
+                Domain / Category <span className="text-primary">*</span>
               </label>
               <select
                 value={studentIdeaDetails.category}
                 onChange={(e) => updateStudentIdeaDetails({ category: e.target.value })}
-                className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.category ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+                className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.category ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
                 style={{
                   backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%24%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
                   backgroundPosition: 'right 16px center',
@@ -290,12 +290,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
             <div>
               <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-                Current Stage <span className="text-[#1A6FF5]">*</span>
+                Current Stage <span className="text-primary">*</span>
               </label>
               <select
                 value={studentIdeaDetails.currentStage}
                 onChange={(e) => updateStudentIdeaDetails({ currentStage: e.target.value })}
-                className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.currentStage ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+                className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.currentStage ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
                 style={{
                   backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%24%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
                   backgroundPosition: 'right 16px center',
@@ -313,12 +313,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Short Description <span className="text-[#1A6FF5]">*</span>
+              Short Description <span className="text-primary">*</span>
             </label>
             <textarea
               value={studentIdeaDetails.shortDescription}
               onChange={(e) => updateStudentIdeaDetails({ shortDescription: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white min-h-[100px] resize-y ${errors.shortDescription ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white min-h-25 resize-y ${errors.shortDescription ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               placeholder="Provide a brief summary of your idea"
             />
             {renderError('shortDescription')}
@@ -326,13 +326,13 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Website / Demo URL <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
+              Website / Demo URL <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
             </label>
             <input
               type="url"
               value={studentIdeaDetails.websiteUrl}
               onChange={(e) => updateStudentIdeaDetails({ websiteUrl: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white ${errors.websiteUrl ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white ${errors.websiteUrl ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               placeholder="https://..."
             />
             {renderError('websiteUrl')}
@@ -340,21 +340,21 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-1 font-inter text-left">
-              Pitch Deck / PPT <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
+              Pitch Deck / PPT <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
             </label>
-            <div className="mb-4 text-xs text-[#888888] text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
+            <div className="mb-4 text-xs text-text-muted text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
-                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span className="text-primary font-bold">•</span> 
                 <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (3 min pitching, 2 min Q&A).</span>
               </p>
               <p className="flex items-start gap-2">
-                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span className="text-primary font-bold">•</span> 
                 <span>Your pitch deck must contain <strong className="text-white font-medium">at least 7 slides</strong>.</span>
               </p>
             </div>
             {renderDeckUpload()}
             {deckUploadError && (
-              <p className="text-[#FF253A] text-xs mt-2 font-inter font-medium text-left flex items-center gap-1">
+              <p className="text-error text-xs mt-2 font-inter font-medium text-left flex items-center gap-1">
                 <AlertCircle size={14} /> {deckUploadError}
               </p>
             )}
@@ -368,18 +368,18 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
   return (
     <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
       <h2 className="text-3xl font-black text-white mb-3 font-poppins tracking-tight">Startup Details</h2>
-      <p className="text-[#888888] mb-10 font-inter text-lg">Tell us about your startup.</p>
+      <p className="text-text-muted mb-10 font-inter text-lg">Tell us about your startup.</p>
       
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-            Startup Name <span className="text-[#1A6FF5]">*</span>
+            Startup Name <span className="text-primary">*</span>
           </label>
           <input
             type="text"
             value={startupDetails.startupName}
             onChange={(e) => updateStartupDetails({ startupName: e.target.value })}
-            className={`glass-input w-full p-4 rounded-xl text-white ${errors.startupName ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full p-4 rounded-xl text-white ${errors.startupName ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
             placeholder="e.g. Acme Corp"
           />
           {renderError('startupName')}
@@ -387,12 +387,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
         <div>
           <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-            Problem Statement <span className="text-[#1A6FF5]">*</span>
+            Problem Statement <span className="text-primary">*</span>
           </label>
           <textarea
             value={startupDetails.problemStatement}
             onChange={(e) => updateStartupDetails({ problemStatement: e.target.value })}
-            className={`glass-input w-full p-4 rounded-xl text-white min-h-[120px] resize-y ${errors.problemStatement ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.problemStatement ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
             placeholder="What problem does your startup solve?"
           />
           {renderError('problemStatement')}
@@ -400,12 +400,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
         <div>
           <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-            Solution <span className="text-[#1A6FF5]">*</span>
+            Solution <span className="text-primary">*</span>
           </label>
           <textarea
             value={startupDetails.solution}
             onChange={(e) => updateStartupDetails({ solution: e.target.value })}
-            className={`glass-input w-full p-4 rounded-xl text-white min-h-[120px] resize-y ${errors.solution ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.solution ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
             placeholder="How does your startup solve this problem?"
           />
           {renderError('solution')}
@@ -414,12 +414,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Domain / Category <span className="text-[#1A6FF5]">*</span>
+              Domain / Category <span className="text-primary">*</span>
             </label>
             <select
               value={startupDetails.category}
               onChange={(e) => updateStartupDetails({ category: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.category ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.category ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               style={{
                 backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%24%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
                 backgroundPosition: 'right 16px center',
@@ -436,12 +436,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Current Stage <span className="text-[#1A6FF5]">*</span>
+              Current Stage <span className="text-primary">*</span>
             </label>
             <select
               value={startupDetails.currentStage}
               onChange={(e) => updateStartupDetails({ currentStage: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.currentStage ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white appearance-none bg-no-repeat ${errors.currentStage ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               style={{
                 backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%24%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
                 backgroundPosition: 'right 16px center',
@@ -459,12 +459,12 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
         <div>
           <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-            Short Description <span className="text-[#1A6FF5]">*</span>
+            Short Description <span className="text-primary">*</span>
           </label>
           <textarea
             value={startupDetails.shortDescription}
             onChange={(e) => updateStartupDetails({ shortDescription: e.target.value })}
-            className={`glass-input w-full p-4 rounded-xl text-white min-h-[100px] resize-y ${errors.shortDescription ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full p-4 rounded-xl text-white min-h-25 resize-y ${errors.shortDescription ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
             placeholder="Provide a brief summary of your startup"
           />
           {renderError('shortDescription')}
@@ -473,13 +473,13 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Website URL <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
+              Website URL <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
             </label>
             <input
               type="url"
               value={startupDetails.websiteUrl}
               onChange={(e) => updateStartupDetails({ websiteUrl: e.target.value })}
-              className={`glass-input w-full p-4 rounded-xl text-white ${errors.websiteUrl ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+              className={`glass-input w-full p-4 rounded-xl text-white ${errors.websiteUrl ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
               placeholder="https://..."
             />
             {renderError('websiteUrl')}
@@ -487,21 +487,21 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-semibold text-white mb-1 font-inter text-left">
-              Pitch Deck / PPT <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
+              Pitch Deck / PPT <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
             </label>
-            <div className="mb-4 text-xs text-[#888888] text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
+            <div className="mb-4 text-xs text-text-muted text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
-                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span className="text-primary font-bold">•</span> 
                 <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (3 min pitching, 2 min Q&A).</span>
               </p>
               <p className="flex items-start gap-2">
-                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span className="text-primary font-bold">•</span> 
                 <span>Your pitch deck must contain <strong className="text-white font-medium">at least 7 slides</strong>.</span>
               </p>
             </div>
             {renderDeckUpload()}
             {deckUploadError && (
-              <p className="text-[#FF253A] text-xs mt-2 font-inter font-medium text-left flex items-center gap-1">
+              <p className="text-error text-xs mt-2 font-inter font-medium text-left flex items-center gap-1">
                 <AlertCircle size={14} /> {deckUploadError}
               </p>
             )}
@@ -510,13 +510,13 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
         
         <div>
           <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-            LinkedIn Profile URL <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
+            LinkedIn Profile URL <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
           </label>
           <input
             type="url"
             value={startupDetails.linkedinUrl}
             onChange={(e) => updateStartupDetails({ linkedinUrl: e.target.value })}
-            className={`glass-input w-full p-4 rounded-xl text-white ${errors.linkedinUrl ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full p-4 rounded-xl text-white ${errors.linkedinUrl ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
             placeholder="https://linkedin.com/company/..."
           />
           {renderError('linkedinUrl')}
