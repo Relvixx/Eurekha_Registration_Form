@@ -44,6 +44,11 @@ export const useWizardState = create<WizardState>()(
       startupDetails: initialStartupDetails,
       eurekaLinkClicked: false,
       eurekaSelfConfirmed: false,
+      eurekaRegistrationId: '',
+      proofUploaded: false,
+      proofUrl: undefined,
+      draftToken: undefined,
+      registrationId: undefined,
 
       setParticipantType: (type: ParticipantType) => 
         set((state) => {
@@ -91,6 +96,11 @@ export const useWizardState = create<WizardState>()(
 
       setEurekaLinkClicked: (clicked: boolean) => set({ eurekaLinkClicked: clicked }),
       setEurekaSelfConfirmed: (confirmed: boolean) => set({ eurekaSelfConfirmed: confirmed }),
+      setEurekaRegistrationId: (id: string) => set({ eurekaRegistrationId: id }),
+      setProofUploaded: (uploaded: boolean) => set({ proofUploaded: uploaded }),
+      setProofUrl: (url: string) => set({ proofUrl: url }),
+      setDraftToken: (token: string) => set({ draftToken: token }),
+      setRegistrationId: (id: string) => set({ registrationId: id }),
 
       resetWizard: () => 
         set({
@@ -101,6 +111,11 @@ export const useWizardState = create<WizardState>()(
           startupDetails: initialStartupDetails,
           eurekaLinkClicked: false,
           eurekaSelfConfirmed: false,
+          eurekaRegistrationId: '',
+          proofUploaded: false,
+          proofUrl: undefined,
+          draftToken: undefined,
+          registrationId: undefined,
         }),
     }),
     {

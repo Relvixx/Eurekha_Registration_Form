@@ -34,8 +34,8 @@ export const STARTUP_CATEGORIES = [
 ] as const;
 
 export const EUREKA_CONFIG = {
-  // Replace with official URL when available
-  registrationUrl: 'https://eureka.ecell-met.tech/register',
-  // Replace with official E-Cell MET NEC Referral Code when available
-  necReferralCode: 'NEC-12345'
+  // Official Eureka Registration URL
+  registrationUrl: 'https://www.ecell.in/eureka/register',
+  // Official E-Cell MET NEC Referral Code
+  necReferralCode: 'NEC2659807'
 } as const;

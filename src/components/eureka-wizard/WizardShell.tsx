@@ -10,7 +10,8 @@ import StepEureka from './StepEureka';
 import StepProof from './StepProof';
 import StepReview from './StepReview';
 import { useWizardState } from '../../hooks/useWizardState';
-import { step1Schema, step2Schema, leaderSchema, optionalMemberSchema, additionalMemberSchema, studentIdeaSchema, startupDetailsSchema, step4Schema } from '../../lib/validation/schemas';
+import { step1Schema, step2Schema, leaderSchema, optionalMemberSchema, additionalMemberSchema, studentIdeaSchema, startupDetailsSchema, step4Schema, step5Schema } from '../../lib/validation/schemas';
+import { createRegistrationDraft, saveRegistrationDraft } from '../../lib/api';
 import { z } from 'zod';
 
 const TOTAL_STEPS = 6;
@@ -18,6 +19,7 @@ const TOTAL_STEPS = 6;
 export default function WizardShell() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, any>>({});
   
   const wizardState = useWizardState();
@@ -114,20 +116,53 @@ export default function WizardShell() {
         setErrors({ _general: result.error.issues[0].message });
         return false;
       }
+    } else if (currentStep === 5) {
+      const result = step5Schema.safeParse({ 
+        eurekaRegistrationId: wizardState.eurekaRegistrationId,
+        proofUploaded: wizardState.proofUploaded,
+        proofUrl: wizardState.proofUrl
+      });
+      if (!result.success) {
+        const formattedErrors: Record<string, string> = {};
+        result.error.issues.forEach((err: any) => {
+          const path = err.path[0] as string;
+          formattedErrors[path] = err.message;
+        });
+        setErrors(formattedErrors);
+        return false;
+      }
     }
     
     return true;
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (validateCurrentStep()) {
       if (currentStep < TOTAL_STEPS) {
-        setCurrentStep((prev) => prev + 1);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setErrors({});
+        setIsSaving(true);
+        try {
+          if (!wizardState.draftToken || !wizardState.registrationId) {
+            // First time saving draft
+            const result = await createRegistrationDraft(wizardState);
+            if (result) {
+              wizardState.setDraftToken(result.draftToken);
+              wizardState.setRegistrationId(result.registrationId);
+            }
+          } else {
+            // Update existing draft
+            await saveRegistrationDraft(wizardState.registrationId, wizardState.draftToken, wizardState);
+          }
+          setCurrentStep((prev) => prev + 1);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setErrors({});
+        } catch (error: any) {
+          setErrors({ _general: error.message || 'Failed to save progress. Please try again.' });
+        } finally {
+          setIsSaving(false);
+        }
       } else {
         console.log('Final Submission Clicked');
-        alert('Phase 1/2: Final Submission functionality is not implemented yet.');
+        alert('Phase 1/2/3/4/5: Final Submission functionality will be implemented in Phase 6.');
       }
     }
   };
@@ -151,7 +186,7 @@ export default function WizardShell() {
       case 4:
         return <StepEureka error={errors._general} />;
       case 5:
-        return <StepProof />;
+        return <StepProof errors={errors} />;
       case 6:
         return <StepReview />;
       default:
@@ -160,6 +195,8 @@ export default function WizardShell() {
   };
 
   if (!isMounted) return null;
+
+  const canProceed = currentStep === 4 ? wizardState.eurekaSelfConfirmed : (currentStep === 5 ? wizardState.proofUploaded : true);
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12">
@@ -175,16 +212,27 @@ export default function WizardShell() {
       <WizardProgress currentStep={currentStep} />
       
       <div className="min-h-[400px] flex flex-col justify-between">
-        <div className="w-full">
+        <div className="w-full relative">
+          {isSaving && (
+            <div className="absolute inset-0 bg-[#121212]/50 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00E5FF]"></div>
+            </div>
+          )}
           {renderStep()}
         </div>
         
+        {errors._general && (
+          <div className="max-w-2xl mx-auto w-full mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm text-center">
+            {errors._general}
+          </div>
+        )}
+
         <WizardNavigation 
           currentStep={currentStep} 
           totalSteps={TOTAL_STEPS} 
           onNext={handleNext} 
           onBack={handleBack}
-          canProceed={true} 
+          canProceed={canProceed} 
         />
       </div>
     </div>

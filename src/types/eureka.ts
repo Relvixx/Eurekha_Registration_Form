@@ -48,6 +48,15 @@ export interface WizardState {
   eurekaLinkClicked: boolean;
   eurekaSelfConfirmed: boolean;
 
+  // Step 5 (Proof)
+  eurekaRegistrationId: string;
+  proofUploaded: boolean;
+  proofUrl?: string;
+
+  // Backend state
+  draftToken?: string;
+  registrationId?: string;
+
   // Actions
   setParticipantType: (type: ParticipantType) => void;
   updateTeamName: (name: string) => void;
@@ -58,5 +67,10 @@ export interface WizardState {
   updateStartupDetails: (updates: Partial<StartupDetails>) => void;
   setEurekaLinkClicked: (clicked: boolean) => void;
   setEurekaSelfConfirmed: (confirmed: boolean) => void;
+  setEurekaRegistrationId: (id: string) => void;
+  setProofUploaded: (uploaded: boolean) => void;
+  setProofUrl: (url: string) => void;
+  setDraftToken: (token: string) => void;
+  setRegistrationId: (id: string) => void;
   resetWizard: () => void;
 }
