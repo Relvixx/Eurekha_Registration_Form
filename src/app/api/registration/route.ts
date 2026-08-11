@@ -36,8 +36,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No action specified' }, { status: 400 });
     }
 
+    let isSupabaseConfigured = true;
+    try {
+      getSupabaseAdmin();
+    } catch (e: any) {
+      if (e.message === 'Missing Supabase server configuration') {
+        isSupabaseConfigured = false;
+      }
+    }
+
     // Mock Mode if Supabase is not configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    if (!isSupabaseConfigured) {
       console.warn("MOCK MODE: Supabase not configured. Returning mock data.");
       if (action === 'create_draft') {
          return NextResponse.json({ registrationId: 'mock-reg-' + Date.now(), draftToken: 'mock-token' });
