@@ -208,10 +208,10 @@ export default function StepProof({ errors }: StepProofProps) {
             </div>
           )}
 
-          {(uploadError || errors?.proofUploaded) && (
+          {(uploadError || errors?.proofUploaded || errors?.proofUrl) && (
             <div className="flex items-start mt-4 text-[#FF253A] text-sm bg-[#FF253A]/10 p-4 rounded-xl border border-[#FF253A]/20 font-inter">
               <AlertCircle className="w-5 h-5 mr-3 shrink-0" />
-              <p className="pt-0.5">{uploadError || errors?.proofUploaded}</p>
+              <p className="pt-0.5">{uploadError || errors?.proofUploaded || errors?.proofUrl}</p>
             </div>
           )}
         </div>
