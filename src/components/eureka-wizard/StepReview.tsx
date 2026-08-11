@@ -49,12 +49,18 @@ export default function StepReview() {
                 <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Idea Name:</span> {wizardState.studentIdeaDetails.ideaName}</p>
                 <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Category:</span> {wizardState.studentIdeaDetails.category}</p>
                 <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Stage:</span> {wizardState.studentIdeaDetails.currentStage}</p>
+                {wizardState.studentIdeaDetails.pitchDeckUrl && (
+                  <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Pitch Deck:</span> <a href={wizardState.studentIdeaDetails.pitchDeckUrl} target="_blank" rel="noopener noreferrer" className="text-[#FF1744] hover:underline">Link</a></p>
+                )}
               </>
             ) : (
               <>
                 <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Startup Name:</span> {wizardState.startupDetails.startupName}</p>
                 <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Category:</span> {wizardState.startupDetails.category}</p>
                 <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Stage:</span> {wizardState.startupDetails.currentStage}</p>
+                {wizardState.startupDetails.pitchDeckUrl && (
+                  <p className="text-gray-300 text-sm"><span className="text-gray-500 mr-2">Pitch Deck:</span> <a href={wizardState.startupDetails.pitchDeckUrl} target="_blank" rel="noopener noreferrer" className="text-[#FF1744] hover:underline">Link</a></p>
+                )}
               </>
             )}
           </div>

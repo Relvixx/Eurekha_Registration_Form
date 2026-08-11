@@ -138,6 +138,20 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
             />
             {renderError('websiteUrl')}
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1 text-left">
+              Pitch Deck / PPT URL <span className="text-gray-500 text-xs font-normal ml-1">(Optional)</span>
+            </label>
+            <input
+              type="url"
+              value={studentIdeaDetails.pitchDeckUrl}
+              onChange={(e) => updateStudentIdeaDetails({ pitchDeckUrl: e.target.value })}
+              className={`glass-input w-full p-3 rounded-lg text-white ${errors.pitchDeckUrl ? 'border-[#FF1744]' : ''}`}
+              placeholder="Google Drive, Canva, or presentation link..."
+            />
+            {renderError('pitchDeckUrl')}
+          </div>
         </div>
       </div>
     );
@@ -256,17 +270,31 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1 text-left">
-              LinkedIn URL <span className="text-gray-500 text-xs font-normal ml-1">(Optional)</span>
+              Pitch Deck / PPT URL <span className="text-gray-500 text-xs font-normal ml-1">(Optional)</span>
             </label>
             <input
               type="url"
-              value={startupDetails.linkedinUrl}
-              onChange={(e) => updateStartupDetails({ linkedinUrl: e.target.value })}
-              className={`glass-input w-full p-3 rounded-lg text-white ${errors.linkedinUrl ? 'border-[#FF1744]' : ''}`}
-              placeholder="https://linkedin.com/in/..."
+              value={startupDetails.pitchDeckUrl}
+              onChange={(e) => updateStartupDetails({ pitchDeckUrl: e.target.value })}
+              className={`glass-input w-full p-3 rounded-lg text-white ${errors.pitchDeckUrl ? 'border-[#FF1744]' : ''}`}
+              placeholder="Google Drive, Canva, or presentation link..."
             />
-            {renderError('linkedinUrl')}
+            {renderError('pitchDeckUrl')}
           </div>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-1 text-left">
+            LinkedIn Profile URL <span className="text-gray-500 text-xs font-normal ml-1">(Optional)</span>
+          </label>
+          <input
+            type="url"
+            value={startupDetails.linkedinUrl}
+            onChange={(e) => updateStartupDetails({ linkedinUrl: e.target.value })}
+            className={`glass-input w-full p-3 rounded-lg text-white ${errors.linkedinUrl ? 'border-[#FF1744]' : ''}`}
+            placeholder="https://linkedin.com/company/..."
+          />
+          {renderError('linkedinUrl')}
         </div>
       </div>
     </div>

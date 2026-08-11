@@ -60,6 +60,9 @@ export async function POST(req: NextRequest) {
           short_description: state.participantType === 'student'
             ? state.studentIdeaDetails?.shortDescription || ''
             : state.startupDetails?.shortDescription || '',
+          pitch_deck_url: state.participantType === 'student'
+            ? state.studentIdeaDetails?.pitchDeckUrl || ''
+            : state.startupDetails?.pitchDeckUrl || '',
           category: state.participantType === 'student'
             ? state.studentIdeaDetails?.category || 'Other'
             : state.startupDetails?.category || 'Other',
@@ -118,6 +121,7 @@ export async function POST(req: NextRequest) {
         problem_statement: state.participantType === 'student' ? state.studentIdeaDetails?.problemStatement : state.startupDetails?.problemStatement,
         solution_description: state.participantType === 'student' ? state.studentIdeaDetails?.proposedSolution : state.startupDetails?.solution,
         short_description: state.participantType === 'student' ? state.studentIdeaDetails?.shortDescription : state.startupDetails?.shortDescription,
+        pitch_deck_url: state.participantType === 'student' ? state.studentIdeaDetails?.pitchDeckUrl : state.startupDetails?.pitchDeckUrl,
         category: state.participantType === 'student' ? state.studentIdeaDetails?.category : state.startupDetails?.category,
         current_stage: state.participantType === 'student' ? state.studentIdeaDetails?.currentStage : state.startupDetails?.currentStage,
         eureka_self_confirmed: state.eurekaSelfConfirmed || false,

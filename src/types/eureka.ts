@@ -19,6 +19,7 @@ export interface StudentIdeaDetails {
   currentStage: string;
   shortDescription: string;
   websiteUrl?: string;
+  pitchDeckUrl?: string;
 }
 
 export interface StartupDetails {
@@ -30,6 +31,7 @@ export interface StartupDetails {
   shortDescription: string;
   websiteUrl?: string;
   linkedinUrl?: string;
+  pitchDeckUrl?: string;
 }
 
 export interface WizardState {
