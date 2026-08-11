@@ -132,7 +132,7 @@ export default function ImmediateRegistrationForm() {
                 name="teamName"
                 control={control}
                 render={({ field }) => (
-                  <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white ${errors.teamName ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="e.g. Innovators" />
+                  <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.teamName ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="e.g. Innovators" />
                 )}
               />
               {renderError('teamName')}
@@ -144,7 +144,7 @@ export default function ImmediateRegistrationForm() {
                 name="membersNames"
                 control={control}
                 render={({ field }) => (
-                  <input {...field} className="glass-input w-full p-3.5 rounded-xl text-white border-white/10" placeholder="Rahul, Priya, Amit" />
+                  <input {...field} className="glass-input w-full p-3.5 rounded-xl text-white border-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5]" placeholder="Rahul, Priya, Amit" />
                 )}
               />
             </div>
@@ -165,7 +165,7 @@ export default function ImmediateRegistrationForm() {
                 name="leadName"
                 control={control}
                 render={({ field }) => (
-                  <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white ${errors.leadName ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Leader Name" />
+                  <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadName ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Leader Name" />
                 )}
               />
               {renderError('leadName')}
@@ -179,7 +179,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadEmail"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} type="email" className={`glass-input w-full p-3.5 pl-11 rounded-xl text-white ${errors.leadEmail ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="email@example.com" />
+                    <input {...field} type="email" className={`glass-input w-full p-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadEmail ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="email@example.com" />
                   )}
                 />
               </div>
@@ -194,7 +194,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadPhone"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} type="tel" className={`glass-input w-full p-3.5 pl-11 rounded-xl text-white ${errors.leadPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="10-digit number" />
+                    <input {...field} type="tel" className={`glass-input w-full p-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="10-digit number" />
                   )}
                 />
               </div>
@@ -209,7 +209,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadAltPhone"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} type="tel" className={`glass-input w-full p-3.5 pl-11 rounded-xl text-white ${errors.leadAltPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Optional" />
+                    <input {...field} type="tel" className={`glass-input w-full p-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadAltPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Optional" />
                   )}
                 />
               </div>
@@ -224,7 +224,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadCollege"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} className={`glass-input w-full p-3.5 pl-11 rounded-xl text-white ${errors.leadCollege ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Full College Name" />
+                    <input {...field} className={`glass-input w-full p-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadCollege ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Full College Name" />
                   )}
                 />
               </div>
@@ -237,7 +237,7 @@ export default function ImmediateRegistrationForm() {
                 name="leadBranch"
                 control={control}
                 render={({ field }) => (
-                  <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white ${errors.leadBranch ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="e.g. BTech Computer Science" />
+                  <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadBranch ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="e.g. BTech Computer Science" />
                 )}
               />
               {renderError('leadBranch')}
@@ -249,7 +249,7 @@ export default function ImmediateRegistrationForm() {
                 name="leadYear"
                 control={control}
                 render={({ field }) => (
-                  <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none ${errors.leadYear ? 'border-[#FF253A]' : 'border-white/10'}`}>
+                  <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadYear ? 'border-[#FF253A]' : 'border-white/10'}`}>
                     <option value="" disabled className="bg-[#1A1A1A] text-gray-500">Select Year</option>
                     <option value="1st Year" className="bg-[#1A1A1A] text-white">1st Year</option>
                     <option value="2nd Year" className="bg-[#1A1A1A] text-white">2nd Year</option>
@@ -279,7 +279,7 @@ export default function ImmediateRegistrationForm() {
                 name="ideaCategory"
                 control={control}
                 render={({ field }) => (
-                  <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none ${errors.ideaCategory ? 'border-[#FF253A]' : 'border-white/10'}`}>
+                  <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.ideaCategory ? 'border-[#FF253A]' : 'border-white/10'}`}>
                     <option value="" disabled className="bg-[#1A1A1A] text-gray-500">Select a category</option>
                     {categories.map((cat) => (
                       <option key={cat} value={cat} className="bg-[#1A1A1A] text-white">{cat}</option>
@@ -296,7 +296,7 @@ export default function ImmediateRegistrationForm() {
                 name="ideaStage"
                 control={control}
                 render={({ field }) => (
-                  <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none ${errors.ideaStage ? 'border-[#FF253A]' : 'border-white/10'}`}>
+                  <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.ideaStage ? 'border-[#FF253A]' : 'border-white/10'}`}>
                     <option value="" disabled className="bg-[#1A1A1A] text-gray-500">Select current stage</option>
                     {stages.map((stage) => (
                       <option key={stage} value={stage} className="bg-[#1A1A1A] text-white">{stage}</option>
