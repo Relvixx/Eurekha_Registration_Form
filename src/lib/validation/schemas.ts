@@ -74,7 +74,6 @@ export const studentIdeaSchema = z.object({
   currentStage: z.string().min(1, 'Please select the current stage'),
   shortDescription: z.string().min(10, 'Please provide a short description (min 10 chars)'),
   websiteUrl: urlSchema,
-  pitchDeckUrl: urlSchema,
 });
 
 export const startupDetailsSchema = z.object({
@@ -86,7 +85,6 @@ export const startupDetailsSchema = z.object({
   shortDescription: z.string().min(10, 'Please provide a short description (min 10 chars)'),
   websiteUrl: urlSchema,
   linkedinUrl: urlSchema,
-  pitchDeckUrl: urlSchema,
 });
 
 export const step4Schema = z.object({

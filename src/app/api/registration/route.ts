@@ -222,6 +222,75 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, path: filePath });
     }
 
+    // ─── UPLOAD PITCH DECK ───
+    if (action === 'upload_pitch_deck') {
+      const draftToken = bodyData.get('draftToken')?.toString();
+      const registrationId = bodyData.get('registrationId')?.toString();
+      const file = bodyData.get('file') as File | null;
+
+      if (!draftToken || !registrationId || !file) {
+        return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
+      }
+
+      if (registrationId === 'undefined' || registrationId === 'null' || registrationId === '') {
+        return NextResponse.json({ error: 'Invalid registration ID' }, { status: 400 });
+      }
+
+      const hash = hashToken(draftToken);
+      const { data: reg, error: regError } = await supabase
+        .from('registrations')
+        .select('id, status')
+        .eq('id', registrationId)
+        .eq('draft_token_hash', hash)
+        .single();
+
+      if (regError || !reg) {
+        return NextResponse.json({ error: 'Invalid draft token' }, { status: 401 });
+      }
+
+      if (reg.status === 'SUBMITTED') {
+        return NextResponse.json({ error: 'Cannot modify submitted registration' }, { status: 400 });
+      }
+
+      if (file.size > 10 * 1024 * 1024) {
+        return NextResponse.json({ error: 'File size exceeds 10MB limit' }, { status: 400 });
+      }
+
+      const allowedTypes = [
+        'application/pdf',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        return NextResponse.json({ error: 'Invalid file type. Only PDF, PPT, and PPTX are allowed.' }, { status: 400 });
+      }
+
+      const fileExt = file.name.split('.').pop();
+      const filePath = `pitch-decks/${registrationId}/${randomUUID()}.${fileExt}`;
+
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const { error: uploadError } = await supabase.storage
+        .from('eureka-proofs')
+        .upload(filePath, buffer, { contentType: file.type, upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      // Save the pitch deck path on the registration record
+      await supabase.from('registrations').update({
+        pitch_deck_url: filePath,
+      }).eq('id', registrationId);
+
+      await supabase.from('registration_events').insert({
+        registration_id: registrationId,
+        event_type: 'PITCH_DECK_UPLOADED',
+        metadata: { mime_type: file.type, file_size_bytes: file.size, original_filename: file.name },
+      });
+
+      return NextResponse.json({ success: true, path: filePath });
+    }
+
     // ─── SUBMIT REGISTRATION ───
     if (action === 'submit_registration') {
       const { registrationId, draftToken } = bodyData;

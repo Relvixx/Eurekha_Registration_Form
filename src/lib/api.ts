@@ -60,6 +60,26 @@ export async function uploadRegistrationProof(registrationId: string, draftToken
   return data; // { success: true, path: '...' }
 }
 
+export async function uploadPitchDeck(registrationId: string, draftToken: string, file: File) {
+  const formData = new FormData();
+  formData.append('action', 'upload_pitch_deck');
+  formData.append('registrationId', registrationId);
+  formData.append('draftToken', draftToken);
+  formData.append('file', file);
+
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    body: formData,
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to upload pitch deck');
+  }
+
+  return data; // { success: true, path: '...' }
+}
+
 export async function submitRegistration(registrationId: string, draftToken: string) {
   const res = await fetch(API_URL, {
     method: 'POST',

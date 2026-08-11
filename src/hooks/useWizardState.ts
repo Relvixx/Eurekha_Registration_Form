@@ -21,7 +21,9 @@ const initialStudentDetails: StudentIdeaDetails = {
   currentStage: '',
   shortDescription: '',
   websiteUrl: '',
-  pitchDeckUrl: '',
+  pitchDeckUploaded: false,
+  pitchDeckPath: '',
+  pitchDeckFileName: '',
 };
 
 const initialStartupDetails: StartupDetails = {
@@ -33,7 +35,9 @@ const initialStartupDetails: StartupDetails = {
   shortDescription: '',
   websiteUrl: '',
   linkedinUrl: '',
-  pitchDeckUrl: '',
+  pitchDeckUploaded: false,
+  pitchDeckPath: '',
+  pitchDeckFileName: '',
 };
 
 export const useWizardState = create<WizardState>()(

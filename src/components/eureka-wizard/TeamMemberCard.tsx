@@ -36,18 +36,18 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
   };
 
   return (
-    <div className="glass-panel p-6 rounded-xl border border-white/10 bg-black/20 relative">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold text-white">
+    <div className="p-6 md:p-8 rounded-2xl border border-white/5 bg-[#000000] relative group transition-all hover:border-white/10 hover:shadow-lg">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-xl font-bold text-white font-poppins">
           {memberLabel}
-          {isLeader && <span className="ml-2 text-xs bg-[#FF1744]/20 text-[#FF1744] px-2 py-1 rounded-full border border-[#FF1744]/30">Required</span>}
-          {!isLeader && index === 1 && <span className="ml-2 text-xs bg-gray-500/20 text-gray-400 px-2 py-1 rounded-full border border-gray-500/30">Optional</span>}
+          {isLeader && <span className="ml-3 text-xs bg-[#1A6FF5]/10 text-[#1A6FF5] px-3 py-1 rounded-full border border-[#1A6FF5]/20 font-inter font-medium tracking-wide">Required</span>}
+          {!isLeader && index === 1 && <span className="ml-3 text-xs bg-[#1A1A2E] text-[#888888] px-3 py-1 rounded-full border border-white/5 font-inter font-medium tracking-wide">Optional</span>}
         </h3>
         
         {!isLeader && onRemove && (
           <button 
             onClick={() => onRemove(member.id)}
-            className="text-gray-400 hover:text-[#FF1744] transition-colors p-2 rounded-lg hover:bg-[#FF1744]/10"
+            className="text-[#888888] hover:text-[#FF253A] transition-colors p-2 rounded-lg hover:bg-[#FF253A]/10 focus-ring"
             aria-label={`Remove ${memberLabel}`}
           >
             <Trash2 className="w-5 h-5" />
@@ -55,7 +55,7 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <input
             type="text"
@@ -63,9 +63,9 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
             placeholder="Full Name"
             value={member.fullName}
             onChange={handleChange}
-            className={`glass-input p-3 w-full border ${errors.fullName ? 'border-[#FF1744]' : 'border-white/10'}`}
+            className={`glass-input w-full ${errors.fullName ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
-          {errors.fullName && <p className="text-[#FF1744] text-xs mt-1">{errors.fullName}</p>}
+          {errors.fullName && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.fullName}</p>}
         </div>
 
         <div>
@@ -75,9 +75,9 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
             placeholder="Email Address"
             value={member.email}
             onChange={handleChange}
-            className={`glass-input p-3 w-full border ${errors.email ? 'border-[#FF1744]' : 'border-white/10'}`}
+            className={`glass-input w-full ${errors.email ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
-          {errors.email && <p className="text-[#FF1744] text-xs mt-1">{errors.email}</p>}
+          {errors.email && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.email}</p>}
         </div>
 
         <div>
@@ -87,9 +87,9 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
             placeholder="Mobile Number"
             value={member.mobileNumber}
             onChange={handleChange}
-            className={`glass-input p-3 w-full border ${errors.mobileNumber ? 'border-[#FF1744]' : 'border-white/10'}`}
+            className={`glass-input w-full ${errors.mobileNumber ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
-          {errors.mobileNumber && <p className="text-[#FF1744] text-xs mt-1">{errors.mobileNumber}</p>}
+          {errors.mobileNumber && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.mobileNumber}</p>}
         </div>
 
         <div>
@@ -99,9 +99,9 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
             placeholder="College / Institution"
             value={member.institution}
             onChange={handleChange}
-            className={`glass-input p-3 w-full border ${errors.institution ? 'border-[#FF1744]' : 'border-white/10'}`}
+            className={`glass-input w-full ${errors.institution ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
-          {errors.institution && <p className="text-[#FF1744] text-xs mt-1">{errors.institution}</p>}
+          {errors.institution && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.institution}</p>}
         </div>
 
         <div>
@@ -110,14 +110,19 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
             value={member.role}
             onChange={handleChange}
             disabled={isLeader}
-            className={`glass-input p-3 w-full border text-white bg-black/40 ${errors.role ? 'border-[#FF1744]' : 'border-white/10'} ${isLeader ? 'opacity-70 cursor-not-allowed' : ''}`}
+            className={`glass-input w-full appearance-none bg-no-repeat ${errors.role ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'} ${isLeader ? 'opacity-70 cursor-not-allowed' : ''}`}
+            style={{
+              backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%24%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
+              backgroundPosition: 'right 12px center',
+              backgroundSize: '16px 16px'
+            }}
           >
             <option value="" disabled>Select Role</option>
             {availableRoles.map(role => (
               <option key={role} value={role}>{role}</option>
             ))}
           </select>
-          {errors.role && <p className="text-[#FF1744] text-xs mt-1">{errors.role}</p>}
+          {errors.role && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.role}</p>}
         </div>
 
         {member.role === 'Other' && (
@@ -128,9 +133,9 @@ export default function TeamMemberCard({ member, index, errors, onChange, onRemo
               placeholder="Specify Custom Role"
               value={member.customRole || ''}
               onChange={handleChange}
-              className={`glass-input p-3 w-full border ${errors.customRole ? 'border-[#FF1744]' : 'border-white/10'}`}
+              className={`glass-input w-full ${errors.customRole ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
             />
-            {errors.customRole && <p className="text-[#FF1744] text-xs mt-1">{errors.customRole}</p>}
+            {errors.customRole && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.customRole}</p>}
           </div>
         )}
       </div>

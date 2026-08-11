@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
+  variable: "--font-poppins",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#121212",
+  themeColor: "#021D48",
 };
 
 export default function RootLayout({
@@ -30,9 +32,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col relative`}
+        className={`${inter.variable} ${poppins.variable} font-poppins antialiased min-h-screen flex flex-col relative bg-black`}
       >
-        <main className="flex-1 flex flex-col pt-8 md:pt-12">
+        <main className="flex-1 flex flex-col">
           {children}
         </main>
       </body>

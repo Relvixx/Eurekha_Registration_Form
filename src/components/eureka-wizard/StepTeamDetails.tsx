@@ -2,6 +2,7 @@ import React from 'react';
 import { useWizardState } from '../../hooks/useWizardState';
 import TeamMemberCard from './TeamMemberCard';
 import { v4 as uuidv4 } from 'uuid';
+import { Plus } from 'lucide-react';
 
 interface Props {
   errors?: Record<string, any>;
@@ -28,10 +29,6 @@ export default function StepTeamDetails({ errors = {} }: Props) {
   };
 
   // Ensure there are at least two slots (Leader and optional Member 2)
-  // If the user hasn't added a second member yet, we can either automatically
-  // add one in the store, or just rely on the store having it.
-  // The spec says "Member 2 is rendered by default. Member 2 is NOT mandatory."
-  // Let's make sure the store has at least 2 members.
   React.useEffect(() => {
     if (teamMembers.length < 2) {
       addTeamMember({
@@ -47,30 +44,31 @@ export default function StepTeamDetails({ errors = {} }: Props) {
   }, [teamMembers.length, addTeamMember]);
 
   return (
-    <div className="glass-panel p-6 md:p-8 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
-      <h2 className="text-2xl font-bold text-white mb-2">Team Details</h2>
-      <p className="text-gray-400 mb-8">Enter your team and leader information.</p>
+    <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
+      <h2 className="text-3xl font-black text-white mb-3 font-poppins tracking-tight">Team Details</h2>
+      <p className="text-[#888888] mb-10 font-inter text-lg">Enter your team and leader information.</p>
       
       {errors._general && (
-        <div className="mb-6 p-4 bg-[#FF1744]/10 border border-[#FF1744]/30 rounded-xl text-[#FF1744] text-sm">
+        <div className="mb-8 p-4 bg-[#FF253A]/10 border border-[#FF253A]/30 rounded-xl text-[#FF253A] text-sm font-inter flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#FF253A]"></span>
           {errors._general}
         </div>
       )}
 
-      <div className="space-y-6">
+      <div className="space-y-10">
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">Team Name</label>
+          <label className="block text-sm font-semibold text-white mb-3 font-inter">Team Name <span className="text-[#1A6FF5]">*</span></label>
           <input
             type="text"
             placeholder="Enter your team name"
             value={teamName}
             onChange={(e) => updateTeamName(e.target.value)}
-            className={`glass-input p-4 w-full border ${errors.teamName ? 'border-[#FF1744]' : 'border-white/10'}`}
+            className={`glass-input w-full ${errors.teamName ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
-          {errors.teamName && <p className="text-[#FF1744] text-xs mt-1">{errors.teamName}</p>}
+          {errors.teamName && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.teamName}</p>}
         </div>
         
-        <div className="space-y-6 mt-8">
+        <div className="space-y-6">
           {teamMembers.map((member, index) => (
             <TeamMemberCard
               key={member.id}
@@ -85,9 +83,9 @@ export default function StepTeamDetails({ errors = {} }: Props) {
         
         <button 
           onClick={handleAddMember}
-          className="w-full py-4 rounded-xl bg-black/40 text-gray-400 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+          className="w-full py-4 rounded-xl border border-dashed border-white/20 bg-[#1A1A2E]/30 text-gray-400 hover:text-white hover:border-[#1A6FF5]/50 hover:bg-[#1A6FF5]/5 transition-all flex items-center justify-center gap-2 font-inter font-medium focus-ring group"
         >
-          <span className="text-xl">+</span> Add Additional Team Member
+          <Plus className="w-5 h-5 text-gray-400 group-hover:text-[#1A6FF5] transition-colors" /> Add Additional Team Member
         </button>
       </div>
     </div>

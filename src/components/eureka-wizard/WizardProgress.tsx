@@ -16,12 +16,12 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
   ];
 
   return (
-    <div className="w-full mb-8 md:mb-12">
+    <div className="w-full mb-12 md:mb-16">
       {/* Desktop Progress (Hidden on small mobile) */}
       <div className="hidden sm:flex items-center justify-between relative">
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-white/10 z-0"></div>
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-white/5 z-0"></div>
         <div 
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-[#FF1744] z-0 transition-all duration-500 ease-in-out shadow-[0_0_8px_rgba(255,23,68,0.5)]"
+          className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-[#1A6FF5] z-0 transition-all duration-700 ease-in-out shadow-[0_0_12px_rgba(26,111,245,0.6)]"
           style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
         ></div>
 
@@ -32,20 +32,20 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
           return (
             <div key={step.num} className="relative z-10 flex flex-col items-center gap-2">
               <div 
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 font-poppins ${
                   isCompleted 
-                    ? 'bg-[#FF1744] text-white shadow-[0_0_12px_rgba(255,23,68,0.4)]' 
+                    ? 'bg-[#1A6FF5] text-white shadow-[0_0_15px_rgba(26,111,245,0.4)]' 
                     : isCurrent 
-                      ? 'bg-[#FF1744] text-white shadow-[0_0_12px_rgba(255,23,68,0.4)] border-none' 
-                      : 'bg-[#1a1a1a] text-gray-500 border border-white/10'
+                      ? 'bg-[#000000] text-[#1A6FF5] border-2 border-[#1A6FF5] shadow-[0_0_20px_rgba(26,111,245,0.3)]' 
+                      : 'bg-[#1A1A2E] text-[#555555] border border-white/5'
                 }`}
                 aria-current={isCurrent ? 'step' : undefined}
               >
                 {isCompleted ? <Check size={18} strokeWidth={3} /> : step.num}
               </div>
               
-              <span className={`text-[10px] uppercase tracking-wider font-bold absolute top-12 whitespace-nowrap text-center w-24 left-1/2 -translate-x-1/2 ${
-                isCurrent ? 'text-white' : isCompleted ? 'text-[#FF1744]' : 'text-gray-600'
+              <span className={`text-[10px] uppercase tracking-wider font-bold absolute top-12 whitespace-nowrap text-center w-24 left-1/2 -translate-x-1/2 font-inter transition-colors duration-300 ${
+                isCurrent ? 'text-[#FFFFFF] drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : isCompleted ? 'text-[#2D87FF]' : 'text-[#555555]'
               }`}>
                 {step.label}
               </span>
@@ -55,14 +55,14 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
       </div>
 
       {/* Mobile Compact Progress (Visible only on very small screens) */}
-      <div className="sm:hidden flex flex-col gap-2">
-        <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-gray-400">
+      <div className="sm:hidden flex flex-col gap-3">
+        <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 font-inter">
           <span>Step {currentStep} of {steps.length}</span>
           <span className="text-white">{steps[currentStep - 1]?.label}</span>
         </div>
-        <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-[#1A1A2E] rounded-full overflow-hidden">
           <div 
-            className="h-full bg-[#FF1744] transition-all duration-500 ease-in-out"
+            className="h-full bg-[#1A6FF5] transition-all duration-700 ease-in-out shadow-[0_0_8px_rgba(26,111,245,0.5)]"
             style={{ width: `${(currentStep / steps.length) * 100}%` }}
           ></div>
         </div>

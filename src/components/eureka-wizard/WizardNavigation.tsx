@@ -24,7 +24,7 @@ export default function WizardNavigation({
       <button
         onClick={onBack}
         disabled={isFirstStep}
-        className={`btn btn-glass px-6 py-3 w-full sm:w-auto rounded-full text-sm inline-flex items-center justify-center gap-2 focus-ring ${
+        className={`btn btn-glass px-6 py-3 w-full sm:w-auto rounded-lg text-sm inline-flex items-center justify-center gap-2 focus-ring ${
           isFirstStep ? 'opacity-0 pointer-events-none' : ''
         }`}
       >
@@ -35,8 +35,8 @@ export default function WizardNavigation({
       <button
         onClick={onNext}
         disabled={!canProceed}
-        className={`btn w-full sm:w-auto px-8 py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-2 focus-ring transition-transform ${
-          !canProceed ? 'opacity-50 cursor-not-allowed bg-gray-600 text-gray-300' 
+        className={`btn w-full sm:w-auto px-8 py-3 rounded-lg font-poppins inline-flex items-center justify-center gap-2 focus-ring transition-all ${
+          !canProceed ? 'bg-[#1A1A2E] text-[#555555] cursor-not-allowed border border-white/5' 
           : 'btn-primary'
         }`}
       >
