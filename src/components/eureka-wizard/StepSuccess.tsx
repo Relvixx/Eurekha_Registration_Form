@@ -65,6 +65,7 @@ export default function StepSuccess() {
         </p>
         <a 
           href="/"
+          onClick={() => wizardState.resetWizard()}
           className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl border border-white/10 bg-[#000000] text-white hover:bg-[#1A6FF5]/10 hover:border-[#1A6FF5]/30 hover:text-[#1A6FF5] transition-all duration-300 font-semibold font-inter focus-ring"
         >
           Return to Homepage
