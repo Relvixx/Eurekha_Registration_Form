@@ -18,7 +18,6 @@ function generateReferenceCode(): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = getSupabaseAdmin();
     const contentType = req.headers.get('content-type') || '';
 
     let action: string = '';
@@ -36,6 +35,25 @@ export async function POST(req: NextRequest) {
     if (!action) {
       return NextResponse.json({ error: 'No action specified' }, { status: 400 });
     }
+
+    // Mock Mode if Supabase is not configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.warn("MOCK MODE: Supabase not configured. Returning mock data.");
+      if (action === 'create_draft') {
+         return NextResponse.json({ registrationId: 'mock-reg-' + Date.now(), draftToken: 'mock-token' });
+      }
+      if (action === 'save_draft') {
+         return NextResponse.json({ success: true });
+      }
+      if (action === 'upload_proof' || action === 'upload_pitch_deck') {
+         return NextResponse.json({ success: true, path: 'mock/path/' + Date.now() + '.pdf' });
+      }
+      if (action === 'submit_registration') {
+         return NextResponse.json({ success: true, referenceCode: 'ECELL-EUR-' + Math.random().toString(36).substring(2, 10).toUpperCase() });
+      }
+    }
+
+    const supabase = getSupabaseAdmin();
 
     // ─── CREATE DRAFT ───
     if (action === 'create_draft') {

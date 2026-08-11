@@ -280,9 +280,9 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
                   backgroundSize: '16px 16px'
                 }}
               >
-                <option value="" className="bg-[#000000]">Select a category</option>
+                <option value="">Select a category</option>
                 {STUDENT_CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat} className="bg-[#000000]">{cat}</option>
+                  <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
               {renderError('category')}
@@ -302,9 +302,9 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
                   backgroundSize: '16px 16px'
                 }}
               >
-                <option value="" className="bg-[#000000]">Select current stage</option>
+                <option value="">Select current stage</option>
                 {STUDENT_STAGES.map((stage) => (
-                  <option key={stage} value={stage} className="bg-[#000000]">{stage}</option>
+                  <option key={stage} value={stage}>{stage}</option>
                 ))}
               </select>
               {renderError('currentStage')}
@@ -416,9 +416,9 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
                 backgroundSize: '16px 16px'
               }}
             >
-              <option value="" className="bg-[#000000]">Select a category</option>
+              <option value="">Select a category</option>
               {STARTUP_CATEGORIES.map((cat) => (
-                <option key={cat} value={cat} className="bg-[#000000]">{cat}</option>
+                <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
             {renderError('category')}
@@ -438,9 +438,9 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
                 backgroundSize: '16px 16px'
               }}
             >
-              <option value="" className="bg-[#000000]">Select current stage</option>
+              <option value="">Select current stage</option>
               {STARTUP_STAGES.map((stage) => (
-                <option key={stage} value={stage} className="bg-[#000000]">{stage}</option>
+                <option key={stage} value={stage}>{stage}</option>
               ))}
             </select>
             {renderError('currentStage')}
