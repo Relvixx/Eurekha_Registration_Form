@@ -24,7 +24,7 @@ export default function SiteFooter() {
             <a href="https://www.linkedin.com/company/ecell-met/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="LinkedIn">
               <Users size={20} />
             </a>
-            <a href="https://www.youtube.com/@ecell_met" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="YouTube">
+            <a href="https://www.youtube.com/@ecell-met-live/streams" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="YouTube">
               <Video size={20} />
             </a>
           </div>
@@ -61,7 +61,7 @@ export default function SiteFooter() {
             </li>
             <li className="flex items-center gap-3">
               <Mail size={20} className="text-[#FF1744] shrink-0" />
-              <a href="mailto:ecell@met.edu" className="text-sm text-gray-400 hover:text-white transition-colors focus-ring rounded">ecell@met.edu</a>
+              <a href="mailto:met.iot.ecell@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors focus-ring rounded">met.iot.ecell@gmail.com</a>
             </li>
           </ul>
         </div>
