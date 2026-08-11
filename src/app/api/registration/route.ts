@@ -216,8 +216,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid file type. Only JPG and PNG allowed.' }, { status: 400 });
       }
 
-      const fileExt = file.name.split('.').pop();
-      const filePath = `${registrationId}/${randomUUID()}.${fileExt}`;
+      // Create a readable folder name: TeamName_ShortId
+      const { data: teamReg } = await supabase.from('registrations').select('team_name').eq('id', registrationId).single();
+      const teamSlug = (teamReg?.team_name || 'Team').replace(/[^a-zA-Z0-9]/g, '_');
+      const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      
+      // Store in proofs/TeamName_ShortId/FileName
+      const filePath = `proofs/${teamSlug}_${registrationId.substring(0, 6)}/${randomUUID().substring(0, 6)}_${sanitizedName}`;
 
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -292,8 +297,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid file type. Only PDF, PPT, and PPTX are allowed.' }, { status: 400 });
       }
 
-      const fileExt = file.name.split('.').pop();
-      const filePath = `pitch-decks/${registrationId}/${randomUUID()}.${fileExt}`;
+      // Create a readable folder name: TeamName_ShortId
+      const { data: teamReg } = await supabase.from('registrations').select('team_name').eq('id', registrationId).single();
+      const teamSlug = (teamReg?.team_name || 'Team').replace(/[^a-zA-Z0-9]/g, '_');
+      const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      
+      // Store in pitch-decks/TeamName_ShortId/FileName
+      const filePath = `pitch-decks/${teamSlug}_${registrationId.substring(0, 6)}/${randomUUID().substring(0, 6)}_${sanitizedName}`;
 
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
