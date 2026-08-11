@@ -95,7 +95,7 @@ export default function StepReview() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
-              <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (2 min pitching, 3 min Q&A).</span>
+              <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (3 min pitching, 2 min Q&A).</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>

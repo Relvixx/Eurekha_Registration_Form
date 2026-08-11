@@ -345,7 +345,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
             <div className="mb-4 text-xs text-[#888888] text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
                 <span className="text-[#1A6FF5] font-bold">•</span> 
-                <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (2 min pitching, 3 min Q&A).</span>
+                <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (3 min pitching, 2 min Q&A).</span>
               </p>
               <p className="flex items-start gap-2">
                 <span className="text-[#1A6FF5] font-bold">•</span> 
@@ -492,7 +492,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
             <div className="mb-4 text-xs text-[#888888] text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
                 <span className="text-[#1A6FF5] font-bold">•</span> 
-                <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (2 min pitching, 3 min Q&A).</span>
+                <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (3 min pitching, 2 min Q&A).</span>
               </p>
               <p className="flex items-start gap-2">
                 <span className="text-[#1A6FF5] font-bold">•</span> 
