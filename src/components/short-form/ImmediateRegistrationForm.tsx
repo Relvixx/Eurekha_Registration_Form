@@ -179,7 +179,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadEmail"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} type="email" className={`glass-input w-full py-3.5 pr-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadEmail ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="email@example.com" />
+                    <input {...field} type="email" className={`glass-input w-full py-3.5 pr-3.5 !pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadEmail ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="email@example.com" />
                   )}
                 />
               </div>
@@ -194,7 +194,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadPhone"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} type="tel" className={`glass-input w-full py-3.5 pr-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="10-digit number" />
+                    <input {...field} type="tel" className={`glass-input w-full py-3.5 pr-3.5 !pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="10-digit number" />
                   )}
                 />
               </div>
@@ -209,7 +209,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadAltPhone"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} type="tel" className={`glass-input w-full py-3.5 pr-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadAltPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Optional" />
+                    <input {...field} type="tel" className={`glass-input w-full py-3.5 pr-3.5 !pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadAltPhone ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Optional" />
                   )}
                 />
               </div>
@@ -224,7 +224,7 @@ export default function ImmediateRegistrationForm() {
                   name="leadCollege"
                   control={control}
                   render={({ field }) => (
-                    <input {...field} className={`glass-input w-full py-3.5 pr-3.5 pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadCollege ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Full College Name" />
+                    <input {...field} className={`glass-input w-full py-3.5 pr-3.5 !pl-12 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6FF5]/50 focus:border-[#1A6FF5] ${errors.leadCollege ? 'border-[#FF253A]' : 'border-white/10'}`} placeholder="Full College Name" />
                   )}
                 />
               </div>
