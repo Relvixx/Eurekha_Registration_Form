@@ -36,7 +36,7 @@ export default function WizardNavigation({
         onClick={onNext}
         disabled={!canProceed}
         className={`btn w-full sm:w-auto px-8 py-3 rounded-lg font-poppins inline-flex items-center justify-center gap-2 focus-ring transition-all ${
-          !canProceed ? 'bg-[#1A1A2E] text-[#555555] cursor-not-allowed border border-white/5' 
+          !canProceed ? 'bg-surface-secondary text-[#555555] cursor-not-allowed border border-white/5' 
           : 'btn-primary'
         }`}
       >

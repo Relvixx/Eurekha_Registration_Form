@@ -12,7 +12,7 @@ export default function ImmediateRegistrationForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { control, handleSubmit, watch, formState: { errors } } = useForm<ImmediateRegistrationFormValues>({
+  const { control, handleSubmit, formState: { errors } } = useForm<ImmediateRegistrationFormValues>({
     resolver: zodResolver(immediateRegistrationSchema),
     defaultValues: {
       participantType: 'student',

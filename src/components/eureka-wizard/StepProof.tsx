@@ -117,7 +117,7 @@ export default function StepProof({ errors }: StepProofProps) {
         <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white font-poppins">
           Registration Proof
         </h2>
-        <p className="text-[#888888] font-inter text-lg">
+        <p className="text-text-muted font-inter text-lg">
           Enter your Eureka Registration ID and upload a screenshot confirming your registration.
         </p>
       </div>
@@ -127,7 +127,7 @@ export default function StepProof({ errors }: StepProofProps) {
         {/* Eureka ID Input */}
         <div className="space-y-3">
           <label htmlFor="eurekaId" className="block text-sm font-semibold text-white font-inter text-left">
-            Eureka Registration ID <span className="text-[#1A6FF5]">*</span>
+            Eureka Registration ID <span className="text-primary">*</span>
           </label>
           <input
             id="eurekaId"
@@ -135,17 +135,17 @@ export default function StepProof({ errors }: StepProofProps) {
             value={wizardState.eurekaRegistrationId}
             onChange={handleIdChange}
             placeholder="e.g. EUR2023-XXXX"
-            className={`glass-input w-full p-4 rounded-xl text-white ${errors?.eurekaRegistrationId ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full p-4 rounded-xl text-white ${errors?.eurekaRegistrationId ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
           {errors?.eurekaRegistrationId && (
-            <p className="text-sm text-[#FF253A] mt-2 font-inter font-medium text-left">{errors.eurekaRegistrationId}</p>
+            <p className="text-sm text-error mt-2 font-inter font-medium text-left">{errors.eurekaRegistrationId}</p>
           )}
         </div>
         
         {/* File Upload Area */}
         <div className="space-y-3">
           <label className="block text-sm font-semibold text-white font-inter text-left">
-            Upload Screenshot <span className="text-[#1A6FF5]">*</span>
+            Upload Screenshot <span className="text-primary">*</span>
           </label>
           
           {!wizardState.proofUploaded ? (
@@ -155,8 +155,8 @@ export default function StepProof({ errors }: StepProofProps) {
               onDrop={onDrop}
               onClick={() => !isUploading && fileInputRef.current?.click()}
               className={`relative border-2 border-dashed rounded-xl p-8 sm:p-12 text-center transition-all duration-300 cursor-pointer overflow-hidden
-                ${isDragging ? 'border-[#1A6FF5] bg-[#1A6FF5]/5' : 'border-white/10 bg-[#000000] hover:border-[#1A6FF5]/30 hover:bg-[#1A6FF5]/5'}
-                ${errors?.proofUploaded ? 'border-[#FF253A] bg-[#FF253A]/5' : ''}
+                ${isDragging ? 'border-primary bg-primary/5' : 'border-white/10 bg-text-dark hover:border-primary/30 hover:bg-primary/5'}
+                ${errors?.proofUploaded ? 'border-error bg-error/5' : ''}
                 ${isUploading ? 'pointer-events-none opacity-80' : ''}
               `}
             >
@@ -171,17 +171,17 @@ export default function StepProof({ errors }: StepProofProps) {
               <div className="flex flex-col items-center justify-center space-y-3">
                 {isUploading ? (
                   <>
-                    <Loader2 className="w-10 h-10 text-[#1A6FF5] animate-spin mb-2" />
+                    <Loader2 className="w-10 h-10 text-primary animate-spin mb-2" />
                     <p className="text-white font-semibold font-inter">Uploading securely...</p>
                   </>
                 ) : (
                   <>
-                    <div className="w-14 h-14 rounded-full bg-[#1A1A2E] border border-white/5 flex items-center justify-center mb-2 shadow-[0_0_15px_rgba(26,111,245,0.15)]">
-                      <Upload className="w-6 h-6 text-[#1A6FF5]" />
+                    <div className="w-14 h-14 rounded-full bg-surface-secondary border border-white/5 flex items-center justify-center mb-2 shadow-[0_0_15px_rgba(26,111,245,0.15)]">
+                      <Upload className="w-6 h-6 text-primary" />
                     </div>
                     <div className="space-y-1">
                       <p className="text-white font-semibold font-inter">Click or drag file to upload</p>
-                      <p className="text-sm text-[#888888] font-inter">JPG or PNG, maximum 5MB</p>
+                      <p className="text-sm text-text-muted font-inter">JPG or PNG, maximum 5MB</p>
                     </div>
                   </>
                 )}
@@ -209,7 +209,7 @@ export default function StepProof({ errors }: StepProofProps) {
           )}
 
           {(uploadError || errors?.proofUploaded || errors?.proofUrl) && (
-            <div className="flex items-start mt-4 text-[#FF253A] text-sm bg-[#FF253A]/10 p-4 rounded-xl border border-[#FF253A]/20 font-inter">
+            <div className="flex items-start mt-4 text-error text-sm bg-error/10 p-4 rounded-xl border border-error/20 font-inter">
               <AlertCircle className="w-5 h-5 mr-3 shrink-0" />
               <p className="pt-0.5">{uploadError || errors?.proofUploaded || errors?.proofUrl}</p>
             </div>

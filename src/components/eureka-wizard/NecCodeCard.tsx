@@ -19,15 +19,15 @@ export default function NecCodeCard() {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-[#000000] border border-white/5 p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-2xl group transition-all hover:border-white/10">
+    <div className="relative overflow-hidden rounded-2xl bg-text-dark border border-white/5 p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-2xl group transition-all hover:border-white/10">
       
       <div className="relative z-10 w-full max-w-sm mx-auto">
-        <h3 className="text-sm font-semibold text-[#888888] uppercase tracking-wider mb-4 font-inter">
+        <h3 className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-4 font-inter">
           Your NEC Referral Code
         </h3>
         
-        <div className="bg-[#1A1A2E] border border-white/5 rounded-xl py-5 px-6 mb-6 flex items-center justify-center shadow-inner group-hover:border-[#1A6FF5]/30 transition-colors">
-          <span className="font-mono text-3xl sm:text-4xl font-bold tracking-[0.2em] text-[#1A6FF5] select-all">
+        <div className="bg-surface-secondary border border-white/5 rounded-xl py-5 px-6 mb-6 flex items-center justify-center shadow-inner group-hover:border-primary/30 transition-colors">
+          <span className="font-mono text-3xl sm:text-4xl font-bold tracking-[0.2em] text-primary select-all">
             {code}
           </span>
         </div>
@@ -35,7 +35,7 @@ export default function NecCodeCard() {
         <button
           type="button"
           onClick={handleCopy}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 rounded-xl border border-white/10 bg-[#000000] hover:bg-[#1A6FF5]/5 hover:border-[#1A6FF5]/30 hover:text-[#1A6FF5] transition-all duration-300 text-sm font-medium focus-ring text-white/90"
+          className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 rounded-xl border border-white/10 bg-text-dark hover:bg-primary/5 hover:border-primary/30 hover:text-primary transition-all duration-300 text-sm font-medium focus-ring text-white/90"
         >
           {copied ? (
             <span className="flex items-center text-[#00E5FF]">

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Upload, X, CheckCircle2, Loader2, FileText, AlertCircle } from 'lucide-react';
+import { Upload, X, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { useWizardState } from '../../hooks/useWizardState';
 import { 
   STUDENT_STAGES, 
@@ -74,8 +74,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
           setDeckUploadError('Could not initialize registration. Please try again.');
           return;
         }
-      } catch (err: any) {
-        setDeckUploadError(err.message || 'Could not initialize registration. Please try again.');
+      } catch (err: unknown) {
+        setDeckUploadError((err as Error).message || 'Could not initialize registration. Please try again.');
         return;
       }
     }
@@ -97,8 +97,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
       } else {
         setDeckUploadError('Failed to upload pitch deck. Please try again.');
       }
-    } catch (error: any) {
-      setDeckUploadError(error.message || 'An error occurred during upload.');
+    } catch (error: unknown) {
+      setDeckUploadError((error as Error).message || 'An error occurred during upload.');
     } finally {
       setIsUploadingDeck(false);
     }

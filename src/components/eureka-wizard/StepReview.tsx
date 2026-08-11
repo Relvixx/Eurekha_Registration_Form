@@ -12,27 +12,27 @@ export default function StepReview() {
   return (
     <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
       <h2 className="text-3xl font-black text-white mb-3 font-poppins tracking-tight">Review & Submit</h2>
-      <p className="text-[#888888] mb-10 font-inter text-lg">Please review all information before final submission.</p>
+      <p className="text-text-muted mb-10 font-inter text-lg">Please review all information before final submission.</p>
       
       <div className="space-y-6">
         {/* Participant Type */}
-        <div className="bg-[#000000] rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Registration Type</h3>
-          <p className="text-[#888888] text-sm capitalize font-inter">{wizardState.participantType}</p>
+          <p className="text-text-muted text-sm capitalize font-inter">{wizardState.participantType}</p>
         </div>
         
         {/* Team Details */}
-        <div className="bg-[#000000] rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Team Details</h3>
           <div className="space-y-3 font-inter">
-            <p className="text-white text-sm"><span className="text-[#888888] mr-2">Team Name:</span> {wizardState.teamName}</p>
+            <p className="text-white text-sm"><span className="text-text-muted mr-2">Team Name:</span> {wizardState.teamName}</p>
             <div className="border-t border-white/5 pt-4 mt-4">
-              <h4 className="text-sm font-semibold text-[#888888] mb-3">Members:</h4>
+              <h4 className="text-sm font-semibold text-text-muted mb-3">Members:</h4>
               <ul className="space-y-2">
                 {wizardState.teamMembers.map((member, idx) => (
                   <li key={member.id} className="text-sm text-white">
                     <span>{member.fullName}</span> 
-                    <span className="text-[#1A6FF5] ml-2 text-xs font-semibold">({member.isLeader ? 'Leader' : member.role})</span>
+                    <span className="text-primary ml-2 text-xs font-semibold">({member.isLeader ? 'Leader' : member.role})</span>
                   </li>
                 ))}
               </ul>
@@ -41,25 +41,25 @@ export default function StepReview() {
         </div>
 
         {/* Project Details */}
-        <div className="bg-[#000000] rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Project Details</h3>
           <div className="space-y-3 font-inter">
             {wizardState.participantType === 'student' ? (
               <>
-                <p className="text-white text-sm"><span className="text-[#888888] mr-2">Idea Name:</span> {wizardState.studentIdeaDetails.ideaName}</p>
-                <p className="text-white text-sm"><span className="text-[#888888] mr-2">Category:</span> {wizardState.studentIdeaDetails.category}</p>
-                <p className="text-white text-sm"><span className="text-[#888888] mr-2">Stage:</span> {wizardState.studentIdeaDetails.currentStage}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Idea Name:</span> {wizardState.studentIdeaDetails.ideaName}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Category:</span> {wizardState.studentIdeaDetails.category}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Stage:</span> {wizardState.studentIdeaDetails.currentStage}</p>
                 {wizardState.studentIdeaDetails.pitchDeckUploaded && wizardState.studentIdeaDetails.pitchDeckFileName && (
-                  <p className="text-white text-sm"><span className="text-[#888888] mr-2">Pitch Deck:</span> {wizardState.studentIdeaDetails.pitchDeckFileName}</p>
+                  <p className="text-white text-sm"><span className="text-text-muted mr-2">Pitch Deck:</span> {wizardState.studentIdeaDetails.pitchDeckFileName}</p>
                 )}
               </>
             ) : (
               <>
-                <p className="text-white text-sm"><span className="text-[#888888] mr-2">Startup Name:</span> {wizardState.startupDetails.startupName}</p>
-                <p className="text-white text-sm"><span className="text-[#888888] mr-2">Category:</span> {wizardState.startupDetails.category}</p>
-                <p className="text-white text-sm"><span className="text-[#888888] mr-2">Stage:</span> {wizardState.startupDetails.currentStage}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Startup Name:</span> {wizardState.startupDetails.startupName}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Category:</span> {wizardState.startupDetails.category}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Stage:</span> {wizardState.startupDetails.currentStage}</p>
                 {wizardState.startupDetails.pitchDeckUploaded && wizardState.startupDetails.pitchDeckFileName && (
-                  <p className="text-white text-sm"><span className="text-[#888888] mr-2">Pitch Deck:</span> {wizardState.startupDetails.pitchDeckFileName}</p>
+                  <p className="text-white text-sm"><span className="text-text-muted mr-2">Pitch Deck:</span> {wizardState.startupDetails.pitchDeckFileName}</p>
                 )}
               </>
             )}
@@ -67,53 +67,53 @@ export default function StepReview() {
         </div>
         
         {/* Eureka Registration */}
-        <div className="bg-[#000000] rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Eureka Registration Proof</h3>
           <div className="space-y-3 font-inter">
-            <p className="text-white text-sm"><span className="text-[#888888] mr-2">Eureka ID:</span> {wizardState.eurekaRegistrationId}</p>
+            <p className="text-white text-sm"><span className="text-text-muted mr-2">Eureka ID:</span> {wizardState.eurekaRegistrationId}</p>
             <p className="text-white text-sm flex items-center gap-2">
-              <span className="text-[#888888]">Proof Uploaded:</span> 
+              <span className="text-text-muted">Proof Uploaded:</span> 
               {wizardState.proofUploaded ? (
                 <span className="text-[#00E5FF] flex items-center gap-1 font-semibold"><CheckCircle2 size={16} /> Yes</span>
               ) : (
-                <span className="text-[#FF253A] flex items-center gap-1 font-semibold"><XCircle size={16} /> No</span>
+                <span className="text-error flex items-center gap-1 font-semibold"><XCircle size={16} /> No</span>
               )}
             </p>
           </div>
         </div>
         
         {/* Important Guidelines */}
-        <div className="bg-[#1A6FF5]/5 rounded-xl p-6 border border-[#1A6FF5]/20 shadow-inner text-left mb-8 mt-6">
+        <div className="bg-primary/5 rounded-xl p-6 border border-primary/20 shadow-inner text-left mb-8 mt-6">
           <h3 className="text-white font-bold mb-4 font-inter flex items-center gap-2">
-            <svg className="w-5 h-5 text-[#1A6FF5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             Important Guidelines
           </h3>
-          <ul className="space-y-3 font-inter text-sm text-[#888888]">
+          <ul className="space-y-3 font-inter text-sm text-text-muted">
             <li className="flex items-start gap-2">
-              <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
+              <span className="text-primary font-bold mt-0.5">•</span>
               <span>If you register for Eureka using this portal, then only you are qualified for <strong className="text-white font-medium">Eureka at IIT Bombay</strong>.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
+              <span className="text-primary font-bold mt-0.5">•</span>
               <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (3 min pitching, 2 min Q&A).</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
+              <span className="text-primary font-bold mt-0.5">•</span>
               <span>Your pitch deck must contain <strong className="text-white font-medium">at least 7 slides</strong>.</span>
             </li>
           </ul>
         </div>
         
         {/* Final Declaration */}
-        <div className="flex items-start gap-4 p-5 bg-[#1A6FF5]/5 border border-[#1A6FF5]/30 rounded-2xl">
+        <div className="flex items-start gap-4 p-5 bg-primary/5 border border-primary/30 rounded-2xl">
           <input 
             type="checkbox" 
             id="final-declaration" 
             checked={wizardState.finalDeclaration}
             onChange={handleDeclarationChange}
-            className="mt-1 w-5 h-5 rounded border-white/20 text-[#1A6FF5] focus:ring-[#1A6FF5] bg-black/50 cursor-pointer accent-[#1A6FF5]" 
+            className="mt-1 w-5 h-5 rounded border-white/20 text-primary focus:ring-primary bg-black/50 cursor-pointer accent-primary" 
           />
-          <label htmlFor="final-declaration" className="text-sm text-[#888888] cursor-pointer select-none font-inter leading-relaxed">
+          <label htmlFor="final-declaration" className="text-sm text-text-muted cursor-pointer select-none font-inter leading-relaxed">
             I hereby declare that all the information provided is true to the best of my knowledge. I understand that any false information may lead to disqualification. I confirm that the uploaded proof belongs to this registration and that this information will be used for Eureka and NEC registration processing.
           </label>
         </div>

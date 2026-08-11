@@ -4,7 +4,7 @@ import { Globe, Users, Video, Mail, MapPin } from 'lucide-react';
 
 export default function SiteFooter() {
   return (
-    <footer className="w-full bg-[#000000] border-t border-white/10 pt-16 pb-8 px-4 md:px-8 mt-auto font-inter relative z-10">
+    <footer className="w-full bg-text-dark border-t border-white/10 pt-16 pb-8 px-4 md:px-8 mt-auto font-inter relative z-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         
         {/* Brand Column */}
@@ -34,10 +34,10 @@ export default function SiteFooter() {
         <div>
           <h3 className="text-white font-bold mb-6 text-lg font-poppins">Quick Links</h3>
           <ul className="flex flex-col gap-4">
-            <li><Link href="/" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">Home</Link></li>
-            <li><Link href="/#events" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">Events</Link></li>
-            <li><Link href="/view-startups" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">Startups</Link></li>
-            <li><Link href="/team" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">Team</Link></li>
+            <li><Link href="/" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Home</Link></li>
+            <li><Link href="/#events" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Events</Link></li>
+            <li><Link href="/view-startups" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Startups</Link></li>
+            <li><Link href="/team" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Team</Link></li>
           </ul>
         </div>
 
@@ -45,9 +45,9 @@ export default function SiteFooter() {
         <div>
           <h3 className="text-white font-bold mb-6 text-lg font-poppins">Initiatives</h3>
           <ul className="flex flex-col gap-4">
-            <li><Link href="/eureka" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">Eureka Registration</Link></li>
-            <li><Link href="/tec" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">The Entrepreneurship Community</Link></li>
-            <li><Link href="/#startup-registration" className="text-gray-400 hover:text-[#1A6FF5] transition-colors text-sm focus-ring rounded">Startup Registration</Link></li>
+            <li><Link href="/eureka" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Eureka Registration</Link></li>
+            <li><Link href="/tec" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">The Entrepreneurship Community</Link></li>
+            <li><Link href="/#startup-registration" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Startup Registration</Link></li>
           </ul>
         </div>
 

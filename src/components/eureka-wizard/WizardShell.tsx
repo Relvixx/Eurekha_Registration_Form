@@ -264,7 +264,7 @@ export default function WizardShell() {
     <div className="w-full max-w-4xl mx-auto px-4 pb-8 md:pb-12 pt-2 md:pt-4">
       <div className="text-center mb-12 flex flex-col items-center">
         {/* Compact Branding Header */}
-        <div className="inline-flex items-center justify-center gap-4 mb-6 py-2 px-6 rounded-full bg-[#1A1A2E]/80 border border-white/10 backdrop-blur-sm shadow-lg">
+        <div className="inline-flex items-center justify-center gap-4 mb-6 py-2 px-6 rounded-full bg-surface-secondary/80 border border-white/10 backdrop-blur-sm shadow-lg">
           <div className="flex items-center gap-2">
             <span className="text-sm font-bold text-white font-poppins">ECell <span className="text-[#FF1744]">MET</span></span>
           </div>
@@ -275,14 +275,14 @@ export default function WizardShell() {
         <h1 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight font-poppins drop-shadow-xl">
           EUREKA <span className="text-gradient">REGISTRATION</span>
         </h1>
-        <p className="text-[#888888] max-w-2xl mx-auto text-base md:text-lg font-inter">
+        <p className="text-text-muted max-w-2xl mx-auto text-base md:text-lg font-inter">
           Complete the registration below to pitch your startup or idea at the flagship entrepreneurship event.
         </p>
       </div>
 
       <WizardProgress currentStep={currentStep} />
       
-      <div className="min-h-[400px] flex flex-col justify-between">
+      <div className="min-h-100 flex flex-col justify-between">
         <div className="w-full relative">
           {isSaving && (
             <div className="absolute inset-0 bg-[#121212]/50 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl">

@@ -46,26 +46,26 @@ export default function StepTeamDetails({ errors = {} }: Props) {
   return (
     <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
       <h2 className="text-3xl font-black text-white mb-3 font-poppins tracking-tight">Team Details</h2>
-      <p className="text-[#888888] mb-10 font-inter text-lg">Enter your team and leader information.</p>
+      <p className="text-text-muted mb-10 font-inter text-lg">Enter your team and leader information.</p>
       
       {errors._general && (
-        <div className="mb-8 p-4 bg-[#FF253A]/10 border border-[#FF253A]/30 rounded-xl text-[#FF253A] text-sm font-inter flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF253A]"></span>
+        <div className="mb-8 p-4 bg-error/10 border border-error/30 rounded-xl text-error text-sm font-inter flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-error"></span>
           {errors._general}
         </div>
       )}
 
       <div className="space-y-10">
         <div>
-          <label className="block text-sm font-semibold text-white mb-3 font-inter">Team Name <span className="text-[#1A6FF5]">*</span></label>
+          <label className="block text-sm font-semibold text-white mb-3 font-inter">Team Name <span className="text-primary">*</span></label>
           <input
             type="text"
             placeholder="Enter your team name"
             value={teamName}
             onChange={(e) => updateTeamName(e.target.value)}
-            className={`glass-input w-full ${errors.teamName ? 'border-[#FF253A] shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+            className={`glass-input w-full ${errors.teamName ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
-          {errors.teamName && <p className="text-[#FF253A] text-xs mt-1.5 font-inter font-medium">{errors.teamName}</p>}
+          {errors.teamName && <p className="text-error text-xs mt-1.5 font-inter font-medium">{errors.teamName}</p>}
         </div>
         
         <div className="space-y-6">
@@ -83,9 +83,9 @@ export default function StepTeamDetails({ errors = {} }: Props) {
         
         <button 
           onClick={handleAddMember}
-          className="w-full py-4 rounded-xl border border-dashed border-white/20 bg-[#1A1A2E]/30 text-gray-400 hover:text-white hover:border-[#1A6FF5]/50 hover:bg-[#1A6FF5]/5 transition-all flex items-center justify-center gap-2 font-inter font-medium focus-ring group"
+          className="w-full py-4 rounded-xl border border-dashed border-white/20 bg-surface-secondary/30 text-gray-400 hover:text-white hover:border-primary/50 hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-inter font-medium focus-ring group"
         >
-          <Plus className="w-5 h-5 text-gray-400 group-hover:text-[#1A6FF5] transition-colors" /> Add Additional Team Member
+          <Plus className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors" /> Add Additional Team Member
         </button>
       </div>
     </div>
