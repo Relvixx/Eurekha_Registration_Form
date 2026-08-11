@@ -94,7 +94,7 @@ export const step4Schema = z.object({
 export const step5Schema = z.object({
   eurekaRegistrationId: z.string().min(3, "Please enter your valid Eureka Registration ID"),
   proofUploaded: z.boolean().refine(val => val === true, "Please upload proof of your Eureka registration"),
-  proofUrl: z.string().url("Please upload proof of your Eureka registration").optional().or(z.literal(''))
+  proofUrl: z.string().min(1, "Please upload proof of your Eureka registration").optional().or(z.literal(''))
 });
 
 export const step6Schema = z.object({
