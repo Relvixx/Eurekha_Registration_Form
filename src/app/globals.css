@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #121212;
+  --color-surface: #1a1a1a;
+  --color-primary: #FF1744;
+  --color-primary-hover: #D50000;
+  --color-secondary: #00E5FF;
+  --color-error: #DC2626;
+  --color-success: #25D366;
+  --color-warning: #FFD700;
+  
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #E5E7EB;
+  --color-text-muted: #9CA3AF;
+  
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-input-bg: rgba(255, 255, 255, 0.05);
+  --color-input-border: rgba(255, 255, 255, 0.1);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  
+  --radius-card: 20px;
+  --radius-input: 12px;
+  --radius-button: 9999px;
+}
+
+:root {
+  --background: #121212;
+  --foreground: #FFFFFF;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism Utilities */
+@utility glass-panel {
+  background-color: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-input {
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-input:focus {
+  border-color: rgba(0, 229, 255, 0.5); /* secondary glow */
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+  outline: none;
+}
+
+/* Button Utilities */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  border-radius: var(--radius-button);
+}
+
+.btn-primary {
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+.btn-glass {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.btn-glass:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-danger {
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-danger:hover {
+  background-color: rgba(255, 23, 68, 0.1);
+}
+
+/* Typography Utilities */
+@utility text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to right, #FFFFFF, #9CA3AF);
+}
+
+/* Focus Utility for Accessibility */
+@utility focus-ring {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
