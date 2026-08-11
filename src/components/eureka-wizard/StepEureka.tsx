@@ -31,6 +31,14 @@ export default function StepEureka({ error }: StepEurekaProps) {
         </p>
       </div>
 
+      {/* Eureka IIT Bombay Note */}
+      <div className="max-w-2xl mx-auto mb-6 bg-[#1A6FF5]/10 border border-[#1A6FF5]/20 p-4 rounded-xl flex items-start gap-3">
+        <svg className="w-5 h-5 text-[#1A6FF5] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <p className="text-[#888888] font-inter text-sm text-left">
+          <strong className="text-white font-medium">Important:</strong> If you register for Eureka using this portal, then only you are qualified for <strong className="text-white">Eureka at IIT Bombay</strong>.
+        </p>
+      </div>
+
       {/* Code Card */}
       <div className="max-w-md mx-auto">
         <NecCodeCard />

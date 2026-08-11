@@ -82,8 +82,30 @@ export default function StepReview() {
           </div>
         </div>
         
+        {/* Important Guidelines */}
+        <div className="bg-[#1A6FF5]/5 rounded-xl p-6 border border-[#1A6FF5]/20 shadow-inner text-left mb-8 mt-6">
+          <h3 className="text-white font-bold mb-4 font-inter flex items-center gap-2">
+            <svg className="w-5 h-5 text-[#1A6FF5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Important Guidelines
+          </h3>
+          <ul className="space-y-3 font-inter text-sm text-[#888888]">
+            <li className="flex items-start gap-2">
+              <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
+              <span>If you register for Eureka using this portal, then only you are qualified for <strong className="text-white font-medium">Eureka at IIT Bombay</strong>.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
+              <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (2 min pitching, 3 min Q&A).</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#1A6FF5] font-bold mt-0.5">•</span>
+              <span>Your pitch deck must contain <strong className="text-white font-medium">at least 7 slides</strong>.</span>
+            </li>
+          </ul>
+        </div>
+        
         {/* Final Declaration */}
-        <div className="flex items-start gap-4 mt-10 p-5 bg-[#1A6FF5]/5 border border-[#1A6FF5]/30 rounded-2xl">
+        <div className="flex items-start gap-4 p-5 bg-[#1A6FF5]/5 border border-[#1A6FF5]/30 rounded-2xl">
           <input 
             type="checkbox" 
             id="final-declaration" 

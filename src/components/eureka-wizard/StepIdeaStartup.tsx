@@ -339,9 +339,19 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
+            <label className="block text-sm font-semibold text-white mb-1 font-inter text-left">
               Pitch Deck / PPT <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
             </label>
+            <div className="mb-4 text-xs text-[#888888] text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
+              <p className="flex items-start gap-2">
+                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (2 min pitching, 3 min Q&A).</span>
+              </p>
+              <p className="flex items-start gap-2">
+                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span>Your pitch deck must contain <strong className="text-white font-medium">at least 7 slides</strong>.</span>
+              </p>
+            </div>
             {renderDeckUpload()}
             {deckUploadError && (
               <p className="text-[#FF253A] text-xs mt-2 font-inter font-medium text-left flex items-center gap-1">
@@ -476,9 +486,19 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
+            <label className="block text-sm font-semibold text-white mb-1 font-inter text-left">
               Pitch Deck / PPT <span className="text-[#888888] text-xs font-normal ml-2 font-inter">(Optional)</span>
             </label>
+            <div className="mb-4 text-xs text-[#888888] text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
+              <p className="flex items-start gap-2">
+                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span>The presentation time will be <strong className="text-white font-medium">5 mins</strong> (2 min pitching, 3 min Q&A).</span>
+              </p>
+              <p className="flex items-start gap-2">
+                <span className="text-[#1A6FF5] font-bold">•</span> 
+                <span>Your pitch deck must contain <strong className="text-white font-medium">at least 7 slides</strong>.</span>
+              </p>
+            </div>
             {renderDeckUpload()}
             {deckUploadError && (
               <p className="text-[#FF253A] text-xs mt-2 font-inter font-medium text-left flex items-center gap-1">
