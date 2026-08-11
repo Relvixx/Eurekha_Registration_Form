@@ -10,11 +10,8 @@ export default function SiteFooter() {
         {/* Brand Column */}
         <div className="col-span-1 md:col-span-1">
           <Link href="/" className="flex items-center gap-3 mb-6 focus-ring rounded-lg w-fit group">
-            <div className="w-10 h-10 bg-[#021D48] rounded-full flex items-center justify-center border border-[#1A6FF5]/30 text-white font-bold group-hover:bg-[#1A6FF5] transition-colors">
-              E
-            </div>
             <div className="text-xl font-bold tracking-tight text-white font-poppins">
-              ECell <span className="text-[#1A6FF5]">MET</span>
+              ECell <span className="text-[#FF1744]">MET</span>
             </div>
           </Link>
           <p className="text-sm text-gray-400 mb-6 leading-relaxed">

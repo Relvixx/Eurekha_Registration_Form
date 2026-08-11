@@ -263,10 +263,7 @@ export default function WizardShell() {
         {/* Compact Branding Header */}
         <div className="inline-flex items-center justify-center gap-4 mb-6 py-2 px-6 rounded-full bg-[#1A1A2E]/80 border border-white/10 backdrop-blur-sm shadow-lg">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-[#021D48] rounded-full flex items-center justify-center border border-[#1A6FF5]/30 text-white font-bold text-[10px]">
-              E
-            </div>
-            <span className="text-sm font-bold text-white font-poppins">ECell <span className="text-[#1A6FF5]">MET</span></span>
+            <span className="text-sm font-bold text-white font-poppins">ECell <span className="text-[#FF1744]">MET</span></span>
           </div>
           <div className="w-1 h-1 rounded-full bg-gray-600"></div>
           <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest font-inter">Presents</span>

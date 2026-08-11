@@ -13,9 +13,6 @@ export default function SiteHeader() {
       <nav className="hidden md:flex justify-center w-full fixed top-6 z-50 px-4 pointer-events-none">
         <div className="glass-panel rounded-full px-6 py-3 flex items-center justify-between w-full max-w-4xl pointer-events-auto">
           <Link href="/" className="flex items-center gap-3 group focus-ring rounded-lg px-2 py-1">
-            <div className="w-10 h-10 bg-[#1E1E1E] rounded-full flex items-center justify-center border border-white/10 text-white font-bold">
-              E
-            </div>
             <div className="text-xl font-bold tracking-tight text-white">
               ECell <span className="text-[#FF1744]">MET</span>
             </div>
@@ -41,9 +38,6 @@ export default function SiteHeader() {
       <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#121212]/90 backdrop-blur-md border-b border-white/10">
         <div className="flex items-center justify-between px-4 py-4 w-full">
           <Link href="/" className="flex items-center gap-3 focus-ring rounded-lg">
-            <div className="w-10 h-10 bg-[#1E1E1E] rounded-full flex items-center justify-center border border-white/10 text-white font-bold">
-              E
-            </div>
             <div className="text-xl font-bold tracking-tight text-white">
               ECell <span className="text-[#FF1744]">MET</span>
             </div>
