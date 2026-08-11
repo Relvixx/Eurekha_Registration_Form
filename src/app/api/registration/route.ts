@@ -221,8 +221,8 @@ export async function POST(req: NextRequest) {
       const teamSlug = (teamReg?.team_name || 'Team').replace(/[^a-zA-Z0-9]/g, '_');
       const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
       
-      // Store in proofs/TeamName_ShortId/FileName
-      const filePath = `proofs/${teamSlug}_${registrationId.substring(0, 6)}/${randomUUID().substring(0, 6)}_${sanitizedName}`;
+      // Store in TeamName_ShortId/proofs/FileName
+      const filePath = `${teamSlug}_${registrationId.substring(0, 6)}/proofs/${randomUUID().substring(0, 6)}_${sanitizedName}`;
 
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -302,8 +302,8 @@ export async function POST(req: NextRequest) {
       const teamSlug = (teamReg?.team_name || 'Team').replace(/[^a-zA-Z0-9]/g, '_');
       const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
       
-      // Store in pitch-decks/TeamName_ShortId/FileName
-      const filePath = `pitch-decks/${teamSlug}_${registrationId.substring(0, 6)}/${randomUUID().substring(0, 6)}_${sanitizedName}`;
+      // Store in TeamName_ShortId/pitch-decks/FileName
+      const filePath = `${teamSlug}_${registrationId.substring(0, 6)}/pitch-decks/${randomUUID().substring(0, 6)}_${sanitizedName}`;
 
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
