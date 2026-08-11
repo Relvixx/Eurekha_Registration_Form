@@ -21,7 +21,7 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
       <div className="hidden sm:flex items-center justify-between relative">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-white/10 z-0"></div>
         <div 
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-[#00E5FF] z-0 transition-all duration-500 ease-in-out shadow-[0_0_8px_rgba(0,229,255,0.5)]"
+          className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-[#FF1744] z-0 transition-all duration-500 ease-in-out shadow-[0_0_8px_rgba(255,23,68,0.5)]"
           style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
         ></div>
 
@@ -34,7 +34,7 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
               <div 
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
                   isCompleted 
-                    ? 'bg-[#00E5FF] text-black shadow-[0_0_12px_rgba(0,229,255,0.4)]' 
+                    ? 'bg-[#FF1744] text-white shadow-[0_0_12px_rgba(255,23,68,0.4)]' 
                     : isCurrent 
                       ? 'bg-[#FF1744] text-white shadow-[0_0_12px_rgba(255,23,68,0.4)] border-none' 
                       : 'bg-[#1a1a1a] text-gray-500 border border-white/10'
@@ -45,7 +45,7 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
               </div>
               
               <span className={`text-[10px] uppercase tracking-wider font-bold absolute top-12 whitespace-nowrap text-center w-24 left-1/2 -translate-x-1/2 ${
-                isCurrent ? 'text-white' : isCompleted ? 'text-[#00E5FF]' : 'text-gray-600'
+                isCurrent ? 'text-white' : isCompleted ? 'text-[#FF1744]' : 'text-gray-600'
               }`}>
                 {step.label}
               </span>
@@ -62,7 +62,7 @@ export default function WizardProgress({ currentStep }: WizardProgressProps) {
         </div>
         <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
           <div 
-            className="h-full bg-gradient-to-r from-[#FF1744] to-[#00E5FF] transition-all duration-500 ease-in-out"
+            className="h-full bg-[#FF1744] transition-all duration-500 ease-in-out"
             style={{ width: `${(currentStep / steps.length) * 100}%` }}
           ></div>
         </div>

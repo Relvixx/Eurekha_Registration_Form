@@ -4,7 +4,7 @@ import { Globe, Users, Video, Mail, MapPin } from 'lucide-react';
 
 export default function SiteFooter() {
   return (
-    <footer className="w-full bg-[#0a0a0a] border-t border-white/10 pt-16 pb-8 px-4 md:px-8 mt-24">
+    <footer className="w-full bg-[#0a0a0a] border-t border-white/10 pt-16 pb-8 px-4 md:px-8 mt-auto">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         
         {/* Brand Column */}

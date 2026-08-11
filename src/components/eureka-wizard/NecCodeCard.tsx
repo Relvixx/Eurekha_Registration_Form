@@ -28,7 +28,7 @@ export default function NecCodeCard() {
         </h3>
         
         <div className="bg-black/40 border border-white/10 rounded-lg py-4 px-6 mb-5 flex items-center justify-center shadow-inner">
-          <span className="font-mono text-2xl sm:text-3xl font-bold tracking-[0.2em] text-[#E5252A] select-all">
+          <span className="font-mono text-2xl sm:text-3xl font-bold tracking-[0.2em] text-[#FF1744] select-all">
             {code}
           </span>
         </div>
@@ -36,7 +36,7 @@ export default function NecCodeCard() {
         <button
           type="button"
           onClick={handleCopy}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-colors duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#E5252A]/50 focus:ring-offset-2 focus:ring-offset-black"
+          className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-black/40 hover:bg-white/10 transition-colors duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#FF1744]/50 focus:ring-offset-2 focus:ring-offset-black"
         >
           {copied ? (
             <span className="flex items-center text-emerald-400">

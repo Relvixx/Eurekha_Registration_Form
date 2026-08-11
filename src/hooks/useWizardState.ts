@@ -49,6 +49,11 @@ export const useWizardState = create<WizardState>()(
       proofUrl: undefined,
       draftToken: undefined,
       registrationId: undefined,
+      
+      finalDeclaration: false,
+      submissionStatus: 'idle',
+      referenceCode: undefined,
+      submissionError: undefined,
 
       setParticipantType: (type: ParticipantType) => 
         set((state) => {
@@ -101,6 +106,10 @@ export const useWizardState = create<WizardState>()(
       setProofUrl: (url: string) => set({ proofUrl: url }),
       setDraftToken: (token: string) => set({ draftToken: token }),
       setRegistrationId: (id: string) => set({ registrationId: id }),
+      setFinalDeclaration: (value: boolean) => set({ finalDeclaration: value }),
+      setSubmissionStatus: (status: 'idle' | 'submitting' | 'success' | 'error') => set({ submissionStatus: status }),
+      setReferenceCode: (code: string) => set({ referenceCode: code }),
+      setSubmissionError: (error: string) => set({ submissionError: error }),
 
       resetWizard: () => 
         set({
@@ -116,6 +125,10 @@ export const useWizardState = create<WizardState>()(
           proofUrl: undefined,
           draftToken: undefined,
           registrationId: undefined,
+          finalDeclaration: false,
+          submissionStatus: 'idle',
+          referenceCode: undefined,
+          submissionError: undefined,
         }),
     }),
     {

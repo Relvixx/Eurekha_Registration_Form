@@ -37,8 +37,7 @@ export default function WizardNavigation({
         disabled={!canProceed}
         className={`btn w-full sm:w-auto px-8 py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-2 focus-ring transition-transform ${
           !canProceed ? 'opacity-50 cursor-not-allowed bg-gray-600 text-gray-300' 
-          : isLastStep ? 'btn-primary' 
-          : 'bg-[#FF1744] text-white hover:bg-[#D50000] shadow-[0_0_15px_rgba(255,23,68,0.4)] hover:shadow-[0_0_25px_rgba(255,23,68,0.6)] hover:scale-105'
+          : 'btn-primary'
         }`}
       >
         {isLastStep ? (

@@ -1,23 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #121212;
-  --color-surface: #1a1a1a;
+  --color-background: #0B0B0B;
+  --color-surface: #141414;
   --color-primary: #FF1744;
   --color-primary-hover: #D50000;
-  --color-secondary: #00E5FF;
   --color-error: #DC2626;
   --color-success: #25D366;
   --color-warning: #FFD700;
   
   --color-text-primary: #FFFFFF;
-  --color-text-secondary: #E5E7EB;
+  --color-text-secondary: #D1D5DB;
   --color-text-muted: #9CA3AF;
   
-  --color-glass-bg: rgba(255, 255, 255, 0.03);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
-  --color-input-bg: rgba(255, 255, 255, 0.05);
-  --color-input-border: rgba(255, 255, 255, 0.1);
+  --color-glass-bg: rgba(20, 20, 20, 0.7);
+  --color-glass-border: rgba(255, 255, 255, 0.03);
+  --color-input-bg: rgba(20, 20, 20, 0.9);
+  --color-input-border: rgba(255, 255, 255, 0.06);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   
@@ -27,7 +26,7 @@
 }
 
 :root {
-  --background: #121212;
+  --background: #0B0B0B;
   --foreground: #FFFFFF;
 }
 
@@ -39,12 +38,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism Utilities */
+/* Premium Surface Utilities */
 @utility glass-panel {
   background-color: var(--color-glass-bg);
   border: 1px solid var(--color-glass-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .glass-input {
@@ -52,11 +50,12 @@ body {
   border: 1px solid var(--color-input-border);
   border-radius: var(--radius-input);
   transition: all 0.2s ease-in-out;
+  color: var(--color-text-primary);
 }
 
 .glass-input:focus {
-  border-color: rgba(0, 229, 255, 0.5); /* secondary glow */
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+  border-color: rgba(255, 23, 68, 0.5); /* Primary red glow */
+  box-shadow: 0 0 12px rgba(255, 23, 68, 0.15);
   outline: none;
 }
 
@@ -68,32 +67,33 @@ body {
   font-weight: 600;
   transition: all 0.2s ease-in-out;
   border-radius: var(--radius-button);
+  border: none; /* No borders for buttons */
 }
 
 .btn-primary {
-  background-color: #fff;
-  border: 1px solid #000;
-  color: #000;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  background-color: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(255, 23, 68, 0.3);
 }
 
 .btn-primary:hover {
-  transform: scale(1.05);
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(255, 23, 68, 0.4);
 }
 
 .btn-glass {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
 }
 
 .btn-glass:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 .btn-danger {
   background-color: transparent;
-  border: 1px solid var(--color-primary);
   color: var(--color-primary);
 }
 
@@ -109,8 +109,10 @@ body {
   background-image: linear-gradient(to right, #FFFFFF, #9CA3AF);
 }
 
-/* Focus Utility for Accessibility */
-@utility focus-ring {
-  outline: 2px solid var(--color-secondary);
+.focus-ring {
+  outline: 2px solid transparent;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid rgba(255, 23, 68, 0.5);
   outline-offset: 2px;
 }

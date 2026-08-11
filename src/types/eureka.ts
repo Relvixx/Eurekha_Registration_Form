@@ -57,6 +57,12 @@ export interface WizardState {
   draftToken?: string;
   registrationId?: string;
 
+  // Step 6 (Review & Submit)
+  finalDeclaration: boolean;
+  submissionStatus: 'idle' | 'submitting' | 'success' | 'error';
+  referenceCode?: string;
+  submissionError?: string;
+
   // Actions
   setParticipantType: (type: ParticipantType) => void;
   updateTeamName: (name: string) => void;
@@ -72,5 +78,9 @@ export interface WizardState {
   setProofUrl: (url: string) => void;
   setDraftToken: (token: string) => void;
   setRegistrationId: (id: string) => void;
+  setFinalDeclaration: (value: boolean) => void;
+  setSubmissionStatus: (status: 'idle' | 'submitting' | 'success' | 'error') => void;
+  setReferenceCode: (code: string) => void;
+  setSubmissionError: (error: string) => void;
   resetWizard: () => void;
 }

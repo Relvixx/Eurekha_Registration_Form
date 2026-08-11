@@ -9,9 +9,10 @@ import StepIdeaStartup from './StepIdeaStartup';
 import StepEureka from './StepEureka';
 import StepProof from './StepProof';
 import StepReview from './StepReview';
+import StepSuccess from './StepSuccess';
 import { useWizardState } from '../../hooks/useWizardState';
-import { step1Schema, step2Schema, leaderSchema, optionalMemberSchema, additionalMemberSchema, studentIdeaSchema, startupDetailsSchema, step4Schema, step5Schema } from '../../lib/validation/schemas';
-import { createRegistrationDraft, saveRegistrationDraft } from '../../lib/api';
+import { step1Schema, step2Schema, leaderSchema, optionalMemberSchema, additionalMemberSchema, studentIdeaSchema, startupDetailsSchema, step4Schema, step5Schema, step6Schema } from '../../lib/validation/schemas';
+import { createRegistrationDraft, saveRegistrationDraft, submitRegistration } from '../../lib/api';
 import { z } from 'zod';
 
 const TOTAL_STEPS = 6;
@@ -26,6 +27,7 @@ export default function WizardShell() {
 
   // Avoid hydration mismatch by waiting for mount
   useEffect(() => {
+    useWizardState.persist.rehydrate();
     setIsMounted(true);
   }, []);
 
@@ -58,22 +60,40 @@ export default function WizardShell() {
       wizardState.teamMembers.forEach((member, index) => {
         let memberError: Record<string, string> = {};
         
-        let schema;
         if (index === 0) {
-          schema = leaderSchema;
+          // Leader is always strictly validated
+          const result = leaderSchema.safeParse(member);
+          if (!result.success) {
+            hasErrors = true;
+            result.error.issues.forEach((err: any) => {
+              const path = err.path[0] as string;
+              memberError[path] = err.message;
+            });
+          }
         } else if (index === 1) {
-          schema = optionalMemberSchema;
+          // Member 2 is optional — only validate if they have any meaningful data
+          const hasMeaningfulData = !!(member.fullName?.trim() || member.email?.trim() || member.institution?.trim());
+          if (hasMeaningfulData) {
+            const result = additionalMemberSchema.safeParse(member);
+            if (!result.success) {
+              hasErrors = true;
+              result.error.issues.forEach((err: any) => {
+                const path = err.path[0] as string;
+                memberError[path] = err.message;
+              });
+            }
+          }
+          // If no meaningful data, skip — it's optional
         } else {
-          schema = additionalMemberSchema;
-        }
-
-        const result = schema.safeParse(member);
-        if (!result.success) {
-          hasErrors = true;
-          result.error.issues.forEach((err: any) => {
-            const path = err.path[0] as string;
-            memberError[path] = err.message;
-          });
+          // Members 3+ are required if added
+          const result = additionalMemberSchema.safeParse(member);
+          if (!result.success) {
+            hasErrors = true;
+            result.error.issues.forEach((err: any) => {
+              const path = err.path[0] as string;
+              memberError[path] = err.message;
+            });
+          }
         }
         teamMembersErrors[index] = memberError;
       });
@@ -131,6 +151,12 @@ export default function WizardShell() {
         setErrors(formattedErrors);
         return false;
       }
+    } else if (currentStep === 6) {
+      const result = step6Schema.safeParse({ finalDeclaration: wizardState.finalDeclaration });
+      if (!result.success) {
+        setErrors({ _general: result.error.issues[0].message });
+        return false;
+      }
     }
     
     return true;
@@ -139,30 +165,56 @@ export default function WizardShell() {
   const handleNext = async () => {
     if (validateCurrentStep()) {
       if (currentStep < TOTAL_STEPS) {
-        setIsSaving(true);
-        try {
-          if (!wizardState.draftToken || !wizardState.registrationId) {
-            // First time saving draft
-            const result = await createRegistrationDraft(wizardState);
-            if (result) {
-              wizardState.setDraftToken(result.draftToken);
-              wizardState.setRegistrationId(result.registrationId);
+        // Only call the backend to create/save a draft when transitioning
+        // from Step 4 → Step 5 (all form data is complete at that point).
+        // Steps 1–4 remain purely client-side via Zustand/localStorage.
+        if (currentStep === 4) {
+          setIsSaving(true);
+          try {
+            if (!wizardState.draftToken || !wizardState.registrationId) {
+              const result = await createRegistrationDraft(wizardState);
+              if (result) {
+                wizardState.setDraftToken(result.draftToken);
+                wizardState.setRegistrationId(result.registrationId);
+              }
+            } else {
+              await saveRegistrationDraft(wizardState.registrationId, wizardState.draftToken, wizardState);
             }
-          } else {
-            // Update existing draft
-            await saveRegistrationDraft(wizardState.registrationId, wizardState.draftToken, wizardState);
+          } catch (error: any) {
+            console.warn('Draft save failed, continuing locally:', error.message);
+            // Don't block navigation — Zustand/localStorage still has the data
+          } finally {
+            setIsSaving(false);
           }
-          setCurrentStep((prev) => prev + 1);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setErrors({});
+        }
+
+        setCurrentStep((prev) => prev + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setErrors({});
+      } else {
+        // Final Submission (Step 6)
+        if (!wizardState.registrationId || !wizardState.draftToken) {
+          setErrors({ _general: 'Session expired. Please try refreshing.' });
+          return;
+        }
+
+        setIsSaving(true);
+        wizardState.setSubmissionStatus('submitting');
+        
+        try {
+          const result = await submitRegistration(wizardState.registrationId, wizardState.draftToken);
+          if (result && result.success) {
+            wizardState.setReferenceCode(result.referenceCode);
+            wizardState.setSubmissionStatus('success');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         } catch (error: any) {
-          setErrors({ _general: error.message || 'Failed to save progress. Please try again.' });
+          console.error('Submission failed:', error);
+          setErrors({ _general: error.message || 'Your registration could not be submitted right now. Your saved information has not been lost. Please try again.' });
+          wizardState.setSubmissionStatus('error');
         } finally {
           setIsSaving(false);
         }
-      } else {
-        console.log('Final Submission Clicked');
-        alert('Phase 1/2/3/4/5: Final Submission functionality will be implemented in Phase 6.');
       }
     }
   };
@@ -196,13 +248,34 @@ export default function WizardShell() {
 
   if (!isMounted) return null;
 
-  const canProceed = currentStep === 4 ? wizardState.eurekaSelfConfirmed : (currentStep === 5 ? wizardState.proofUploaded : true);
+  if (wizardState.submissionStatus === 'success') {
+    return <StepSuccess />;
+  }
+
+  const canProceed = 
+    currentStep === 4 ? wizardState.eurekaSelfConfirmed : 
+    currentStep === 5 ? wizardState.proofUploaded : 
+    currentStep === 6 ? wizardState.finalDeclaration : true;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12">
-      <div className="text-center mb-10">
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-          Eureka <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF1744] to-[#00E5FF]">Registration</span>
+    <div className="w-full max-w-4xl mx-auto px-4 pb-8 md:pb-12 pt-2 md:pt-4">
+      <div className="text-center mb-8">
+        <div className="flex flex-col items-center justify-center mb-4">
+          <div className="flex items-center gap-3 mb-1.5">
+            <div className="w-8 h-8 bg-[#1E1E1E] rounded-full flex items-center justify-center border border-white/10 text-white font-bold text-sm shadow-sm">
+              E
+            </div>
+            <div className="text-lg font-bold tracking-tight text-white">
+              ECell <span className="text-[#FF1744]">MET</span>
+            </div>
+          </div>
+          <p className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-[0.2em]">
+            Presents
+          </p>
+        </div>
+        
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight">
+          Eureka <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF1744] to-[#D50000]">Registration</span>
         </h1>
         <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
           Complete the six steps below to register your startup or idea for the flagship entrepreneurship event.
@@ -215,7 +288,7 @@ export default function WizardShell() {
         <div className="w-full relative">
           {isSaving && (
             <div className="absolute inset-0 bg-[#121212]/50 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00E5FF]"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF1744]"></div>
             </div>
           )}
           {renderStep()}

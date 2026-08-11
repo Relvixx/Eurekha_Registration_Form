@@ -39,7 +39,7 @@ export default function StepEureka({ error }: StepEurekaProps) {
       {/* Registration Steps */}
       <div className="max-w-2xl mx-auto bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8">
         <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
-          <svg className="w-5 h-5 mr-3 text-[#E5252A]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-5 h-5 mr-3 text-[#FF1744]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Registration Instructions
@@ -83,7 +83,7 @@ export default function StepEureka({ error }: StepEurekaProps) {
           </div>
 
           <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-            <div className="flex items-center justify-center w-7 h-7 rounded-full border border-[#E5252A] bg-[#E5252A]/10 text-[#E5252A] text-xs font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_0_4px_rgba(0,0,0,1)] z-10">
+            <div className="flex items-center justify-center w-7 h-7 rounded-full border border-[#FF1744] bg-[#FF1744]/10 text-[#FF1744] text-xs font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_0_4px_rgba(0,0,0,1)] z-10">
               5
             </div>
             <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] text-white/80 text-sm py-2">
@@ -98,7 +98,7 @@ export default function StepEureka({ error }: StepEurekaProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleEurekaClick}
-            className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-[#E5252A] text-white font-semibold hover:bg-[#c81e22] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 shadow-lg shadow-[#E5252A]/20"
+            className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-[#FF1744] text-white font-semibold hover:bg-[#D50000] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 shadow-lg shadow-[#FF1744]/20"
           >
             Register on Eureka
             <svg className="w-5 h-5 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +127,7 @@ export default function StepEureka({ error }: StepEurekaProps) {
               id="eureka-confirmation"
               checked={wizardState.eurekaSelfConfirmed}
               onChange={handleConfirmChange}
-              className="w-5 h-5 rounded border-white/20 bg-black/50 text-[#E5252A] focus:ring-[#E5252A] focus:ring-offset-black cursor-pointer"
+              className="w-5 h-5 rounded border-white/20 bg-black/50 text-[#FF1744] focus:ring-[#FF1744] focus:ring-offset-black cursor-pointer"
               aria-describedby={error ? "eureka-error" : undefined}
             />
           </div>

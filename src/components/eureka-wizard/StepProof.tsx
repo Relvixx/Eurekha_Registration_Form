@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Upload, X, CheckCircle2, AlertCircle, FileImage, Loader2 } from 'lucide-react';
 import { useWizardState } from '../../hooks/useWizardState';
-import { uploadRegistrationProof } from '../../lib/api';
+import { uploadRegistrationProof, createRegistrationDraft } from '../../lib/api';
 
 interface StepProofProps {
   errors?: Record<string, string>;
@@ -36,16 +36,33 @@ export default function StepProof({ errors }: StepProofProps) {
       return;
     }
 
-    if (!wizardState.registrationId || !wizardState.draftToken) {
-      setUploadError('Session expired or invalid. Please refresh the page and try again.');
-      return;
+    // If no draft exists yet, create one on-the-fly
+    let currentRegId = wizardState.registrationId;
+    let currentDraftToken = wizardState.draftToken;
+
+    if (!currentRegId || !currentDraftToken) {
+      try {
+        const result = await createRegistrationDraft(wizardState);
+        if (result) {
+          currentRegId = result.registrationId;
+          currentDraftToken = result.draftToken;
+          wizardState.setDraftToken(currentDraftToken!);
+          wizardState.setRegistrationId(currentRegId!);
+        } else {
+          setUploadError('Could not initialize registration. Please try again.');
+          return;
+        }
+      } catch (err: any) {
+        setUploadError(err.message || 'Could not initialize registration. Please try again.');
+        return;
+      }
     }
 
     setIsUploading(true);
     try {
       const response = await uploadRegistrationProof(
-        wizardState.registrationId,
-        wizardState.draftToken,
+        currentRegId!,
+        currentDraftToken!,
         file
       );
       
@@ -118,7 +135,7 @@ export default function StepProof({ errors }: StepProofProps) {
             value={wizardState.eurekaRegistrationId}
             onChange={handleIdChange}
             placeholder="e.g. EUR2023-XXXX"
-            className={`w-full bg-black/40 border ${errors?.eurekaRegistrationId ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-white/10 focus:border-[#00E5FF] focus:ring-[#00E5FF]/20'} rounded-lg px-4 py-3 text-white placeholder-white/30 transition-all outline-none focus:ring-2`}
+            className={`w-full bg-black/40 border ${errors?.eurekaRegistrationId ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-white/10 focus:border-[#FF1744] focus:ring-[#FF1744]/20'} rounded-lg px-4 py-3 text-white placeholder-white/30 transition-all outline-none focus:ring-2`}
           />
           {errors?.eurekaRegistrationId && (
             <p className="text-sm text-red-400 mt-1">{errors.eurekaRegistrationId}</p>
@@ -138,7 +155,7 @@ export default function StepProof({ errors }: StepProofProps) {
               onDrop={onDrop}
               onClick={() => !isUploading && fileInputRef.current?.click()}
               className={`relative border-2 border-dashed rounded-xl p-8 sm:p-12 text-center transition-all cursor-pointer overflow-hidden
-                ${isDragging ? 'border-[#00E5FF] bg-[#00E5FF]/10' : 'border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30'}
+                ${isDragging ? 'border-[#FF1744] bg-[#FF1744]/10' : 'border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30'}
                 ${errors?.proofUploaded ? 'border-red-500 bg-red-500/5' : ''}
                 ${isUploading ? 'pointer-events-none opacity-80' : ''}
               `}
@@ -154,7 +171,7 @@ export default function StepProof({ errors }: StepProofProps) {
               <div className="flex flex-col items-center justify-center space-y-3">
                 {isUploading ? (
                   <>
-                    <Loader2 className="w-10 h-10 text-[#00E5FF] animate-spin mb-2" />
+                    <Loader2 className="w-10 h-10 text-[#FF1744] animate-spin mb-2" />
                     <p className="text-white font-medium">Uploading securely...</p>
                   </>
                 ) : (

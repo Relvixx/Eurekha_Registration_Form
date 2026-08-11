@@ -85,7 +85,7 @@ export default function StepTeamDetails({ errors = {} }: Props) {
         
         <button 
           onClick={handleAddMember}
-          className="w-full py-4 rounded-xl border border-dashed border-gray-600 text-gray-400 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+          className="w-full py-4 rounded-xl bg-black/40 text-gray-400 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-2"
         >
           <span className="text-xl">+</span> Add Additional Team Member
         </button>

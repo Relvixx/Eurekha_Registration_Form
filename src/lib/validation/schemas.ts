@@ -96,3 +96,8 @@ export const step5Schema = z.object({
   proofUploaded: z.boolean().refine(val => val === true, "Please upload proof of your Eureka registration"),
   proofUrl: z.string().url("Please upload proof of your Eureka registration").optional().or(z.literal(''))
 });
+
+export const step6Schema = z.object({
+  finalDeclaration: z.boolean().refine(val => val === true, "You must agree to the final declaration to submit your registration")
+});
+
