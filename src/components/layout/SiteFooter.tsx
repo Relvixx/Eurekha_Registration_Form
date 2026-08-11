@@ -18,13 +18,13 @@ export default function SiteFooter() {
             Fostering innovation, leadership, and startup culture through events, workshops, and mentorship.
           </p>
           <div className="flex items-center gap-4">
-            <a href="https://www.instagram.com/ecell.met/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[#1A6FF5] hover:bg-[#1A6FF5]/10 transition-colors focus-ring" aria-label="Social">
+            <a href="https://www.instagram.com/ecell.met/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="Social">
               <Globe size={20} />
             </a>
-            <a href="https://www.linkedin.com/company/ecell-met/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[#1A6FF5] hover:bg-[#1A6FF5]/10 transition-colors focus-ring" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/ecell-met/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="LinkedIn">
               <Users size={20} />
             </a>
-            <a href="https://www.youtube.com/@ecell_met" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[#1A6FF5] hover:bg-[#1A6FF5]/10 transition-colors focus-ring" aria-label="YouTube">
+            <a href="https://www.youtube.com/@ecell_met" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="YouTube">
               <Video size={20} />
             </a>
           </div>
@@ -56,11 +56,11 @@ export default function SiteFooter() {
           <h3 className="text-white font-bold mb-6 text-lg font-poppins">Contact Us</h3>
           <ul className="flex flex-col gap-4">
             <li className="flex items-start gap-3">
-              <MapPin size={20} className="text-[#1A6FF5] shrink-0 mt-0.5" />
+              <MapPin size={20} className="text-[#FF1744] shrink-0 mt-0.5" />
               <span className="text-sm text-gray-400">MET Institute of Engineering, Bhujbal Knowledge City, Adgaon, Nashik - 422207</span>
             </li>
             <li className="flex items-center gap-3">
-              <Mail size={20} className="text-[#1A6FF5] shrink-0" />
+              <Mail size={20} className="text-[#FF1744] shrink-0" />
               <a href="mailto:ecell@met.edu" className="text-sm text-gray-400 hover:text-white transition-colors focus-ring rounded">ecell@met.edu</a>
             </li>
           </ul>
