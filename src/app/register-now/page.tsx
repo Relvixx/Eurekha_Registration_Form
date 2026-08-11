@@ -12,7 +12,7 @@ export default function RegisterNowPage() {
     <div className="min-h-screen bg-[#050505] relative overflow-hidden pt-28 pb-20">
       {/* Background gradients */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#1A6FF5] rounded-full blur-[120px] opacity-20 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#FF253A] rounded-full blur-[150px] opacity-10 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#1A6FF5] rounded-full blur-[150px] opacity-10 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 relative z-10">
         <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-500">

@@ -73,7 +73,7 @@ export default function ImmediateRegistrationForm() {
         </p>
         
         <a 
-          href="#" 
+          href="https://chat.whatsapp.com/CtqVRlIxGm12EJJFnZhU6y" 
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#128C7E] text-white px-8 py-4 rounded-xl font-bold font-inter transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(37,211,102,0.3)]"
@@ -250,13 +250,13 @@ export default function ImmediateRegistrationForm() {
                 control={control}
                 render={({ field }) => (
                   <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none ${errors.leadYear ? 'border-[#FF253A]' : 'border-white/10'}`}>
-                    <option value="" disabled className="bg-gray-900 text-gray-500">Select Year</option>
-                    <option value="1st Year" className="bg-gray-900">1st Year</option>
-                    <option value="2nd Year" className="bg-gray-900">2nd Year</option>
-                    <option value="3rd Year" className="bg-gray-900">3rd Year</option>
-                    <option value="4th Year" className="bg-gray-900">4th Year</option>
-                    <option value="Postgraduate" className="bg-gray-900">Postgraduate</option>
-                    <option value="Other" className="bg-gray-900">Other</option>
+                    <option value="" disabled className="bg-[#1A1A1A] text-gray-500">Select Year</option>
+                    <option value="1st Year" className="bg-[#1A1A1A] text-white">1st Year</option>
+                    <option value="2nd Year" className="bg-[#1A1A1A] text-white">2nd Year</option>
+                    <option value="3rd Year" className="bg-[#1A1A1A] text-white">3rd Year</option>
+                    <option value="4th Year" className="bg-[#1A1A1A] text-white">4th Year</option>
+                    <option value="Postgraduate" className="bg-[#1A1A1A] text-white">Postgraduate</option>
+                    <option value="Other" className="bg-[#1A1A1A] text-white">Other</option>
                   </select>
                 )}
               />
@@ -280,9 +280,9 @@ export default function ImmediateRegistrationForm() {
                 control={control}
                 render={({ field }) => (
                   <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none ${errors.ideaCategory ? 'border-[#FF253A]' : 'border-white/10'}`}>
-                    <option value="" disabled className="bg-gray-900 text-gray-500">Select a category</option>
+                    <option value="" disabled className="bg-[#1A1A1A] text-gray-500">Select a category</option>
                     {categories.map((cat) => (
-                      <option key={cat} value={cat} className="bg-gray-900">{cat}</option>
+                      <option key={cat} value={cat} className="bg-[#1A1A1A] text-white">{cat}</option>
                     ))}
                   </select>
                 )}
@@ -297,9 +297,9 @@ export default function ImmediateRegistrationForm() {
                 control={control}
                 render={({ field }) => (
                   <select {...field} className={`glass-input w-full p-3.5 rounded-xl text-white appearance-none ${errors.ideaStage ? 'border-[#FF253A]' : 'border-white/10'}`}>
-                    <option value="" disabled className="bg-gray-900 text-gray-500">Select current stage</option>
+                    <option value="" disabled className="bg-[#1A1A1A] text-gray-500">Select current stage</option>
                     {stages.map((stage) => (
-                      <option key={stage} value={stage} className="bg-gray-900">{stage}</option>
+                      <option key={stage} value={stage} className="bg-[#1A1A1A] text-white">{stage}</option>
                     ))}
                   </select>
                 )}
