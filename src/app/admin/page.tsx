@@ -317,6 +317,42 @@ export default function AdminDashboard() {
     });
   }, [applications, searchQuery]);
 
+  // ==========================================
+  // DASHBOARD CALCULATIONS
+  // ==========================================
+  const currentData = activeTab === 'quick-leads' ? leads : applications;
+  
+  const totalNominations = currentData.length;
+  
+  const today = new Date().toISOString().split('T')[0];
+  const newToday = currentData.filter(item => item.created_at?.startsWith(today)).length;
+  
+  const shortlistedCount = currentData.filter(item => item.admin_status === 'shortlisted').length;
+  
+  const withDocuments = activeTab === 'quick-leads' ? 0 : applications.filter(a => a.pitch_deck_url || (a.registration_proofs && a.registration_proofs.length > 0)).length;
+
+  const pendingCount = currentData.filter(item => item.admin_status === 'pending' || !item.admin_status).length;
+  
+  // Deadline Logic (Assuming Aug 30, 2026)
+  const deadlineDate = new Date('2026-08-30');
+  const now = new Date();
+  const timeDiff = deadlineDate.getTime() - now.getTime();
+  const daysLeft = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
+
+  // Trend Data (Last 14 Days)
+  const trendData = useMemo(() => {
+    const data = [];
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const displayDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      const count = currentData.filter(item => item.created_at?.startsWith(dateStr)).length;
+      data.push({ date: displayDate, submissions: count });
+    }
+    return data;
+  }, [currentData]);
+
   // --- Render Helpers ---
   const renderStatusBadge = (status: string) => {
     let colorClass = "bg-gray-500/20 text-gray-300 border-gray-500/30";
@@ -390,38 +426,6 @@ export default function AdminDashboard() {
   // ==========================================
   // DASHBOARD UI
   // ==========================================
-  const currentData = activeTab === 'quick-leads' ? leads : applications;
-  
-  const totalNominations = currentData.length;
-  
-  const today = new Date().toISOString().split('T')[0];
-  const newToday = currentData.filter(item => item.created_at?.startsWith(today)).length;
-  
-  const shortlistedCount = currentData.filter(item => item.admin_status === 'shortlisted').length;
-  
-  const withDocuments = activeTab === 'quick-leads' ? 0 : applications.filter(a => a.pitch_deck_url || (a.registration_proofs && a.registration_proofs.length > 0)).length;
-
-  const pendingCount = currentData.filter(item => item.admin_status === 'pending' || !item.admin_status).length;
-  
-  // Deadline Logic (Assuming Aug 30, 2026)
-  const deadlineDate = new Date('2026-08-30');
-  const now = new Date();
-  const timeDiff = deadlineDate.getTime() - now.getTime();
-  const daysLeft = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
-
-  // Trend Data (Last 14 Days)
-  const trendData = useMemo(() => {
-    const data = [];
-    for (let i = 13; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
-      const displayDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      const count = currentData.filter(item => item.created_at?.startsWith(dateStr)).length;
-      data.push({ date: displayDate, submissions: count });
-    }
-    return data;
-  }, [currentData]);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
