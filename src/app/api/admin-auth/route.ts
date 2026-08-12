@@ -1,28 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHmac, randomBytes } from 'crypto';
 
+import { signToken, verifySessionCookie } from '@/lib/adminAuth';
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'fallback-secret-for-development-only';
-
-// Helper to sign a token
-function signToken(token: string): string {
-  const hmac = createHmac('sha256', SESSION_SECRET);
-  hmac.update(token);
-  return hmac.digest('hex');
-}
-
-// Helper to verify a signed cookie value
-export function verifySessionCookie(cookieValue: string | undefined): boolean {
-  if (!cookieValue) return false;
-  
-  const parts = cookieValue.split(':');
-  if (parts.length !== 2) return false;
-  
-  const [token, signature] = parts;
-  const expectedSignature = signToken(token);
-  
-  return signature === expectedSignature;
-}
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { verifySessionCookie } from '../admin-auth/route';
+import { verifySessionCookie } from '@/lib/adminAuth';
 
 // Auth middleware for the admin data API
 function authenticate(req: NextRequest) {

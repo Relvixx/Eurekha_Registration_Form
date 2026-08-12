@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { verifySessionCookie } from '../admin-auth/route';
+import { verifySessionCookie } from '@/lib/adminAuth';
 
 function authenticate(req: NextRequest) {
   const sessionCookie = req.cookies.get('ecell_admin_session')?.value;
