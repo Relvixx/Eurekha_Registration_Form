@@ -46,9 +46,14 @@ interface FullApplication {
 // The env variables must be set correctly in .env.local
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+// Only create client if variables exist to prevent crash
+const supabaseClient = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 export default function AdminDashboard() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   // --- State ---
   const [authStatus, setAuthStatus] = useState<'checking' | 'unauthenticated' | 'authenticated'>('checking');
   const [password, setPassword] = useState('');
@@ -141,7 +146,7 @@ export default function AdminDashboard() {
 
   // --- Realtime ---
   useEffect(() => {
-    if (authStatus !== 'authenticated' || !supabaseUrl || !supabaseAnonKey) return;
+    if (authStatus !== 'authenticated' || !supabaseClient) return;
 
     const channel = supabaseClient
       .channel('admin-realtime')
@@ -390,7 +395,7 @@ export default function AdminDashboard() {
   const totalNominations = currentData.length;
   
   const today = new Date().toISOString().split('T')[0];
-  const newToday = currentData.filter(item => item.created_at.startsWith(today)).length;
+  const newToday = currentData.filter(item => item.created_at?.startsWith(today)).length;
   
   const shortlistedCount = currentData.filter(item => item.admin_status === 'shortlisted').length;
   
@@ -412,7 +417,7 @@ export default function AdminDashboard() {
       d.setDate(d.getDate() - i);
       const dateStr = d.toISOString().split('T')[0];
       const displayDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      const count = currentData.filter(item => item.created_at.startsWith(dateStr)).length;
+      const count = currentData.filter(item => item.created_at?.startsWith(dateStr)).length;
       data.push({ date: displayDate, submissions: count });
     }
     return data;
@@ -527,16 +532,18 @@ export default function AdminDashboard() {
           <div className="md:col-span-9 bg-[#111] border border-white/5 rounded-xl p-5 h-48 flex flex-col">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Submissions Trend – Last 14 Days</div>
             <div className="flex-1 w-full h-full min-h-0">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={trendData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.02)' }} />
-                  <Bar dataKey="submissions" radius={[2, 2, 0, 0]}>
-                    {trendData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#333" className="hover:fill-[#FF1744] transition-colors duration-300" />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={trendData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.02)' }} />
+                    <Bar dataKey="submissions" radius={[2, 2, 0, 0]}>
+                      {trendData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill="#333" className="hover:fill-[#FF1744] transition-colors duration-300" />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </div>
           </div>
           
