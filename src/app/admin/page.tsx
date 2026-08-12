@@ -5,8 +5,11 @@ import { createClient } from '@supabase/supabase-js';
 import { 
   Search, Lock, LogOut, CheckCircle, XCircle, Clock, FileText, Download,
   X, AlertCircle, Loader2, ChevronRight, Users, User, GraduationCap, Building2,
-  ExternalLink
+  ExternalLink, Calendar
 } from 'lucide-react';
+import {
+  BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell
+} from 'recharts';
 
 // --- Types ---
 type Tab = 'quick-leads' | 'full-apps';
@@ -382,23 +385,62 @@ export default function AdminDashboard() {
   // ==========================================
   // DASHBOARD UI
   // ==========================================
-  const pendingCount = leads.filter(l => l.admin_status === 'pending' || !l.admin_status).length + 
-                       applications.filter(a => a.admin_status === 'pending' || !a.admin_status).length;
+  const currentData = activeTab === 'quick-leads' ? leads : applications;
   
-  const shortlistedCount = leads.filter(l => l.admin_status === 'shortlisted').length + 
-                           applications.filter(a => a.admin_status === 'shortlisted').length;
+  const totalNominations = currentData.length;
+  
+  const today = new Date().toISOString().split('T')[0];
+  const newToday = currentData.filter(item => item.created_at.startsWith(today)).length;
+  
+  const shortlistedCount = currentData.filter(item => item.admin_status === 'shortlisted').length;
+  
+  const withDocuments = activeTab === 'quick-leads' ? 0 : applications.filter(a => a.pitch_deck_url || (a.registration_proofs && a.registration_proofs.length > 0)).length;
+
+  const pendingCount = currentData.filter(item => item.admin_status === 'pending' || !item.admin_status).length;
+  
+  // Deadline Logic (Assuming Aug 30, 2026)
+  const deadlineDate = new Date('2026-08-30');
+  const now = new Date();
+  const timeDiff = deadlineDate.getTime() - now.getTime();
+  const daysLeft = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
+
+  // Trend Data (Last 14 Days)
+  const trendData = useMemo(() => {
+    const data = [];
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const displayDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      const count = currentData.filter(item => item.created_at.startsWith(dateStr)).length;
+      data.push({ date: displayDate, submissions: count });
+    }
+    return data;
+  }, [currentData]);
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-[#1A1A1A] border border-white/10 p-2 rounded-lg shadow-xl text-xs">
+          <p className="text-white font-bold mb-1">{label}</p>
+          <p className="text-gray-400">{payload[0].value} submission{payload[0].value !== 1 ? 's' : ''}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex flex-col font-inter">
+    <div className="min-h-screen bg-[#050505] flex flex-col font-inter">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-40 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <div className="text-xl font-bold text-white font-poppins">ECell <span className="text-[#FF1744]">MET</span></div>
           <span className="text-gray-500 px-2">|</span>
           <span className="text-sm tracking-widest uppercase text-gray-400 font-semibold">Admin</span>
         </div>
 
-        <div className="flex bg-white/5 p-1 rounded-full border border-white/10">
+        <div className="flex bg-[#111] p-1 rounded-full border border-white/5">
           <button
             onClick={() => { setActiveTab('quick-leads'); setSearchQuery(''); setSelectedLead(null); setSelectedApp(null); }}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
@@ -440,25 +482,82 @@ export default function AdminDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 flex flex-col max-w-7xl mx-auto w-full gap-6">
+      <main className="flex-1 p-6 flex flex-col max-w-7xl mx-auto w-full gap-4">
         
-        {/* Bento Statistics */}
+        {/* Bento Statistics Redesign */}
+        
+        {/* Top Row: 4 Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
-            <div className="text-gray-400 text-sm mb-1">Pending Review</div>
-            <div className="text-3xl font-bold text-white font-poppins">{pendingCount}</div>
+          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Total Nominations</div>
+            <div>
+              <div className="text-5xl font-bold text-[#FF1744] font-poppins tracking-wider leading-none mb-1">{totalNominations}</div>
+              <div className="text-xs text-gray-500">all time</div>
+            </div>
           </div>
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
-            <div className="text-gray-400 text-sm mb-1">Shortlisted</div>
-            <div className="text-3xl font-bold text-green-400 font-poppins">{shortlistedCount}</div>
+          
+          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Today</div>
+            <div>
+              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{newToday.toString().padStart(2, '0')}</div>
+              <div className="text-xs text-gray-500">new today</div>
+            </div>
           </div>
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
-            <div className="text-gray-400 text-sm mb-1">Total Leads</div>
-            <div className="text-3xl font-bold text-white font-poppins">{leads.length}</div>
+          
+          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Shortlisted</div>
+            <div>
+              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{shortlistedCount.toString().padStart(2, '0')}</div>
+              <div className="text-xs text-gray-500">{activeTab === 'quick-leads' ? 'leads' : 'teams'}</div>
+            </div>
           </div>
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
-            <div className="text-gray-400 text-sm mb-1">Total Applications</div>
-            <div className="text-3xl font-bold text-white font-poppins">{applications.length}</div>
+
+          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">With Documents</div>
+            <div>
+              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{withDocuments.toString().padStart(2, '0')}</div>
+              <div className="text-xs text-gray-500">supporting files</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Middle & Bottom Rows */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Trend Chart */}
+          <div className="md:col-span-9 bg-[#111] border border-white/5 rounded-xl p-5 h-48 flex flex-col">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Submissions Trend – Last 14 Days</div>
+            <div className="flex-1 w-full h-full min-h-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={trendData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.02)' }} />
+                  <Bar dataKey="submissions" radius={[2, 2, 0, 0]}>
+                    {trendData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill="#333" className="hover:fill-[#FF1744] transition-colors duration-300" />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
+          {/* Empty Space for masonry look in image, but let's make the chart span full width if we want, or match exactly. The image shows a wide chart and two cards below. Let's arrange them gracefully. */}
+          <div className="md:col-span-3 bg-transparent hidden md:block"></div>
+          
+          {/* Bottom Cards */}
+          <div className="md:col-span-6 bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Pending Review</div>
+            <div>
+              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{pendingCount.toString().padStart(2, '0')}</div>
+              <div className="text-xs text-gray-500">needs action</div>
+            </div>
+          </div>
+
+          <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Deadline</div>
+            <div>
+              <div className="text-3xl font-bold text-white font-poppins tracking-wider leading-none mb-1">AUG 30</div>
+              <div className="text-xs text-gray-500">{daysLeft} days left</div>
+            </div>
           </div>
         </div>
 
