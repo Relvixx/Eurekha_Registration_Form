@@ -4,12 +4,12 @@ import { Globe, Users, Video, Mail, MapPin, ExternalLink } from 'lucide-react';
 
 export default function SiteFooter() {
   return (
-    <footer className="w-full bg-text-dark border-t border-white/10 pt-16 pb-8 px-4 md:px-8 mt-auto font-inter relative z-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+    <footer className="w-full bg-text-dark border-t border-white/10 pt-10 md:pt-16 pb-6 md:pb-8 px-4 md:px-8 mt-auto font-inter relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
         
         {/* Brand Column */}
         <div className="col-span-1 md:col-span-1">
-          <Link href="/" className="flex items-center gap-3 mb-6 focus-ring rounded-lg w-fit group">
+          <Link href="/" className="flex items-center gap-3 mb-4 md:mb-6 focus-ring rounded-lg w-fit group">
             <div className="text-xl font-bold tracking-tight text-white font-poppins">
               ECell <span className="text-[#FF1744]">MET</span>
             </div>
@@ -33,38 +33,41 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-white font-bold mb-6 text-lg font-poppins">Quick Links</h3>
-          <ul className="flex flex-col gap-4">
-            <li><Link href="/" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Home</Link></li>
-            <li><Link href="/#events" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Events</Link></li>
-            <li><Link href="/view-startups" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Startups</Link></li>
-            <li><Link href="/team" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Team</Link></li>
-          </ul>
-        </div>
+        {/* Links Group (Side-by-side on mobile) */}
+        <div className="col-span-1 md:col-span-2 grid grid-cols-2 gap-6 md:gap-8">
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-white font-bold mb-4 md:mb-6 text-base md:text-lg font-poppins">Quick Links</h3>
+            <ul className="flex flex-col gap-3 md:gap-4">
+              <li><Link href="/" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Home</Link></li>
+              <li><Link href="/#events" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Events</Link></li>
+              <li><Link href="/view-startups" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Startups</Link></li>
+              <li><Link href="/team" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Team</Link></li>
+            </ul>
+          </div>
 
-        {/* Initiatives */}
-        <div>
-          <h3 className="text-white font-bold mb-6 text-lg font-poppins">Initiatives</h3>
-          <ul className="flex flex-col gap-4">
-            <li><Link href="/eureka" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Eureka Registration</Link></li>
-            <li><Link href="/tec" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">The Entrepreneurship Community</Link></li>
-            <li><Link href="/#startup-registration" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded">Startup Registration</Link></li>
-          </ul>
+          {/* Initiatives */}
+          <div>
+            <h3 className="text-white font-bold mb-4 md:mb-6 text-base md:text-lg font-poppins">Initiatives</h3>
+            <ul className="flex flex-col gap-3 md:gap-4">
+              <li><Link href="/eureka" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded leading-tight">Eureka Registration</Link></li>
+              <li><Link href="/tec" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded leading-tight">The Entrepreneurship Community</Link></li>
+              <li><Link href="/#startup-registration" className="text-gray-400 hover:text-primary transition-colors text-sm focus-ring rounded leading-tight">Startup Registration</Link></li>
+            </ul>
+          </div>
         </div>
 
         {/* Contact */}
-        <div>
-          <h3 className="text-white font-bold mb-6 text-lg font-poppins">Contact Us</h3>
-          <ul className="flex flex-col gap-4">
+        <div className="col-span-1 md:col-span-1">
+          <h3 className="text-white font-bold mb-4 md:mb-6 text-base md:text-lg font-poppins">Contact Us</h3>
+          <ul className="flex flex-col gap-3 md:gap-4">
             <li className="flex items-start gap-3">
               <MapPin size={20} className="text-[#FF1744] shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">MET Institute of Engineering, Bhujbal Knowledge City, Adgaon, Nashik - 422207</span>
+              <span className="text-sm text-gray-400 leading-relaxed">MET Institute of Engineering, Bhujbal Knowledge City, Adgaon, Nashik - 422207</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={20} className="text-[#FF1744] shrink-0" />
-              <a href="mailto:met.iot.ecell@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors focus-ring rounded">met.iot.ecell@gmail.com</a>
+              <a href="mailto:met.iot.ecell@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors focus-ring rounded break-all">met.iot.ecell@gmail.com</a>
             </li>
           </ul>
         </div>
