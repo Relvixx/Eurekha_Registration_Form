@@ -87,7 +87,6 @@ export interface FormState {
   setRegistrationId: (id: string) => void;
   setFinalDeclaration: (value: boolean) => void;
   setSubmissionStatus: (status: 'idle' | 'submitting' | 'success' | 'error') => void;
-  setReferenceCode: (code: string) => void;
   setSubmissionError: (error: string) => void;
   resetForm: () => void;
 }

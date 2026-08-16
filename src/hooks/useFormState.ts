@@ -60,7 +60,6 @@ export const useFormState = create<FormState>()(
       
       finalDeclaration: false,
       submissionStatus: 'idle',
-      referenceCode: undefined,
       submissionError: undefined,
 
       setParticipantType: (type: ParticipantType) => 

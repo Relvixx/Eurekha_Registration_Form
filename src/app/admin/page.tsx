@@ -24,7 +24,7 @@ interface QuickLead {
   idea_category: string;
   admin_status: string;
   internal_notes: string | null;
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 interface FullApplication {
@@ -37,9 +37,9 @@ interface FullApplication {
   current_stage: string;
   admin_status: string;
   internal_notes: string | null;
-  team_members: Record<string, unknown>[];
-  registration_proofs: Record<string, unknown>[];
-  [key: string]: unknown;
+  team_members: any[];
+  registration_proofs: any[];
+  [key: string]: any;
 }
 
 // --- Components ---
@@ -198,7 +198,7 @@ export default function AdminDashboard() {
   }, [authStatus, selectedLead, selectedApp]);
 
   // --- Actions ---
-  const updateRecord = async (id: string, type: 'lead' | 'application', updates: Record<string, unknown>) => {
+  const updateRecord = async (id: string, type: 'lead' | 'application', updates: any) => {
     try {
       const res = await fetch('/api/admin-data', {
         method: 'PATCH',
@@ -278,7 +278,7 @@ export default function AdminDashboard() {
       csvContent += headers.join(",") + "\r\n";
       
       applications.forEach(app => {
-        const leader = app.team_members?.find((m: Record<string, unknown>) => m.is_leader);
+        const leader = app.team_members?.find((m: any) => m.is_leader);
         const name = app.participant_type === 'student' ? app.idea_name : app.startup_name;
         
         const row = [
@@ -323,7 +323,7 @@ export default function AdminDashboard() {
     const q = searchQuery.toLowerCase();
     return applications.filter(a => {
       const name = a.participant_type === 'student' ? a.idea_name : a.startup_name;
-      const leader = a.team_members?.find((m: Record<string, unknown>) => m.is_leader)?.full_name || '';
+      const leader = a.team_members?.find((m: any) => m.is_leader)?.full_name || '';
       return a.team_name?.toLowerCase().includes(q) ||
              name?.toLowerCase().includes(q) ||
              a.category?.toLowerCase().includes(q) ||
@@ -920,7 +920,7 @@ export default function AdminDashboard() {
               <div className="space-y-3">
                 <div className="text-xs text-gray-500 uppercase tracking-wider">Team Members ({selectedApp.team_members?.length || 0})</div>
                 <div className="grid gap-3">
-                  {selectedApp.team_members?.sort((a:Record<string, unknown>, b:Record<string, unknown>) => (a.member_order as number) - (b.member_order as number)).map((member: Record<string, unknown>) => (
+                  {selectedApp.team_members?.sort((a:any, b:any) => (a.member_order as number) - (b.member_order as number)).map((member: any) => (
                     <div key={member.id} className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                       <div>
                         <div className="flex items-center gap-2">
