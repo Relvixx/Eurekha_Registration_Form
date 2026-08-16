@@ -34,9 +34,14 @@ export default function StepEureka({ error }: StepEurekaProps) {
       {/* Eureka IIT Bombay Note */}
       <div className="max-w-2xl mx-auto mb-6 bg-primary/10 border border-primary/20 p-4 rounded-xl flex items-start gap-3">
         <svg className="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <p className="text-text-muted font-inter text-sm text-left">
-          <strong className="text-white font-medium">Important:</strong> If you register for Eureka using this portal, then only you are qualified for <strong className="text-white">Eureka at IIT Bombay</strong>.
-        </p>
+        <div className="flex flex-col gap-2">
+          <p className="text-text-muted font-inter text-sm text-left">
+            <strong className="text-white font-medium">Important:</strong> If you register for Eureka using this portal, then only you are qualified for <strong className="text-white">Eureka at IIT Bombay</strong>.
+          </p>
+          <p className="text-text-muted font-inter text-sm text-left">
+            <strong className="text-green-400 font-medium">Don't worry!</strong> Your progress is automatically saved in this browser. You can safely open the Eureka portal in a new tab, complete your registration, and return here later to upload your proof.
+          </p>
+        </div>
       </div>
 
       {/* Code Card */}

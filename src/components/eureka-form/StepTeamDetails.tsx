@@ -28,20 +28,6 @@ export default function StepTeamDetails({ errors = {} }: Props) {
     });
   };
 
-  // Ensure there are at least two slots (Leader and optional Member 2)
-  React.useEffect(() => {
-    if (teamMembers.length < 2) {
-      addTeamMember({
-        id: uuidv4(),
-        fullName: '',
-        email: '',
-        mobileNumber: '',
-        institution: '',
-        role: '',
-        isLeader: false,
-      });
-    }
-  }, [teamMembers.length, addTeamMember]);
 
   return (
     <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">
@@ -76,7 +62,7 @@ export default function StepTeamDetails({ errors = {} }: Props) {
               index={index}
               errors={errors.teamMembers?.[index] || {}}
               onChange={updateTeamMember}
-              onRemove={index > 1 ? removeTeamMember : undefined}
+              onRemove={index > 0 ? removeTeamMember : undefined}
             />
           ))}
         </div>
