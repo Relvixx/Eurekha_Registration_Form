@@ -29,7 +29,7 @@ export default function StepSuccess() {
           </li>
           <li className="flex gap-3">
             <span className="text-primary mt-0.5 text-lg leading-none">•</span>
-            <span className="leading-relaxed">We will contact you via email at {formState.teamMembers[0]?.email} if any further action is required.</span>
+            <span className="leading-relaxed">You will receive updates from our official email at <a href="mailto:met.iot.ecell@gmail.com" className="font-medium text-primary hover:underline">met.iot.ecell@gmail.com</a> if any further action is required.</span>
           </li>
         </ul>
       </div>
