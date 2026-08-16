@@ -815,6 +815,12 @@ export default function AdminDashboard() {
                     {selectedApp.status}
                   </div>
                 </div>
+                <div className="flex-1">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Reg. Link Clicked</div>
+                  <div className={`border rounded-lg p-2.5 text-sm font-mono ${selectedApp.eureka_link_clicked ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+                    {selectedApp.eureka_link_clicked ? 'Yes' : 'No'}
+                  </div>
+                </div>
               </div>
 
               {/* Idea Info */}

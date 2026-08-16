@@ -207,7 +207,6 @@ export default function FormShell() {
           
           const result = await submitRegistration(formState.registrationId, formState.draftToken);
           if (result && result.success) {
-            formState.setReferenceCode(result.referenceCode);
             formState.setSubmissionStatus('success');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }

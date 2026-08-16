@@ -7,14 +7,7 @@ function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex');
 }
 
-function generateReferenceCode(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let result = 'ECELL-EUR-';
-  for (let i = 0; i < 8; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
-}
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -58,7 +51,7 @@ export async function POST(req: NextRequest) {
          return NextResponse.json({ success: true, path: 'mock/path/' + Date.now() + '.pdf' });
       }
       if (action === 'submit_registration') {
-         return NextResponse.json({ success: true, referenceCode: 'ECELL-EUR-' + Math.random().toString(36).substring(2, 10).toUpperCase() });
+         return NextResponse.json({ success: true });
       }
     }
 
@@ -348,7 +341,7 @@ export async function POST(req: NextRequest) {
       }
 
       if (reg.status === 'SUBMITTED') {
-        return NextResponse.json({ success: true, message: 'Already submitted', referenceCode: reg.reference_code });
+        return NextResponse.json({ success: true, message: 'Already submitted' });
       }
 
       if (!reg.eureka_registration_id) {
@@ -365,14 +358,11 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Registration proof is required before submission' }, { status: 400 });
       }
 
-      const referenceCode = generateReferenceCode();
-
       const { error: submitError } = await supabase
         .from('registrations')
         .update({
           status: 'SUBMITTED',
           submitted_at: new Date().toISOString(),
-          reference_code: referenceCode,
           final_confirmation: true,
         })
         .eq('id', registrationId);
@@ -382,10 +372,9 @@ export async function POST(req: NextRequest) {
       await supabase.from('registration_events').insert({
         registration_id: registrationId,
         event_type: 'REGISTRATION_SUBMITTED',
-        metadata: { reference_code: referenceCode },
       });
 
-      return NextResponse.json({ success: true, referenceCode });
+      return NextResponse.json({ success: true });
     }
 
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });

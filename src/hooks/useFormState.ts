@@ -116,9 +116,7 @@ export const useFormState = create<FormState>()(
       setRegistrationId: (id: string) => set({ registrationId: id }),
       setFinalDeclaration: (value: boolean) => set({ finalDeclaration: value }),
       setSubmissionStatus: (status: 'idle' | 'submitting' | 'success' | 'error') => set({ submissionStatus: status }),
-      setReferenceCode: (code: string) => set({ referenceCode: code }),
       setSubmissionError: (error: string) => set({ submissionError: error }),
-
       resetForm: () => 
         set({
           participantType: null,
@@ -135,7 +133,6 @@ export const useFormState = create<FormState>()(
           registrationId: undefined,
           finalDeclaration: false,
           submissionStatus: 'idle',
-          referenceCode: undefined,
           submissionError: undefined,
         }),
     }),

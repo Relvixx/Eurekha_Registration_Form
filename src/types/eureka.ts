@@ -68,7 +68,6 @@ export interface FormState {
   // Step 6 (Review & Submit)
   finalDeclaration: boolean;
   submissionStatus: 'idle' | 'submitting' | 'success' | 'error';
-  referenceCode?: string;
   submissionError?: string;
 
   // Actions

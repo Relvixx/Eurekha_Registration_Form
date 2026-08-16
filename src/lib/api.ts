@@ -80,21 +80,29 @@ export async function uploadPitchDeck(registrationId: string, draftToken: string
   return data; // { success: true, path: '...' }
 }
 
-export async function submitRegistration(registrationId: string, draftToken: string) {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      action: 'submit_registration',
-      registrationId,
-      draftToken,
-    }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to submit registration');
+export async function submitRegistration(registrationId: string, draftToken: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const response = await fetch('/api/registration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'submit_registration',
+        registrationId,
+        draftToken
+      })
+    });
+    
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error || 'Submission failed');
+    }
+    
+    const data = await response.json();
+    return { success: data.success };
+  } catch (error: any) {
+    console.error('Error submitting registration:', error);
+    return { success: false, error: error.message };
   }
-
-  return data; // { success: true, referenceCode }
 }
