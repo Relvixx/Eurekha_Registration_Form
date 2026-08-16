@@ -242,7 +242,10 @@ export default function FormShell() {
       case 5:
         return <StepProof errors={errors} />;
       case 6:
-        return <StepReview />;
+        return <StepReview onEditStep={(step) => {
+          setCurrentStep(step);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }} />;
       default:
         return <StepParticipantType errors={errors} />;
     }

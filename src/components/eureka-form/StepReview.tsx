@@ -1,8 +1,12 @@
 import React from 'react';
 import { useFormState } from '../../hooks/useFormState';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Edit2 } from 'lucide-react';
 
-export default function StepReview() {
+interface StepReviewProps {
+  onEditStep?: (step: number) => void;
+}
+
+export default function StepReview({ onEditStep }: StepReviewProps) {
   const formState = useFormState();
 
   const handleDeclarationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,13 +20,23 @@ export default function StepReview() {
       
       <div className="space-y-6">
         {/* Participant Type */}
-        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
+          {onEditStep && (
+            <button onClick={() => onEditStep(1)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+              <Edit2 size={14} /> EDIT
+            </button>
+          )}
           <h3 className="text-white font-bold mb-4 font-inter">Registration Type</h3>
           <p className="text-text-muted text-sm capitalize font-inter">{formState.participantType}</p>
         </div>
         
         {/* Team Details */}
-        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
+          {onEditStep && (
+            <button onClick={() => onEditStep(2)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+              <Edit2 size={14} /> EDIT
+            </button>
+          )}
           <h3 className="text-white font-bold mb-4 font-inter">Team Details</h3>
           <div className="space-y-3 font-inter">
             <p className="text-white text-sm"><span className="text-text-muted mr-2">Team Name:</span> {formState.teamName}</p>
@@ -41,7 +55,12 @@ export default function StepReview() {
         </div>
 
         {/* Project Details */}
-        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
+          {onEditStep && (
+            <button onClick={() => onEditStep(3)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+              <Edit2 size={14} /> EDIT
+            </button>
+          )}
           <h3 className="text-white font-bold mb-4 font-inter">Project Details</h3>
           <div className="space-y-3 font-inter">
             {formState.participantType === 'student' ? (
@@ -67,7 +86,12 @@ export default function StepReview() {
         </div>
         
         {/* Eureka Registration */}
-        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
+        <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
+          {onEditStep && (
+            <button onClick={() => onEditStep(5)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+              <Edit2 size={14} /> EDIT
+            </button>
+          )}
           <h3 className="text-white font-bold mb-4 font-inter">Eureka Registration Proof</h3>
           <div className="space-y-3 font-inter">
             <p className="text-white text-sm"><span className="text-text-muted mr-2">Eureka ID:</span> {formState.eurekaRegistrationId}</p>

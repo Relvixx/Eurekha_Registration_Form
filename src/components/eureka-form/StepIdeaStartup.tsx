@@ -247,7 +247,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
               value={studentIdeaDetails.problemStatement}
               onChange={(e) => updateStudentIdeaDetails({ problemStatement: e.target.value })}
               className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.problemStatement ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
-              placeholder="What problem are you solving?"
+              placeholder="e.g. Currently, 40% of small businesses struggle with managing their daily schedules..."
             />
             {renderError('problemStatement')}
           </div>
@@ -260,7 +260,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
               value={studentIdeaDetails.proposedSolution}
               onChange={(e) => updateStudentIdeaDetails({ proposedSolution: e.target.value })}
               className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.proposedSolution ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
-              placeholder="How does your idea solve this problem?"
+              placeholder="e.g. We are building an AI-based scheduling app that automates..."
             />
             {renderError('proposedSolution')}
           </div>
@@ -331,14 +331,14 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
               value={studentIdeaDetails.shortDescription}
               onChange={(e) => updateStudentIdeaDetails({ shortDescription: e.target.value })}
               className={`glass-input w-full p-4 rounded-xl text-white min-h-25 resize-y ${errors.shortDescription ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
-              placeholder="Provide a brief summary of your idea"
+              placeholder="e.g. A smart scheduling app for small businesses to save time."
             />
             {renderError('shortDescription')}
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Website / Demo URL <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
+            <label className="flex items-center text-sm font-semibold text-white mb-3 font-inter text-left">
+              Website / Demo URL <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
             </label>
             <input
               type="url"
@@ -351,8 +351,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-white mb-1 font-inter text-left">
-              Pitch Deck / PPT <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
+            <label className="flex items-center text-sm font-semibold text-white mb-1 font-inter text-left">
+              Pitch Deck / PPT <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
             </label>
             <div className="mb-4 text-xs text-text-muted text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
@@ -405,7 +405,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
             value={startupDetails.problemStatement}
             onChange={(e) => updateStartupDetails({ problemStatement: e.target.value })}
             className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.problemStatement ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
-            placeholder="What problem does your startup solve?"
+            placeholder="e.g. Currently, 40% of small businesses struggle with managing their daily schedules..."
           />
           {renderError('problemStatement')}
         </div>
@@ -418,7 +418,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
             value={startupDetails.solution}
             onChange={(e) => updateStartupDetails({ solution: e.target.value })}
             className={`glass-input w-full p-4 rounded-xl text-white min-h-30 resize-y ${errors.solution ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
-            placeholder="How does your startup solve this problem?"
+            placeholder="e.g. We are building an AI-based scheduling app that automates..."
           />
           {renderError('solution')}
         </div>
@@ -489,15 +489,15 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
             value={startupDetails.shortDescription}
             onChange={(e) => updateStartupDetails({ shortDescription: e.target.value })}
             className={`glass-input w-full p-4 rounded-xl text-white min-h-25 resize-y ${errors.shortDescription ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
-            placeholder="Provide a brief summary of your startup"
+            placeholder="e.g. A smart scheduling platform for small businesses."
           />
           {renderError('shortDescription')}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-              Website URL <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
+            <label className="flex items-center text-sm font-semibold text-white mb-3 font-inter text-left">
+              Website URL <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
             </label>
             <input
               type="url"
@@ -510,8 +510,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-white mb-1 font-inter text-left">
-              Pitch Deck / PPT <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
+            <label className="flex items-center text-sm font-semibold text-white mb-1 font-inter text-left">
+              Pitch Deck / PPT <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
             </label>
             <div className="mb-4 text-xs text-text-muted text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
@@ -533,8 +533,8 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
         </div>
         
         <div>
-          <label className="block text-sm font-semibold text-white mb-3 font-inter text-left">
-            LinkedIn Profile URL <span className="text-text-muted text-xs font-normal ml-2 font-inter">(Optional)</span>
+          <label className="flex items-center text-sm font-semibold text-white mb-3 font-inter text-left">
+            LinkedIn Profile URL <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
           </label>
           <input
             type="url"
