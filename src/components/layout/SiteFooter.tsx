@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Globe, Users, Video, Mail, MapPin } from 'lucide-react';
+import { Globe, Users, Video, Mail, MapPin, ExternalLink } from 'lucide-react';
 
 export default function SiteFooter() {
   return (
@@ -26,6 +26,9 @@ export default function SiteFooter() {
             </a>
             <a href="https://www.youtube.com/@ecell-met-live/streams" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="YouTube">
               <Video size={20} />
+            </a>
+            <a href="https://www.ecell-met.tech/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-[#FF1744] hover:bg-[#FF1744]/10 transition-colors focus-ring" aria-label="E-Cell MET Website">
+              <ExternalLink size={20} />
             </a>
           </div>
         </div>
