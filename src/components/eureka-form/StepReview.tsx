@@ -22,7 +22,7 @@ export default function StepReview({ onEditStep }: StepReviewProps) {
         {/* Participant Type */}
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
           {onEditStep && (
-            <button onClick={() => onEditStep(1)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+            <button onClick={() => onEditStep(1)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
               <Edit2 size={14} /> EDIT
             </button>
           )}
@@ -33,7 +33,7 @@ export default function StepReview({ onEditStep }: StepReviewProps) {
         {/* Team Details */}
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
           {onEditStep && (
-            <button onClick={() => onEditStep(2)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+            <button onClick={() => onEditStep(2)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
               <Edit2 size={14} /> EDIT
             </button>
           )}
@@ -57,7 +57,7 @@ export default function StepReview({ onEditStep }: StepReviewProps) {
         {/* Project Details */}
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
           {onEditStep && (
-            <button onClick={() => onEditStep(3)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+            <button onClick={() => onEditStep(3)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
               <Edit2 size={14} /> EDIT
             </button>
           )}
@@ -88,7 +88,7 @@ export default function StepReview({ onEditStep }: StepReviewProps) {
         {/* Eureka Registration */}
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner relative group">
           {onEditStep && (
-            <button onClick={() => onEditStep(5)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
+            <button onClick={() => onEditStep(5)} className="absolute top-6 right-6 text-gray-500 hover:text-primary transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1 text-xs font-semibold">
               <Edit2 size={14} /> EDIT
             </button>
           )}

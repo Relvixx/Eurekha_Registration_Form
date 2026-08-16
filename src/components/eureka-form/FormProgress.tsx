@@ -55,14 +55,14 @@ export default function FormProgress({ currentStep }: FormProgressProps) {
       </div>
 
       {/* Mobile Compact Progress (Visible only on very small screens) */}
-      <div className="sm:hidden flex flex-col gap-3">
-        <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 font-inter">
+      <div className="sm:hidden flex flex-col gap-3 bg-white/5 p-4 rounded-xl border border-white/10 shadow-lg">
+        <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-gray-400 font-poppins">
           <span>Step {currentStep} of {steps.length}</span>
-          <span className="text-white">{steps[currentStep - 1]?.label}</span>
+          <span className="text-white text-right ml-4 line-clamp-1">{steps[currentStep - 1]?.label}</span>
         </div>
-        <div className="w-full h-1.5 bg-surface-secondary rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-[#1A1A1A] rounded-full overflow-hidden border border-white/5">
           <div 
-            className="h-full bg-primary transition-all duration-700 ease-in-out shadow-[0_0_8px_rgba(26,111,245,0.5)]"
+            className="h-full bg-gradient-to-r from-primary/80 to-primary transition-all duration-700 ease-in-out rounded-full shadow-[0_0_10px_rgba(26,111,245,0.6)]"
             style={{ width: `${(currentStep / steps.length) * 100}%` }}
           ></div>
         </div>
