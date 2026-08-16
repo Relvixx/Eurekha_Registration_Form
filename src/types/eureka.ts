@@ -16,6 +16,7 @@ export interface StudentIdeaDetails {
   problemStatement: string;
   proposedSolution: string;
   category: string;
+  customCategory?: string;
   currentStage: string;
   shortDescription: string;
   websiteUrl?: string;
@@ -29,6 +30,7 @@ export interface StartupDetails {
   problemStatement: string;
   solution: string;
   category: string;
+  customCategory?: string;
   currentStage: string;
   shortDescription: string;
   websiteUrl?: string;
@@ -38,7 +40,7 @@ export interface StartupDetails {
   pitchDeckFileName?: string;
 }
 
-export interface WizardState {
+export interface FormState {
   // Step 1
   participantType: ParticipantType;
   
@@ -88,5 +90,5 @@ export interface WizardState {
   setSubmissionStatus: (status: 'idle' | 'submitting' | 'success' | 'error') => void;
   setReferenceCode: (code: string) => void;
   setSubmissionError: (error: string) => void;
-  resetWizard: () => void;
+  resetForm: () => void;
 }

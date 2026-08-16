@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import TeamMemberCard from './TeamMemberCard';
 import { v4 as uuidv4 } from 'uuid';
 import { Plus } from 'lucide-react';
@@ -9,12 +9,12 @@ interface Props {
 }
 
 export default function StepTeamDetails({ errors = {} }: Props) {
-  const teamName = useWizardState((state) => state.teamName);
-  const teamMembers = useWizardState((state) => state.teamMembers);
-  const updateTeamName = useWizardState((state) => state.updateTeamName);
-  const addTeamMember = useWizardState((state) => state.addTeamMember);
-  const updateTeamMember = useWizardState((state) => state.updateTeamMember);
-  const removeTeamMember = useWizardState((state) => state.removeTeamMember);
+  const teamName = useFormState((state) => state.teamName);
+  const teamMembers = useFormState((state) => state.teamMembers);
+  const updateTeamName = useFormState((state) => state.updateTeamName);
+  const addTeamMember = useFormState((state) => state.addTeamMember);
+  const updateTeamMember = useFormState((state) => state.updateTeamMember);
+  const removeTeamMember = useFormState((state) => state.removeTeamMember);
 
   const handleAddMember = () => {
     addTeamMember({

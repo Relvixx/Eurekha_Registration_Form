@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { WizardState, ParticipantType, TeamMember, StudentIdeaDetails, StartupDetails } from '@/types/eureka';
+import { FormState, ParticipantType, TeamMember, StudentIdeaDetails, StartupDetails } from '@/types/eureka';
 
 const initialLeader: TeamMember = {
   id: uuidv4(),
@@ -18,6 +18,7 @@ const initialStudentDetails: StudentIdeaDetails = {
   problemStatement: '',
   proposedSolution: '',
   category: '',
+  customCategory: '',
   currentStage: '',
   shortDescription: '',
   websiteUrl: '',
@@ -31,6 +32,7 @@ const initialStartupDetails: StartupDetails = {
   problemStatement: '',
   solution: '',
   category: '',
+  customCategory: '',
   currentStage: '',
   shortDescription: '',
   websiteUrl: '',
@@ -40,7 +42,7 @@ const initialStartupDetails: StartupDetails = {
   pitchDeckFileName: '',
 };
 
-export const useWizardState = create<WizardState>()(
+export const useFormState = create<FormState>()(
   persist(
     (set) => ({
       participantType: null,
@@ -117,7 +119,7 @@ export const useWizardState = create<WizardState>()(
       setReferenceCode: (code: string) => set({ referenceCode: code }),
       setSubmissionError: (error: string) => set({ submissionError: error }),
 
-      resetWizard: () => 
+      resetForm: () => 
         set({
           participantType: null,
           teamName: '',
@@ -138,7 +140,7 @@ export const useWizardState = create<WizardState>()(
         }),
     }),
     {
-      name: 'eureka-wizard-draft', // unique name for localStorage
+      name: 'eureka-form-draft', // unique name for localStorage
       storage: createJSONStorage(() => localStorage), 
       skipHydration: true, // We will manually hydrate to prevent UI mismatch errors
     }

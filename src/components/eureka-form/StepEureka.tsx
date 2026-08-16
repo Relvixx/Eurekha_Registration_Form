@@ -1,6 +1,6 @@
 'use client';
 
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import NecCodeCard from './NecCodeCard';
 import { EUREKA_CONFIG } from '../../lib/config/eureka';
 
@@ -9,14 +9,14 @@ interface StepEurekaProps {
 }
 
 export default function StepEureka({ error }: StepEurekaProps) {
-  const wizardState = useWizardState();
+  const formState = useFormState();
 
   const handleEurekaClick = () => {
-    wizardState.setEurekaLinkClicked(true);
+    formState.setEurekaLinkClicked(true);
   };
 
   const handleConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    wizardState.setEurekaSelfConfirmed(e.target.checked);
+    formState.setEurekaSelfConfirmed(e.target.checked);
   };
 
   return (
@@ -122,7 +122,7 @@ export default function StepEureka({ error }: StepEurekaProps) {
         <label 
           htmlFor="eureka-confirmation"
           className={`flex items-start p-5 sm:p-6 rounded-2xl border cursor-pointer transition-all duration-300 ${
-            wizardState.eurekaSelfConfirmed 
+            formState.eurekaSelfConfirmed 
               ? 'bg-[#00E5FF]/5 border-[#00E5FF]/30 shadow-[0_0_15px_rgba(0,229,255,0.05)]' 
               : error 
                 ? 'bg-error/5 border-error/30'
@@ -133,14 +133,14 @@ export default function StepEureka({ error }: StepEurekaProps) {
             <input
               type="checkbox"
               id="eureka-confirmation"
-              checked={wizardState.eurekaSelfConfirmed}
+              checked={formState.eurekaSelfConfirmed}
               onChange={handleConfirmChange}
               className="w-5 h-5 rounded border-white/20 bg-black/50 text-[#00E5FF] focus:ring-[#00E5FF] focus:ring-offset-black cursor-pointer accent-[#00E5FF]"
               aria-describedby={error ? "eureka-error" : undefined}
             />
           </div>
           <div className="ml-4">
-            <span className={`block font-semibold font-inter text-lg ${wizardState.eurekaSelfConfirmed ? 'text-[#00E5FF]' : 'text-white'}`}>
+            <span className={`block font-semibold font-inter text-lg ${formState.eurekaSelfConfirmed ? 'text-[#00E5FF]' : 'text-white'}`}>
               I have completed my Eureka registration using the NEC ID provided above.
             </span>
             <span className="block text-sm text-text-muted font-inter mt-2">

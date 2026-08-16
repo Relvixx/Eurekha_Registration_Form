@@ -26,6 +26,7 @@ export default function ImmediateRegistrationForm() {
       leadYear: '',
       membersNames: '',
       ideaCategory: '',
+      customIdeaCategory: '',
       ideaStage: '',
     }
   });
@@ -34,6 +35,11 @@ export default function ImmediateRegistrationForm() {
     control,
     name: 'participantType',
     defaultValue: 'student'
+  });
+  const ideaCategory = useWatch({
+    control,
+    name: 'ideaCategory',
+    defaultValue: ''
   });
   const stages = participantType === 'student' ? STUDENT_STAGES : STARTUP_STAGES;
   const categories = participantType === 'student' ? STUDENT_CATEGORIES : STARTUP_CATEGORIES;
@@ -290,6 +296,18 @@ export default function ImmediateRegistrationForm() {
                 )}
               />
               {renderError('ideaCategory')}
+              {ideaCategory === 'Other' && (
+                <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <Controller
+                    name="customIdeaCategory"
+                    control={control}
+                    render={({ field }) => (
+                      <input {...field} className={`glass-input w-full p-3.5 rounded-xl text-white transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary ${errors.customIdeaCategory ? 'border-error' : 'border-white/10'}`} placeholder="Please specify your category" />
+                    )}
+                  />
+                  {renderError('customIdeaCategory')}
+                </div>
+              )}
             </div>
 
             <div>

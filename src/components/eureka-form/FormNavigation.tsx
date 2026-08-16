@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 
-interface WizardNavigationProps {
+interface FormNavigationProps {
   currentStep: number;
   totalSteps: number;
   onNext: () => void;
@@ -9,13 +9,13 @@ interface WizardNavigationProps {
   canProceed?: boolean;
 }
 
-export default function WizardNavigation({ 
+export default function FormNavigation({ 
   currentStep, 
   totalSteps, 
   onNext, 
   onBack,
   canProceed = true
-}: WizardNavigationProps) {
+}: FormNavigationProps) {
   const isFirstStep = currentStep === 1;
   const isLastStep = currentStep === totalSteps;
 

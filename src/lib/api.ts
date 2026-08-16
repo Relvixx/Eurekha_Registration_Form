@@ -1,8 +1,8 @@
-import { WizardState } from '@/types/eureka';
+import { FormState } from '@/types/eureka';
 
 const API_URL = '/api/registration';
 
-export async function createRegistrationDraft(state: Partial<WizardState>) {
+export async function createRegistrationDraft(state: Partial<FormState>) {
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -20,7 +20,7 @@ export async function createRegistrationDraft(state: Partial<WizardState>) {
   return data; // { registrationId, draftToken }
 }
 
-export async function saveRegistrationDraft(registrationId: string, draftToken: string, state: WizardState) {
+export async function saveRegistrationDraft(registrationId: string, draftToken: string, state: FormState) {
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

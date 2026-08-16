@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
-import WizardShell from '@/components/eureka-wizard/WizardShell';
+import FormShell from '@/components/eureka-form/FormShell';
 
 export const metadata: Metadata = {
-  title: 'Eureka Registration Wizard | E-Cell MET',
-  description: 'Step-by-step registration wizard for Eureka startup and student tracks.',
+  title: 'Eureka Registration Form | E-Cell MET',
+  description: 'Step-by-step registration form for Eureka startup and student tracks.',
 };
 
 import SiteFooter from '@/components/layout/SiteFooter';
@@ -16,7 +16,7 @@ export default function EurekaRegistrationPage() {
       <div className="absolute bottom-0 right-0 w-125 h-75 bg-accent-deep/15 blur-[100px] rounded-full pointer-events-none -z-10"></div>
       
       <div className="flex-1">
-        <WizardShell />
+        <FormShell />
       </div>
       
       <SiteFooter />

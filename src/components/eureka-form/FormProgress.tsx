@@ -1,11 +1,11 @@
 import React from 'react';
 import { Check } from 'lucide-react';
 
-interface WizardProgressProps {
+interface FormProgressProps {
   currentStep: number;
 }
 
-export default function WizardProgress({ currentStep }: WizardProgressProps) {
+export default function FormProgress({ currentStep }: FormProgressProps) {
   const steps = [
     { num: 1, label: 'Participant Type' },
     { num: 2, label: 'Team Details' },

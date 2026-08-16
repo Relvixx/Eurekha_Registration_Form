@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Upload, X, CheckCircle2, AlertCircle, FileImage, Loader2 } from 'lucide-react';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import { uploadRegistrationProof, createRegistrationDraft } from '../../lib/api';
 
 interface StepProofProps {
@@ -8,14 +8,14 @@ interface StepProofProps {
 }
 
 export default function StepProof({ errors }: StepProofProps) {
-  const wizardState = useWizardState();
+  const formState = useFormState();
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    wizardState.setEurekaRegistrationId(e.target.value);
+    formState.setEurekaRegistrationId(e.target.value);
   };
 
   const validateFile = (file: File): string | null => {
@@ -37,17 +37,17 @@ export default function StepProof({ errors }: StepProofProps) {
     }
 
     // If no draft exists yet, create one on-the-fly
-    let currentRegId = wizardState.registrationId;
-    let currentDraftToken = wizardState.draftToken;
+    let currentRegId = formState.registrationId;
+    let currentDraftToken = formState.draftToken;
 
     if (!currentRegId || !currentDraftToken) {
       try {
-        const result = await createRegistrationDraft(wizardState);
+        const result = await createRegistrationDraft(formState);
         if (result) {
           currentRegId = result.registrationId;
           currentDraftToken = result.draftToken;
-          wizardState.setDraftToken(currentDraftToken!);
-          wizardState.setRegistrationId(currentRegId!);
+          formState.setDraftToken(currentDraftToken!);
+          formState.setRegistrationId(currentRegId!);
         } else {
           setUploadError('Could not initialize registration. Please try again.');
           return;
@@ -67,8 +67,8 @@ export default function StepProof({ errors }: StepProofProps) {
       );
       
       if (response && response.success) {
-        wizardState.setProofUploaded(true);
-        wizardState.setProofUrl(response.path);
+        formState.setProofUploaded(true);
+        formState.setProofUrl(response.path);
       } else {
         setUploadError('Failed to upload proof. Please try again.');
       }
@@ -105,8 +105,8 @@ export default function StepProof({ errors }: StepProofProps) {
   };
 
   const handleRemoveProof = () => {
-    wizardState.setProofUploaded(false);
-    wizardState.setProofUrl('');
+    formState.setProofUploaded(false);
+    formState.setProofUrl('');
     // Notice: We don't necessarily delete from storage immediately to avoid complexity,
     // it can be overwritten on next upload.
   };
@@ -132,7 +132,7 @@ export default function StepProof({ errors }: StepProofProps) {
           <input
             id="eurekaId"
             type="text"
-            value={wizardState.eurekaRegistrationId}
+            value={formState.eurekaRegistrationId}
             onChange={handleIdChange}
             placeholder="e.g. EUR2023-XXXX"
             className={`glass-input w-full p-4 rounded-xl text-white ${errors?.eurekaRegistrationId ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
@@ -148,7 +148,7 @@ export default function StepProof({ errors }: StepProofProps) {
             Upload Screenshot <span className="text-primary">*</span>
           </label>
           
-          {!wizardState.proofUploaded ? (
+          {!formState.proofUploaded ? (
             <div 
               onDragOver={onDragOver}
               onDragLeave={onDragLeave}

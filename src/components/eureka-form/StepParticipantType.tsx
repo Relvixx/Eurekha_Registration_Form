@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import { User, Rocket } from 'lucide-react';
 
 interface Props {
@@ -7,8 +7,8 @@ interface Props {
 }
 
 export default function StepParticipantType({ errors = {} }: Props) {
-  const participantType = useWizardState((state) => state.participantType);
-  const setParticipantType = useWizardState((state) => state.setParticipantType);
+  const participantType = useFormState((state) => state.participantType);
+  const setParticipantType = useFormState((state) => state.setParticipantType);
 
   return (
     <div className="glass-panel p-8 md:p-10 rounded-2xl w-full animate-in fade-in slide-in-from-right-4 duration-500">

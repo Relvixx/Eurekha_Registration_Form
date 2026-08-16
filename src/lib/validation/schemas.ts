@@ -2,17 +2,17 @@ import { z } from 'zod';
 
 export const step1Schema = z.object({
   participantType: z.enum(['student', 'startup'], {
-    message: 'Please select a participant type',
+    message: 'Please tell us if you are applying as a student or a startup',
   }),
 });
 
 const baseMemberObjectSchema = z.object({
   id: z.string(),
-  fullName: z.string().min(2, 'Full name is required'),
-  email: z.string().email('Please enter a valid email address'),
-  mobileNumber: z.string().min(10, 'Please enter a valid mobile number').optional().or(z.literal('')),
-  institution: z.string().min(2, 'Institution name is required'),
-  role: z.string().min(1, 'Role is required'),
+  fullName: z.string().min(2, 'Please tell us your full name'),
+  email: z.string().email('Please provide a valid email address so we can reach you'),
+  mobileNumber: z.string().min(10, 'Please provide a valid 10-digit mobile number').optional().or(z.literal('')),
+  institution: z.string().min(2, 'Please let us know your institution or college name'),
+  role: z.string().min(1, 'Please select your role in the team'),
   customRole: z.string().optional(),
   isLeader: z.boolean(),
 });
@@ -25,7 +25,7 @@ const validateCustomRole = (data: any) => {
 };
 
 const customRoleRefinement = {
-  message: 'Please specify your custom role',
+  message: 'Please tell us what your custom role is',
   path: ['customRole'],
 };
 
@@ -37,7 +37,7 @@ export const additionalMemberSchema = baseMemberObjectSchema.refine(
 
 // The leader is strictly validated
 export const leaderSchema = baseMemberObjectSchema.extend({
-  mobileNumber: z.string().min(10, 'Leader mobile number is required'),
+  mobileNumber: z.string().min(10, 'The team leader\'s mobile number is required so we can contact you'),
 }).refine(validateCustomRole, customRoleRefinement);
 
 // Member 2 is optional. If completely empty, it's valid. If partially filled, it's validated.
@@ -49,55 +49,73 @@ export const optionalMemberSchema = baseMemberObjectSchema.partial().refine((dat
   const result = additionalMemberSchema.safeParse(data);
   return result.success;
 }, {
-  message: 'Please complete all required fields for this member, or remove them',
+  message: 'It looks like some details are missing for this team member. Please fill them out or remove the member if not needed.',
 });
 
 export const step2Schema = z.object({
-  teamName: z.string().min(2, 'Team name must be at least 2 characters'),
+  teamName: z.string().min(2, 'Every great team needs a name! Please enter yours.'),
   teamMembers: z.array(z.any()).refine((members) => {
     return members.length >= 1 && members[0].isLeader;
-  }, 'Invalid team structure'),
+  }, 'Your team must have at least one member assigned as the Team Leader.'),
 });
 
 const urlSchema = z
   .string()
   .trim()
-  .url('Please enter a valid URL (e.g. https://example.com)')
+  .url('Please provide a valid website link, making sure it starts with http:// or https://')
   .optional()
   .or(z.literal(''));
 
 export const studentIdeaSchema = z.object({
-  ideaName: z.string().min(2, 'Please enter your idea name'),
-  problemStatement: z.string().min(10, 'Please describe the problem you are solving (min 10 chars)'),
-  proposedSolution: z.string().min(10, 'Please describe your proposed solution (min 10 chars)'),
-  category: z.string().min(1, 'Please select a category'),
-  currentStage: z.string().min(1, 'Please select the current stage'),
-  shortDescription: z.string().min(10, 'Please provide a short description (min 10 chars)'),
+  ideaName: z.string().min(2, 'What is the name of your brilliant idea?'),
+  problemStatement: z.string().min(10, 'Please tell us a bit more about the problem you are solving'),
+  proposedSolution: z.string().min(10, 'We\'d love to hear more about your proposed solution'),
+  category: z.string().min(1, 'Please choose the category that best fits your idea'),
+  customCategory: z.string().optional(),
+  currentStage: z.string().min(1, 'Please let us know what stage your idea is currently at'),
+  shortDescription: z.string().min(10, 'Please give us a brief description of your idea'),
   websiteUrl: urlSchema,
+}).refine(data => {
+  if (data.category === 'Other' && (!data.customCategory || data.customCategory.trim() === '')) {
+    return false;
+  }
+  return true;
+}, {
+  message: 'Please specify your custom category',
+  path: ['customCategory']
 });
 
 export const startupDetailsSchema = z.object({
-  startupName: z.string().min(2, 'Please enter your startup name'),
-  problemStatement: z.string().min(10, 'Please describe the problem you are solving (min 10 chars)'),
-  solution: z.string().min(10, 'Please describe your solution (min 10 chars)'),
-  category: z.string().min(1, 'Please select a category'),
-  currentStage: z.string().min(1, 'Please select the current stage'),
-  shortDescription: z.string().min(10, 'Please provide a short description (min 10 chars)'),
+  startupName: z.string().min(2, 'What is the name of your startup?'),
+  problemStatement: z.string().min(10, 'Please tell us a bit more about the problem your startup is solving'),
+  solution: z.string().min(10, 'We\'d love to hear more about your startup\'s solution'),
+  category: z.string().min(1, 'Please choose the category that best fits your startup'),
+  customCategory: z.string().optional(),
+  currentStage: z.string().min(1, 'Please let us know what stage your startup is currently at'),
+  shortDescription: z.string().min(10, 'Please give us a brief description of your startup'),
   websiteUrl: urlSchema,
   linkedinUrl: urlSchema,
+}).refine(data => {
+  if (data.category === 'Other' && (!data.customCategory || data.customCategory.trim() === '')) {
+    return false;
+  }
+  return true;
+}, {
+  message: 'Please specify your custom category',
+  path: ['customCategory']
 });
 
 export const step4Schema = z.object({
-  eurekaSelfConfirmed: z.boolean().refine(val => val === true, "Please confirm that you have completed your Eureka registration before continuing.")
+  eurekaSelfConfirmed: z.boolean().refine(val => val === true, "Please check the box to confirm you have completed the Eureka registration on the main website.")
 });
 
 export const step5Schema = z.object({
-  eurekaRegistrationId: z.string().min(3, "Please enter your valid Eureka Registration ID"),
-  proofUploaded: z.boolean().refine(val => val === true, "Please upload proof of your Eureka registration"),
-  proofUrl: z.string().min(1, "Please upload proof of your Eureka registration").optional().or(z.literal(''))
+  eurekaRegistrationId: z.string().min(3, "We need your Eureka Registration ID to verify your entry."),
+  proofUploaded: z.boolean().refine(val => val === true, "Please upload a screenshot or document proving your Eureka registration."),
+  proofUrl: z.string().min(1, "Please wait for the proof document to finish uploading.").optional().or(z.literal(''))
 });
 
 export const step6Schema = z.object({
-  finalDeclaration: z.boolean().refine(val => val === true, "You must agree to the final declaration to submit your registration")
+  finalDeclaration: z.boolean().refine(val => val === true, "Please agree to the final declaration to complete your registration.")
 });
 

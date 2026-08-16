@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import WizardProgress from './WizardProgress';
-import WizardNavigation from './WizardNavigation';
+import FormProgress from './FormProgress';
+import FormNavigation from './FormNavigation';
 import StepParticipantType from './StepParticipantType';
 import StepTeamDetails from './StepTeamDetails';
 import StepIdeaStartup from './StepIdeaStartup';
@@ -10,24 +10,24 @@ import StepEureka from './StepEureka';
 import StepProof from './StepProof';
 import StepReview from './StepReview';
 import StepSuccess from './StepSuccess';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import { step1Schema, step2Schema, leaderSchema, optionalMemberSchema, additionalMemberSchema, studentIdeaSchema, startupDetailsSchema, step4Schema, step5Schema, step6Schema } from '../../lib/validation/schemas';
 import { createRegistrationDraft, saveRegistrationDraft, submitRegistration } from '../../lib/api';
 import { z } from 'zod';
 
 const TOTAL_STEPS = 6;
 
-export default function WizardShell() {
+export default function FormShell() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, any>>({});
   
-  const wizardState = useWizardState();
+  const formState = useFormState();
 
   // Avoid hydration mismatch by waiting for mount
   useEffect(() => {
-    useWizardState.persist.rehydrate();
+    useFormState.persist.rehydrate();
     setIsMounted(true);
   }, []);
 
@@ -35,7 +35,7 @@ export default function WizardShell() {
     setErrors({});
     
     if (currentStep === 1) {
-      const result = step1Schema.safeParse({ participantType: wizardState.participantType });
+      const result = step1Schema.safeParse({ participantType: formState.participantType });
       if (!result.success) {
         const formattedErrors: Record<string, string> = {};
         result.error.issues.forEach((err: any) => {
@@ -51,13 +51,13 @@ export default function WizardShell() {
       let hasErrors = false;
 
       // Validate Team Name
-      if (!wizardState.teamName || wizardState.teamName.trim().length < 2) {
+      if (!formState.teamName || formState.teamName.trim().length < 2) {
         teamErrors.teamName = 'Team name is required (min 2 chars)';
         hasErrors = true;
       }
 
       // Validate Members
-      wizardState.teamMembers.forEach((member, index) => {
+      formState.teamMembers.forEach((member, index) => {
         let memberError: Record<string, string> = {};
         
         if (index === 0) {
@@ -107,8 +107,8 @@ export default function WizardShell() {
         return false;
       }
     } else if (currentStep === 3) {
-      if (wizardState.participantType === 'student') {
-        const result = studentIdeaSchema.safeParse(wizardState.studentIdeaDetails);
+      if (formState.participantType === 'student') {
+        const result = studentIdeaSchema.safeParse(formState.studentIdeaDetails);
         if (!result.success) {
           const formattedErrors: Record<string, string> = {};
           result.error.issues.forEach((err: any) => {
@@ -118,8 +118,8 @@ export default function WizardShell() {
           setErrors(formattedErrors);
           return false;
         }
-      } else if (wizardState.participantType === 'startup') {
-        const result = startupDetailsSchema.safeParse(wizardState.startupDetails);
+      } else if (formState.participantType === 'startup') {
+        const result = startupDetailsSchema.safeParse(formState.startupDetails);
         if (!result.success) {
           const formattedErrors: Record<string, string> = {};
           result.error.issues.forEach((err: any) => {
@@ -131,16 +131,16 @@ export default function WizardShell() {
         }
       }
     } else if (currentStep === 4) {
-      const result = step4Schema.safeParse({ eurekaSelfConfirmed: wizardState.eurekaSelfConfirmed });
+      const result = step4Schema.safeParse({ eurekaSelfConfirmed: formState.eurekaSelfConfirmed });
       if (!result.success) {
         setErrors({ _general: result.error.issues[0].message });
         return false;
       }
     } else if (currentStep === 5) {
       const result = step5Schema.safeParse({ 
-        eurekaRegistrationId: wizardState.eurekaRegistrationId,
-        proofUploaded: wizardState.proofUploaded,
-        proofUrl: wizardState.proofUrl
+        eurekaRegistrationId: formState.eurekaRegistrationId,
+        proofUploaded: formState.proofUploaded,
+        proofUrl: formState.proofUrl
       });
       if (!result.success) {
         const formattedErrors: Record<string, string> = {};
@@ -152,7 +152,7 @@ export default function WizardShell() {
         return false;
       }
     } else if (currentStep === 6) {
-      const result = step6Schema.safeParse({ finalDeclaration: wizardState.finalDeclaration });
+      const result = step6Schema.safeParse({ finalDeclaration: formState.finalDeclaration });
       if (!result.success) {
         setErrors({ _general: result.error.issues[0].message });
         return false;
@@ -171,14 +171,14 @@ export default function WizardShell() {
         if (currentStep === 4) {
           setIsSaving(true);
           try {
-            if (!wizardState.draftToken || !wizardState.registrationId) {
-              const result = await createRegistrationDraft(wizardState);
+            if (!formState.draftToken || !formState.registrationId) {
+              const result = await createRegistrationDraft(formState);
               if (result) {
-                wizardState.setDraftToken(result.draftToken);
-                wizardState.setRegistrationId(result.registrationId);
+                formState.setDraftToken(result.draftToken);
+                formState.setRegistrationId(result.registrationId);
               }
             } else {
-              await saveRegistrationDraft(wizardState.registrationId, wizardState.draftToken, wizardState);
+              await saveRegistrationDraft(formState.registrationId, formState.draftToken, formState);
             }
           } catch (error: any) {
             console.warn('Draft save failed, continuing locally:', error.message);
@@ -193,28 +193,28 @@ export default function WizardShell() {
         setErrors({});
       } else {
         // Final Submission (Step 6)
-        if (!wizardState.registrationId || !wizardState.draftToken) {
+        if (!formState.registrationId || !formState.draftToken) {
           setErrors({ _general: 'Session expired. Please try refreshing.' });
           return;
         }
 
         setIsSaving(true);
-        wizardState.setSubmissionStatus('submitting');
+        formState.setSubmissionStatus('submitting');
         
         try {
           // IMPORTANT: Save the very final state (including Eureka ID from Step 5) before submitting
-          await saveRegistrationDraft(wizardState.registrationId, wizardState.draftToken, wizardState);
+          await saveRegistrationDraft(formState.registrationId, formState.draftToken, formState);
           
-          const result = await submitRegistration(wizardState.registrationId, wizardState.draftToken);
+          const result = await submitRegistration(formState.registrationId, formState.draftToken);
           if (result && result.success) {
-            wizardState.setReferenceCode(result.referenceCode);
-            wizardState.setSubmissionStatus('success');
+            formState.setReferenceCode(result.referenceCode);
+            formState.setSubmissionStatus('success');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         } catch (error: any) {
           console.error('Submission failed:', error);
           setErrors({ _general: error.message || 'Your registration could not be submitted right now. Your saved information has not been lost. Please try again.' });
-          wizardState.setSubmissionStatus('error');
+          formState.setSubmissionStatus('error');
         } finally {
           setIsSaving(false);
         }
@@ -251,14 +251,14 @@ export default function WizardShell() {
 
   if (!isMounted) return null;
 
-  if (wizardState.submissionStatus === 'success') {
+  if (formState.submissionStatus === 'success') {
     return <StepSuccess />;
   }
 
   const canProceed = 
-    currentStep === 4 ? wizardState.eurekaSelfConfirmed : 
-    currentStep === 5 ? wizardState.proofUploaded : 
-    currentStep === 6 ? wizardState.finalDeclaration : true;
+    currentStep === 4 ? formState.eurekaSelfConfirmed : 
+    currentStep === 5 ? formState.proofUploaded : 
+    currentStep === 6 ? formState.finalDeclaration : true;
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 pb-8 md:pb-12 pt-2 md:pt-4">
@@ -280,7 +280,7 @@ export default function WizardShell() {
         </p>
       </div>
 
-      <WizardProgress currentStep={currentStep} />
+      <FormProgress currentStep={currentStep} />
       
       <div className="min-h-100 flex flex-col justify-between">
         <div className="w-full relative">
@@ -298,7 +298,7 @@ export default function WizardShell() {
           </div>
         )}
 
-        <WizardNavigation 
+        <FormNavigation 
           currentStep={currentStep} 
           totalSteps={TOTAL_STEPS} 
           onNext={handleNext} 

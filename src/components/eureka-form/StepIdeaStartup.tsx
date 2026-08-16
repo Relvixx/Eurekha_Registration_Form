@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Upload, X, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import { 
   STUDENT_STAGES, 
   STARTUP_STAGES, 
@@ -24,9 +24,9 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
     draftToken,
     setRegistrationId,
     setDraftToken,
-  } = useWizardState();
+  } = useFormState();
 
-  const wizardState = useWizardState();
+  const formState = useFormState();
 
   const [isUploadingDeck, setIsUploadingDeck] = useState(false);
   const [deckUploadError, setDeckUploadError] = useState<string | null>(null);
@@ -64,7 +64,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
     if (!currentRegId || !currentDraftToken) {
       try {
-        const result = await createRegistrationDraft(wizardState);
+        const result = await createRegistrationDraft(formState);
         if (result) {
           currentRegId = result.registrationId;
           currentDraftToken = result.draftToken;
@@ -286,6 +286,18 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
                 ))}
               </select>
               {renderError('category')}
+              {studentIdeaDetails.category === 'Other' && (
+                <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <input
+                    type="text"
+                    value={studentIdeaDetails.customCategory || ''}
+                    onChange={(e) => updateStudentIdeaDetails({ customCategory: e.target.value })}
+                    className={`glass-input w-full p-4 rounded-xl text-white ${errors.customCategory ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+                    placeholder="Please specify your category"
+                  />
+                  {renderError('customCategory')}
+                </div>
+              )}
             </div>
 
             <div>
@@ -432,6 +444,18 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
               ))}
             </select>
             {renderError('category')}
+            {startupDetails.category === 'Other' && (
+              <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <input
+                  type="text"
+                  value={startupDetails.customCategory || ''}
+                  onChange={(e) => updateStartupDetails({ customCategory: e.target.value })}
+                  className={`glass-input w-full p-4 rounded-xl text-white ${errors.customCategory ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
+                  placeholder="Please specify your category"
+                />
+                {renderError('customCategory')}
+              </div>
+            )}
           </div>
 
           <div>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import { CheckCircle2, ExternalLink } from 'lucide-react';
 import { EUREKA_CONFIG } from '../../lib/config/eureka';
 
 export default function StepSuccess() {
-  const wizardState = useWizardState();
+  const formState = useFormState();
 
   const handleCopy = () => {
-    if (wizardState.referenceCode) {
-      navigator.clipboard.writeText(wizardState.referenceCode);
+    if (formState.referenceCode) {
+      navigator.clipboard.writeText(formState.referenceCode);
     }
   };
 
@@ -29,7 +29,7 @@ export default function StepSuccess() {
         <p className="text-sm text-text-muted mb-3 uppercase tracking-widest font-bold font-inter">Your Registration Reference Code</p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
           <p className="text-3xl md:text-4xl font-mono font-bold text-[#00E5FF] select-all tracking-wider">
-            {wizardState.referenceCode || 'EUREKA-XXXXXX'}
+            {formState.referenceCode || 'EUREKA-XXXXXX'}
           </p>
           <button 
             onClick={handleCopy}
@@ -50,11 +50,11 @@ export default function StepSuccess() {
           </li>
           <li className="flex gap-3">
             <span className="text-primary mt-0.5 text-lg leading-none">•</span>
-            <span className="leading-relaxed">Our team will verify your Eureka Registration ID ({wizardState.eurekaRegistrationId}) and the proof you uploaded.</span>
+            <span className="leading-relaxed">Our team will verify your Eureka Registration ID ({formState.eurekaRegistrationId}) and the proof you uploaded.</span>
           </li>
           <li className="flex gap-3">
             <span className="text-primary mt-0.5 text-lg leading-none">•</span>
-            <span className="leading-relaxed">We will contact you via email at {wizardState.teamMembers[0]?.email} if any further action is required.</span>
+            <span className="leading-relaxed">We will contact you via email at {formState.teamMembers[0]?.email} if any further action is required.</span>
           </li>
         </ul>
       </div>
@@ -65,7 +65,7 @@ export default function StepSuccess() {
         </p>
         <a 
           href="/"
-          onClick={() => wizardState.resetWizard()}
+          onClick={() => formState.resetForm()}
           className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl border border-white/10 bg-text-dark text-white hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 font-semibold font-inter focus-ring"
         >
           Return to Homepage

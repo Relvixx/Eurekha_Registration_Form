@@ -1,12 +1,12 @@
 import React from 'react';
-import { useWizardState } from '../../hooks/useWizardState';
+import { useFormState } from '../../hooks/useFormState';
 import { CheckCircle2, XCircle } from 'lucide-react';
 
 export default function StepReview() {
-  const wizardState = useWizardState();
+  const formState = useFormState();
 
   const handleDeclarationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    wizardState.setFinalDeclaration(e.target.checked);
+    formState.setFinalDeclaration(e.target.checked);
   };
 
   return (
@@ -18,18 +18,18 @@ export default function StepReview() {
         {/* Participant Type */}
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Registration Type</h3>
-          <p className="text-text-muted text-sm capitalize font-inter">{wizardState.participantType}</p>
+          <p className="text-text-muted text-sm capitalize font-inter">{formState.participantType}</p>
         </div>
         
         {/* Team Details */}
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Team Details</h3>
           <div className="space-y-3 font-inter">
-            <p className="text-white text-sm"><span className="text-text-muted mr-2">Team Name:</span> {wizardState.teamName}</p>
+            <p className="text-white text-sm"><span className="text-text-muted mr-2">Team Name:</span> {formState.teamName}</p>
             <div className="border-t border-white/5 pt-4 mt-4">
               <h4 className="text-sm font-semibold text-text-muted mb-3">Members:</h4>
               <ul className="space-y-2">
-                {wizardState.teamMembers.map((member, idx) => (
+                {formState.teamMembers.map((member, idx) => (
                   <li key={member.id} className="text-sm text-white">
                     <span>{member.fullName}</span> 
                     <span className="text-primary ml-2 text-xs font-semibold">({member.isLeader ? 'Leader' : member.role})</span>
@@ -44,22 +44,22 @@ export default function StepReview() {
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Project Details</h3>
           <div className="space-y-3 font-inter">
-            {wizardState.participantType === 'student' ? (
+            {formState.participantType === 'student' ? (
               <>
-                <p className="text-white text-sm"><span className="text-text-muted mr-2">Idea Name:</span> {wizardState.studentIdeaDetails.ideaName}</p>
-                <p className="text-white text-sm"><span className="text-text-muted mr-2">Category:</span> {wizardState.studentIdeaDetails.category}</p>
-                <p className="text-white text-sm"><span className="text-text-muted mr-2">Stage:</span> {wizardState.studentIdeaDetails.currentStage}</p>
-                {wizardState.studentIdeaDetails.pitchDeckUploaded && wizardState.studentIdeaDetails.pitchDeckFileName && (
-                  <p className="text-white text-sm"><span className="text-text-muted mr-2">Pitch Deck:</span> {wizardState.studentIdeaDetails.pitchDeckFileName}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Idea Name:</span> {formState.studentIdeaDetails.ideaName}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Category:</span> {formState.studentIdeaDetails.category}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Stage:</span> {formState.studentIdeaDetails.currentStage}</p>
+                {formState.studentIdeaDetails.pitchDeckUploaded && formState.studentIdeaDetails.pitchDeckFileName && (
+                  <p className="text-white text-sm"><span className="text-text-muted mr-2">Pitch Deck:</span> {formState.studentIdeaDetails.pitchDeckFileName}</p>
                 )}
               </>
             ) : (
               <>
-                <p className="text-white text-sm"><span className="text-text-muted mr-2">Startup Name:</span> {wizardState.startupDetails.startupName}</p>
-                <p className="text-white text-sm"><span className="text-text-muted mr-2">Category:</span> {wizardState.startupDetails.category}</p>
-                <p className="text-white text-sm"><span className="text-text-muted mr-2">Stage:</span> {wizardState.startupDetails.currentStage}</p>
-                {wizardState.startupDetails.pitchDeckUploaded && wizardState.startupDetails.pitchDeckFileName && (
-                  <p className="text-white text-sm"><span className="text-text-muted mr-2">Pitch Deck:</span> {wizardState.startupDetails.pitchDeckFileName}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Startup Name:</span> {formState.startupDetails.startupName}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Category:</span> {formState.startupDetails.category}</p>
+                <p className="text-white text-sm"><span className="text-text-muted mr-2">Stage:</span> {formState.startupDetails.currentStage}</p>
+                {formState.startupDetails.pitchDeckUploaded && formState.startupDetails.pitchDeckFileName && (
+                  <p className="text-white text-sm"><span className="text-text-muted mr-2">Pitch Deck:</span> {formState.startupDetails.pitchDeckFileName}</p>
                 )}
               </>
             )}
@@ -70,10 +70,10 @@ export default function StepReview() {
         <div className="bg-text-dark rounded-xl p-6 border border-white/5 shadow-inner">
           <h3 className="text-white font-bold mb-4 font-inter">Eureka Registration Proof</h3>
           <div className="space-y-3 font-inter">
-            <p className="text-white text-sm"><span className="text-text-muted mr-2">Eureka ID:</span> {wizardState.eurekaRegistrationId}</p>
+            <p className="text-white text-sm"><span className="text-text-muted mr-2">Eureka ID:</span> {formState.eurekaRegistrationId}</p>
             <p className="text-white text-sm flex items-center gap-2">
               <span className="text-text-muted">Proof Uploaded:</span> 
-              {wizardState.proofUploaded ? (
+              {formState.proofUploaded ? (
                 <span className="text-[#00E5FF] flex items-center gap-1 font-semibold"><CheckCircle2 size={16} /> Yes</span>
               ) : (
                 <span className="text-error flex items-center gap-1 font-semibold"><XCircle size={16} /> No</span>
@@ -109,7 +109,7 @@ export default function StepReview() {
           <input 
             type="checkbox" 
             id="final-declaration" 
-            checked={wizardState.finalDeclaration}
+            checked={formState.finalDeclaration}
             onChange={handleDeclarationChange}
             className="mt-1 w-5 h-5 rounded border-white/20 text-primary focus:ring-primary bg-black/50 cursor-pointer accent-primary" 
           />

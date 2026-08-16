@@ -18,18 +18,42 @@ export const STARTUP_STAGES = [
 export const STUDENT_CATEGORIES = [
   'Fintech',
   'EdTech',
-  'HealthTech',
-  'E-commerce',
-  'AI / ML',
+  'HealthTech & MedTech',
+  'E-commerce & Retail',
+  'AI / ML / DeepTech',
+  'AgriTech',
+  'CleanTech & Sustainability',
+  'SaaS / Enterprise Software',
+  'Web3 / Blockchain',
+  'AR / VR / Metaverse',
+  'D2C (Direct to Consumer)',
+  'Logistics & Supply Chain',
+  'Mobility & Transport',
+  'Cybersecurity',
+  'Hardware & IoT',
+  'Social Impact / NGO',
+  'Media & Entertainment',
   'Other'
 ] as const;
 
 export const STARTUP_CATEGORIES = [
   'Fintech',
   'EdTech',
-  'HealthTech',
-  'E-commerce',
-  'AI / ML',
+  'HealthTech & MedTech',
+  'E-commerce & Retail',
+  'AI / ML / DeepTech',
+  'AgriTech',
+  'CleanTech & Sustainability',
+  'SaaS / Enterprise Software',
+  'Web3 / Blockchain',
+  'AR / VR / Metaverse',
+  'D2C (Direct to Consumer)',
+  'Logistics & Supply Chain',
+  'Mobility & Transport',
+  'Cybersecurity',
+  'Hardware & IoT',
+  'Social Impact / NGO',
+  'Media & Entertainment',
   'Other'
 ] as const;
 

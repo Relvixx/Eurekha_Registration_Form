@@ -36,7 +36,7 @@ export async function POST(req: Request) {
           lead_branch: data.leadBranch,
           lead_year: data.leadYear,
           members_names: data.membersNames || null,
-          idea_category: data.ideaCategory,
+          idea_category: data.ideaCategory === 'Other' && data.customIdeaCategory ? data.customIdeaCategory : data.ideaCategory,
           idea_stage: data.ideaStage,
         }
       ])
