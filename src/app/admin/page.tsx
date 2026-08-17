@@ -274,7 +274,7 @@ export default function AdminDashboard() {
         csvContent += row.join(",") + "\r\n";
       });
     } else {
-      const headers = ['Date', 'Participant Type', 'Team Name', 'Idea/Startup Name', 'Category', 'Stage', 'Eureka Status', 'Admin Status', 'Leader Name', 'Leader Email'];
+      const headers = ['Date', 'Participant Type', 'Team Name', 'Idea/Startup Name', 'Category', 'Stage', 'Eureka Status', 'Admin Status', 'Leader Name', 'Leader Email', 'Leader College'];
       csvContent += headers.join(",") + "\r\n";
       
       applications.forEach(app => {
@@ -291,7 +291,8 @@ export default function AdminDashboard() {
           app.status,
           app.admin_status || 'pending',
           `"${(leader?.full_name || '').replace(/"/g, '""')}"`,
-          leader?.email || ''
+          leader?.email || '',
+          `"${(leader?.institution || '').replace(/"/g, '""')}"`
         ];
         csvContent += row.join(",") + "\r\n";
       });
@@ -314,7 +315,8 @@ export default function AdminDashboard() {
       l.team_name?.toLowerCase().includes(q) ||
       l.lead_name?.toLowerCase().includes(q) ||
       l.lead_phone?.includes(q) ||
-      l.idea_category?.toLowerCase().includes(q)
+      l.idea_category?.toLowerCase().includes(q) ||
+      l.lead_college?.toLowerCase().includes(q)
     );
   }, [leads, searchQuery]);
 
@@ -324,10 +326,12 @@ export default function AdminDashboard() {
     return applications.filter(a => {
       const name = a.participant_type === 'student' ? a.idea_name : a.startup_name;
       const leader = a.team_members?.find((m: any) => m.is_leader)?.full_name || '';
+      const leaderCollege = a.team_members?.find((m: any) => m.is_leader)?.institution || '';
       return a.team_name?.toLowerCase().includes(q) ||
              name?.toLowerCase().includes(q) ||
              a.category?.toLowerCase().includes(q) ||
-             leader.toLowerCase().includes(q);
+             leader.toLowerCase().includes(q) ||
+             leaderCollege.toLowerCase().includes(q);
     });
   }, [applications, searchQuery]);
 
