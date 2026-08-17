@@ -258,7 +258,7 @@ export default function AdminDashboard() {
       const headers = ['Date', 'Participant Type', 'Team Name', 'Lead Name', 'Email', 'Phone', 'College', 'Category', 'Stage', 'Status'];
       csvContent += headers.join(",") + "\r\n";
       
-      leads.forEach(lead => {
+      filteredLeads.forEach(lead => {
         const row = [
           new Date(lead.created_at).toLocaleDateString(),
           lead.participant_type,
@@ -277,7 +277,7 @@ export default function AdminDashboard() {
       const headers = ['Date', 'Participant Type', 'Team Name', 'Idea/Startup Name', 'Category', 'Stage', 'Eureka Status', 'Admin Status', 'Leader Name', 'Leader Email', 'Leader College'];
       csvContent += headers.join(",") + "\r\n";
       
-      applications.forEach(app => {
+      filteredApps.forEach(app => {
         const leader = app.team_members?.find((m: any) => m.is_leader);
         const name = app.participant_type === 'student' ? app.idea_name : app.startup_name;
         
