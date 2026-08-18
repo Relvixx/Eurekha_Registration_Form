@@ -398,7 +398,17 @@ export default function AdminDashboard() {
   const pendingCount = currentData.filter(item => item.admin_status === 'pending' || !item.admin_status).length;
   
   const totalParticipants = activeTab === 'quick-leads' 
-    ? leads.reduce((sum, lead) => sum + 1 + (lead.members_names ? lead.members_names.split(',').length : 0), 0)
+    ? leads.reduce((sum, lead) => {
+        let memberCount = 0;
+        if (lead.members_names) {
+          const lower = lead.members_names.trim().toLowerCase();
+          if (!['na', 'n/a', 'none', 'no', '-', 'nil', 'null'].includes(lower)) {
+            const parts = lead.members_names.split(/,| and |&|\n/i);
+            memberCount = parts.map((p: string) => p.trim()).filter((p: string) => p.length > 0 && !['na', 'none', '-'].includes(p.toLowerCase())).length;
+          }
+        }
+        return sum + 1 + memberCount;
+      }, 0)
     : applications.reduce((sum, app) => sum + (app.team_members?.length || 0), 0);
   
   // Deadline Logic (Assuming Aug 30, 2026)
