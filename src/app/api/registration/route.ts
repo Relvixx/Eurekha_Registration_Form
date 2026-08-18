@@ -469,22 +469,31 @@ export async function POST(req: NextRequest) {
           .eq('registration_id', registrationId);
 
         if (fullReg && members && members.length > 0) {
-          const leader = members.find((m: any) => m.is_leader) || members[0];
-          const otherMembers = members.filter((m: any) => !m.is_leader).map((m: any) => m.full_name).join(', ');
+          // Only sync if the team is not already in the small form (case insensitive team name match)
+          const { data: existingTeam } = await supabase
+            .from('immediate_registrations')
+            .select('id')
+            .ilike('team_name', fullReg.team_name)
+            .limit(1);
 
-          await supabase.from('immediate_registrations').insert({
-            participant_type: fullReg.participant_type,
-            team_name: fullReg.team_name,
-            lead_name: leader.full_name,
-            lead_email: leader.email,
-            lead_phone: leader.mobile_number,
-            lead_college: leader.institution,
-            lead_branch: 'N/A',
-            lead_year: 'N/A',
-            members_names: otherMembers || null,
-            idea_category: fullReg.category,
-            idea_stage: fullReg.current_stage,
-          });
+          if (!existingTeam || existingTeam.length === 0) {
+            const leader = members.find((m: any) => m.is_leader) || members[0];
+            const otherMembers = members.filter((m: any) => !m.is_leader).map((m: any) => m.full_name).join(', ');
+
+            await supabase.from('immediate_registrations').insert({
+              participant_type: fullReg.participant_type,
+              team_name: fullReg.team_name,
+              lead_name: leader.full_name,
+              lead_email: leader.email,
+              lead_phone: leader.mobile_number,
+              lead_college: leader.institution,
+              lead_branch: 'N/A',
+              lead_year: 'N/A',
+              members_names: otherMembers || null,
+              idea_category: fullReg.category,
+              idea_stage: fullReg.current_stage,
+            });
+          }
         }
       } catch (syncError) {
         // Log but don't fail the registration if auto-sync fails
