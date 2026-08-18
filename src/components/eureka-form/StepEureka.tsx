@@ -81,8 +81,8 @@ export default function StepEureka({ error }: StepEurekaProps) {
             <div className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-surface-secondary text-primary text-sm font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_0_4px_rgba(0,0,0,1)] z-10 font-inter">
               3
             </div>
-            <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] text-text-muted font-inter py-2">
-              Use the NEC ID as the <strong className="text-white">referral code</strong>.
+            <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] text-text-muted font-inter py-2 text-sm leading-relaxed">
+              Under <strong className="text-white">"From where did you hear about Eureka! 2026"</strong>, select <strong className="text-primary">"NEC"</strong> to reveal the Referral ID field.
             </div>
           </div>
 
@@ -90,8 +90,8 @@ export default function StepEureka({ error }: StepEurekaProps) {
             <div className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-surface-secondary text-primary text-sm font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_0_4px_rgba(0,0,0,1)] z-10 font-inter">
               4
             </div>
-            <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] text-text-muted font-inter py-2">
-              <strong className="text-white">Complete</strong> Eureka registration.
+            <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] text-text-muted font-inter py-2 text-sm">
+              Paste the NEC ID into the <strong className="text-white">Referral ID</strong> field and <strong className="text-white">Complete</strong> Eureka registration.
             </div>
           </div>
 
