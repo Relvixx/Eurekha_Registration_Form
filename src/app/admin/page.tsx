@@ -610,32 +610,9 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Middle & Bottom Rows */}
+        {/* Middle Row (Cards only now) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          {/* Trend Chart */}
-          <div className="md:col-span-9 bg-[#111] border border-white/5 rounded-xl p-4 h-40 flex flex-col">
-            <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Submissions Trend – Last 14 Days</div>
-            <div className="flex-1 w-full h-full min-h-0">
-              {mounted && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={trendData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.02)' }} />
-                    <Bar dataKey="submissions" radius={[2, 2, 0, 0]}>
-                      {trendData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill="#333" className="hover:fill-[#FF1744] transition-colors duration-300" />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
-            </div>
-          </div>
-          
-          {/* Empty Space for masonry look in image, but let's make the chart span full width if we want, or match exactly. The image shows a wide chart and two cards below. Let's arrange them gracefully. */}
-          <div className="md:col-span-3 bg-transparent hidden md:block"></div>
-          
-          {/* Bottom Cards */}
-          <div className="md:col-span-6 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+          <div className="md:col-span-4 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Pending Review</div>
             <div>
               <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{pendingCount.toString().padStart(2, '0')}</div>
@@ -643,7 +620,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+          <div className="md:col-span-4 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Deadline</div>
             <div>
               <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">AUG 30</div>
@@ -651,7 +628,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+          <div className="md:col-span-4 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-[#00E5FF] uppercase tracking-widest font-semibold mb-4">Total Participants</div>
             <div>
               <div className="text-3xl font-bold text-[#00E5FF] font-poppins tracking-wider leading-none mb-1">{totalParticipants}</div>
