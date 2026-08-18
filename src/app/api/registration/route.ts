@@ -374,6 +374,42 @@ export async function POST(req: NextRequest) {
         event_type: 'REGISTRATION_SUBMITTED',
       });
 
+      // ─── AUTO-SYNC TO SHORT FORM (immediate_registrations) ───
+      try {
+        const { data: fullReg } = await supabase
+          .from('registrations')
+          .select('participant_type, team_name, category, current_stage')
+          .eq('id', registrationId)
+          .single();
+          
+        const { data: members } = await supabase
+          .from('team_members')
+          .select('full_name, email, mobile_number, institution, is_leader')
+          .eq('registration_id', registrationId);
+
+        if (fullReg && members && members.length > 0) {
+          const leader = members.find((m: any) => m.is_leader) || members[0];
+          const otherMembers = members.filter((m: any) => !m.is_leader).map((m: any) => m.full_name).join(', ');
+
+          await supabase.from('immediate_registrations').insert({
+            participant_type: fullReg.participant_type,
+            team_name: fullReg.team_name,
+            lead_name: leader.full_name,
+            lead_email: leader.email,
+            lead_phone: leader.mobile_number,
+            lead_college: leader.institution,
+            lead_branch: 'N/A',
+            lead_year: 'N/A',
+            members_names: otherMembers || null,
+            idea_category: fullReg.category,
+            idea_stage: fullReg.current_stage,
+          });
+        }
+      } catch (syncError) {
+        // Log but don't fail the registration if auto-sync fails
+        console.error('Auto-sync to immediate_registrations failed:', syncError);
+      }
+
       return NextResponse.json({ success: true });
     }
 
