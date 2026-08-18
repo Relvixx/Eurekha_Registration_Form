@@ -307,6 +307,52 @@ export default function AdminDashboard() {
     document.body.removeChild(link);
   };
 
+  const exportGateListCSV = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    
+    if (activeTab === 'quick-leads') {
+      const headers = ['Team Name', 'Leader Name', 'Leader Phone', 'Other Members'];
+      csvContent += headers.join(",") + "\r\n";
+      
+      filteredLeads.forEach(lead => {
+        const row = [
+          `"${(lead.team_name || '').replace(/"/g, '""')}"`,
+          `"${(lead.lead_name || '').replace(/"/g, '""')}"`,
+          lead.lead_phone || '',
+          `"${(lead.members_names || '').replace(/"/g, '""')}"`
+        ];
+        csvContent += row.join(",") + "\r\n";
+      });
+    } else {
+      const headers = ['Team Name', 'Leader Name', 'Leader Phone', 'Member 2', 'Member 3', 'Member 4'];
+      csvContent += headers.join(",") + "\r\n";
+      
+      filteredApps.forEach(app => {
+        const members = app.team_members || [];
+        const leader = members.find((m: any) => m.is_leader);
+        const others = members.filter((m: any) => !m.is_leader);
+        
+        const row = [
+          `"${(app.team_name || '').replace(/"/g, '""')}"`,
+          `"${(leader?.full_name || '').replace(/"/g, '""')}"`,
+          leader?.phone_number || '',
+          `"${(others[0]?.full_name || '').replace(/"/g, '""')}"`,
+          `"${(others[1]?.full_name || '').replace(/"/g, '""')}"`,
+          `"${(others[2]?.full_name || '').replace(/"/g, '""')}"`
+        ];
+        csvContent += row.join(",") + "\r\n";
+      });
+    }
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `eureka-gate-list-${activeTab}-${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // --- Filtering ---
   const filteredLeads = useMemo(() => {
     if (!searchQuery) return leads;
@@ -622,6 +668,13 @@ export default function AdminDashboard() {
           >
             <Download size={16} />
             Export CSV
+          </button>
+          <button 
+            onClick={exportGateListCSV}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#00E5FF]/10 hover:bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/30 rounded-xl transition-colors w-full sm:w-auto justify-center"
+          >
+            <Download size={16} />
+            Gate List (CSV)
           </button>
         </div>
 
