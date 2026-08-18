@@ -41,43 +41,105 @@ export async function saveRegistrationDraft(registrationId: string, draftToken: 
 }
 
 export async function uploadRegistrationProof(registrationId: string, draftToken: string, file: File) {
-  const formData = new FormData();
-  formData.append('action', 'upload_proof');
-  formData.append('registrationId', registrationId);
-  formData.append('draftToken', draftToken);
-  formData.append('file', file);
-
-  const res = await fetch(API_URL, {
+  // 1. Get presigned URL
+  const urlRes = await fetch(API_URL, {
     method: 'POST',
-    body: formData,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'get_upload_url',
+      registrationId,
+      draftToken,
+      type: 'proof',
+      filename: file.name,
+      contentType: file.type
+    })
   });
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to upload proof');
-  }
+  const urlData = await urlRes.json();
+  if (!urlRes.ok) throw new Error(urlData.error || 'Failed to get upload URL');
 
-  return data; // { success: true, path: '...' }
+  // 2. Upload file directly to Supabase Storage
+  const uploadRes = await fetch(urlData.url, {
+    method: 'PUT',
+    body: file,
+    headers: {
+      'Content-Type': file.type,
+    }
+  });
+
+  if (!uploadRes.ok) throw new Error('Failed to upload file to storage');
+
+  // 3. Confirm upload
+  const confirmRes = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'confirm_upload',
+      registrationId,
+      draftToken,
+      type: 'proof',
+      path: urlData.path,
+      size: file.size,
+      filename: file.name,
+      contentType: file.type
+    })
+  });
+
+  const confirmData = await confirmRes.json();
+  if (!confirmRes.ok) throw new Error(confirmData.error || 'Failed to confirm upload');
+
+  return confirmData; // { success: true, path: '...' }
 }
 
 export async function uploadPitchDeck(registrationId: string, draftToken: string, file: File) {
-  const formData = new FormData();
-  formData.append('action', 'upload_pitch_deck');
-  formData.append('registrationId', registrationId);
-  formData.append('draftToken', draftToken);
-  formData.append('file', file);
-
-  const res = await fetch(API_URL, {
+  // 1. Get presigned URL
+  const urlRes = await fetch(API_URL, {
     method: 'POST',
-    body: formData,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'get_upload_url',
+      registrationId,
+      draftToken,
+      type: 'pitch_deck',
+      filename: file.name,
+      contentType: file.type
+    })
   });
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to upload pitch deck');
-  }
+  const urlData = await urlRes.json();
+  if (!urlRes.ok) throw new Error(urlData.error || 'Failed to get upload URL');
 
-  return data; // { success: true, path: '...' }
+  // 2. Upload file directly to Supabase Storage
+  const uploadRes = await fetch(urlData.url, {
+    method: 'PUT',
+    body: file,
+    headers: {
+      'Content-Type': file.type,
+    }
+  });
+
+  if (!uploadRes.ok) throw new Error('Failed to upload file to storage');
+
+  // 3. Confirm upload
+  const confirmRes = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'confirm_upload',
+      registrationId,
+      draftToken,
+      type: 'pitch_deck',
+      path: urlData.path,
+      size: file.size,
+      filename: file.name,
+      contentType: file.type
+    })
+  });
+
+  const confirmData = await confirmRes.json();
+  if (!confirmRes.ok) throw new Error(confirmData.error || 'Failed to confirm upload');
+
+  return confirmData; // { success: true, path: '...' }
 }
 
 export async function submitRegistration(registrationId: string, draftToken: string): Promise<{ success: boolean; error?: string }> {

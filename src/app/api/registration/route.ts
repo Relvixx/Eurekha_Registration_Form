@@ -171,6 +171,87 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
+    // ─── GET UPLOAD URL (PRESIGNED) ───
+    if (action === 'get_upload_url') {
+      const { registrationId, draftToken, type, filename, contentType } = bodyData;
+      if (!registrationId || !draftToken || !type || !filename || !contentType) {
+        return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
+      }
+
+      const hash = hashToken(draftToken);
+      const { data: reg, error: regError } = await supabase
+        .from('registrations')
+        .select('id, status, team_name')
+        .eq('id', registrationId)
+        .eq('draft_token_hash', hash)
+        .single();
+
+      if (regError || !reg) {
+        return NextResponse.json({ error: 'Invalid draft token' }, { status: 401 });
+      }
+
+      if (reg.status === 'SUBMITTED') {
+        return NextResponse.json({ error: 'Cannot modify submitted registration' }, { status: 400 });
+      }
+
+      const teamSlug = (reg.team_name || 'Team').replace(/[^a-zA-Z0-9]/g, '_');
+      const sanitizedName = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
+      let folder = type === 'pitch_deck' ? 'pitch-decks' : 'proofs';
+      const filePath = `${teamSlug}_${registrationId.substring(0, 6)}/${folder}/${randomUUID().substring(0, 6)}_${sanitizedName}`;
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('eureka-proofs')
+        .createSignedUploadUrl(filePath);
+
+      if (uploadError) throw uploadError;
+
+      return NextResponse.json({ success: true, url: uploadData.signedUrl, path: filePath });
+    }
+
+    // ─── CONFIRM UPLOAD ───
+    if (action === 'confirm_upload') {
+      const { registrationId, draftToken, type, path, size, filename, contentType } = bodyData;
+      
+      const hash = hashToken(draftToken);
+      const { data: reg, error: regError } = await supabase
+        .from('registrations')
+        .select('id, status')
+        .eq('id', registrationId)
+        .eq('draft_token_hash', hash)
+        .single();
+
+      if (regError || !reg) {
+        return NextResponse.json({ error: 'Invalid draft token' }, { status: 401 });
+      }
+
+      if (type === 'proof') {
+        await supabase.from('registration_proofs').delete().eq('registration_id', registrationId);
+        await supabase.from('registration_proofs').insert({
+          registration_id: registrationId,
+          storage_bucket: 'eureka-proofs',
+          storage_path: path,
+          original_filename: filename,
+          mime_type: contentType,
+          file_size_bytes: size,
+        });
+
+        await supabase.from('registration_events').insert({
+          registration_id: registrationId,
+          event_type: 'PROOF_UPLOADED',
+          metadata: { mime_type: contentType, file_size_bytes: size },
+        });
+      } else if (type === 'pitch_deck') {
+        await supabase.from('registrations').update({ pitch_deck_url: path }).eq('id', registrationId);
+        await supabase.from('registration_events').insert({
+          registration_id: registrationId,
+          event_type: 'PITCH_DECK_UPLOADED',
+          metadata: { mime_type: contentType, file_size_bytes: size, original_filename: filename },
+        });
+      }
+
+      return NextResponse.json({ success: true, path });
+    }
+
     // ─── UPLOAD PROOF ───
     if (action === 'upload_proof') {
       const draftToken = bodyData.get('draftToken')?.toString();
