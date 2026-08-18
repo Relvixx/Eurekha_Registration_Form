@@ -368,7 +368,7 @@ export default function AdminDashboard() {
     if (activeTab === 'quick-leads') {
       filteredLeads.forEach(lead => {
         const row = selectedFields.map(field => {
-          let val = '';
+          let val: any = '';
           switch (field) {
             case 'date': val = new Date(lead.created_at).toLocaleDateString(); break;
             case 'participant_type': val = lead.participant_type; break;
@@ -394,7 +394,7 @@ export default function AdminDashboard() {
         const name = app.participant_type === 'student' ? app.idea_name : app.startup_name;
         
         const row = selectedFields.map(field => {
-          let val = '';
+          let val: any = '';
           switch (field) {
             case 'date': val = new Date(app.created_at).toLocaleDateString(); break;
             case 'team_name': val = app.team_name; break;
