@@ -351,6 +351,10 @@ export default function AdminDashboard() {
 
   const pendingCount = currentData.filter(item => item.admin_status === 'pending' || !item.admin_status).length;
   
+  const totalParticipants = activeTab === 'quick-leads' 
+    ? leads.reduce((sum, lead) => sum + 1 + (lead.members_names ? lead.members_names.split(',').length : 0), 0)
+    : applications.reduce((sum, app) => sum + (app.team_members?.length || 0), 0);
+  
   // Deadline Logic (Assuming Aug 30, 2026)
   const deadlineDate = new Date('2026-08-30');
   const now = new Date();
@@ -363,13 +367,25 @@ export default function AdminDashboard() {
     for (let i = 13; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
       const displayDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      const count = currentData.filter(item => item.created_at?.startsWith(dateStr)).length;
+      const targetDateStr = d.toLocaleDateString('en-GB');
+      
+      const count = currentData.filter(item => {
+        // Use submitted_at for full apps if available, otherwise fallback to created_at
+        const dateString = activeTab === 'full-apps' ? (item.submitted_at || item.created_at) : item.created_at;
+        if (!dateString) return false;
+        
+        // Exclude drafts for full apps trend
+        if (activeTab === 'full-apps' && item.status && item.status !== 'SUBMITTED') return false;
+
+        const itemDate = new Date(dateString);
+        return itemDate.toLocaleDateString('en-GB') === targetDateStr;
+      }).length;
+      
       data.push({ date: displayDate, submissions: count });
     }
     return data;
-  }, [currentData]);
+  }, [currentData, activeTab]);
 
   // --- Render Helpers ---
   const renderStatusBadge = (status: string) => {
@@ -406,7 +422,7 @@ export default function AdminDashboard() {
           className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl relative z-10"
         >
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2 font-poppins">ECell <span className="text-[#FF1744]">MET</span></h1>
+            <h1 className="text-2xl font-bold text-white mb-2 font-poppins">ECell <span className="text-[#FF1744]">MET</span></h1>
             <p className="text-gray-400 font-inter">Authorized Access Only</p>
           </div>
 
@@ -505,34 +521,34 @@ export default function AdminDashboard() {
         
         {/* Top Row: 4 Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+          <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Total Nominations</div>
             <div>
-              <div className="text-5xl font-bold text-[#FF1744] font-poppins tracking-wider leading-none mb-1">{totalNominations}</div>
+              <div className="text-3xl font-bold text-[#FF1744] font-poppins tracking-wider leading-none mb-1">{totalNominations}</div>
               <div className="text-xs text-gray-500">all time</div>
             </div>
           </div>
           
-          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+          <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Today</div>
             <div>
-              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{newToday.toString().padStart(2, '0')}</div>
+              <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{newToday.toString().padStart(2, '0')}</div>
               <div className="text-xs text-gray-500">new today</div>
             </div>
           </div>
           
-          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+          <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Shortlisted</div>
             <div>
-              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{shortlistedCount.toString().padStart(2, '0')}</div>
+              <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{shortlistedCount.toString().padStart(2, '0')}</div>
               <div className="text-xs text-gray-500">{activeTab === 'quick-leads' ? 'leads' : 'teams'}</div>
             </div>
           </div>
 
-          <div className="bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+          <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">With Documents</div>
             <div>
-              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{withDocuments.toString().padStart(2, '0')}</div>
+              <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{withDocuments.toString().padStart(2, '0')}</div>
               <div className="text-xs text-gray-500">supporting files</div>
             </div>
           </div>
@@ -541,7 +557,7 @@ export default function AdminDashboard() {
         {/* Middle & Bottom Rows */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* Trend Chart */}
-          <div className="md:col-span-9 bg-[#111] border border-white/5 rounded-xl p-5 h-48 flex flex-col">
+          <div className="md:col-span-9 bg-[#111] border border-white/5 rounded-xl p-4 h-40 flex flex-col">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Submissions Trend – Last 14 Days</div>
             <div className="flex-1 w-full h-full min-h-0">
               {mounted && (
@@ -563,19 +579,27 @@ export default function AdminDashboard() {
           <div className="md:col-span-3 bg-transparent hidden md:block"></div>
           
           {/* Bottom Cards */}
-          <div className="md:col-span-6 bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+          <div className="md:col-span-6 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Pending Review</div>
             <div>
-              <div className="text-5xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{pendingCount.toString().padStart(2, '0')}</div>
+              <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{pendingCount.toString().padStart(2, '0')}</div>
               <div className="text-xs text-gray-500">needs action</div>
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+          <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Deadline</div>
             <div>
-              <div className="text-3xl font-bold text-white font-poppins tracking-wider leading-none mb-1">AUG 30</div>
+              <div className="text-2xl font-bold text-white font-poppins tracking-wider leading-none mb-1">AUG 30</div>
               <div className="text-xs text-gray-500">{daysLeft} days left</div>
+            </div>
+          </div>
+
+          <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+            <div className="text-[10px] text-[#00E5FF] uppercase tracking-widest font-semibold mb-4">Total Participants</div>
+            <div>
+              <div className="text-3xl font-bold text-[#00E5FF] font-poppins tracking-wider leading-none mb-1">{totalParticipants}</div>
+              <div className="text-xs text-gray-500">across all teams</div>
             </div>
           </div>
         </div>
@@ -981,3 +1005,4 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
