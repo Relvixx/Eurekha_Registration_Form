@@ -1006,6 +1006,28 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="flex-1">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Eureka Reg ID</div>
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm text-gray-300 font-mono">
+                    {selectedApp.eureka_registration_id || 'N/A'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Timestamp & Codes */}
+              <div className="flex flex-col sm:flex-row justify-between gap-4">
+                <div className="flex-1">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Reference Code</div>
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm text-gray-300 font-mono">
+                    {selectedApp.reference_code || 'N/A'}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Submission Date</div>
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm text-gray-300">
+                    {selectedApp.submitted_at ? new Date(selectedApp.submitted_at).toLocaleString() : 'Not Submitted'}
+                  </div>
+                </div>
+                <div className="flex-1">
                   <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Reg. Link Clicked</div>
                   <div className={`border rounded-lg p-2.5 text-sm font-mono ${selectedApp.eureka_link_clicked ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
                     {selectedApp.eureka_link_clicked ? 'Yes' : 'No'}

@@ -142,6 +142,8 @@ export async function POST(req: NextRequest) {
         solution_description: state.participantType === 'student' ? state.studentIdeaDetails?.proposedSolution : state.startupDetails?.solution,
         short_description: state.participantType === 'student' ? state.studentIdeaDetails?.shortDescription : state.startupDetails?.shortDescription,
         pitch_deck_url: state.participantType === 'student' ? state.studentIdeaDetails?.pitchDeckUrl : state.startupDetails?.pitchDeckUrl,
+        website_url: state.participantType === 'student' ? state.studentIdeaDetails?.websiteUrl : state.startupDetails?.websiteUrl,
+        linkedin_url: state.participantType === 'startup' ? state.startupDetails?.linkedinUrl : null,
         category: state.participantType === 'student' ? (state.studentIdeaDetails?.category === 'Other' && state.studentIdeaDetails?.customCategory ? state.studentIdeaDetails.customCategory : state.studentIdeaDetails?.category) : (state.startupDetails?.category === 'Other' && state.startupDetails?.customCategory ? state.startupDetails.customCategory : state.startupDetails?.category),
         current_stage: state.participantType === 'student' ? state.studentIdeaDetails?.currentStage : state.startupDetails?.currentStage,
         eureka_self_confirmed: state.eurekaSelfConfirmed || false,
