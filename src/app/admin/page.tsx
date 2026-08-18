@@ -84,6 +84,9 @@ export default function AdminDashboard() {
   const [selectedLead, setSelectedLead] = useState<QuickLead | null>(null);
   const [selectedApp, setSelectedApp] = useState<FullApplication | null>(null);
   
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const [selectedFields, setSelectedFields] = useState<string[]>([]);
+  
   const [toasts, setToasts] = useState<{ id: number; message: string; type: 'success' | 'error' }[]>([]);
 
   // --- Auth Check ---
@@ -307,39 +310,108 @@ export default function AdminDashboard() {
     document.body.removeChild(link);
   };
 
+  const QUICK_LEADS_FIELDS = [
+    { id: 'date', label: 'Date' },
+    { id: 'participant_type', label: 'Participant Type' },
+    { id: 'team_name', label: 'Team Name' },
+    { id: 'lead_name', label: 'Leader Name' },
+    { id: 'lead_phone', label: 'Leader Phone' },
+    { id: 'lead_email', label: 'Leader Email' },
+    { id: 'lead_college', label: 'College' },
+    { id: 'idea_category', label: 'Category' },
+    { id: 'members_names', label: 'Other Members' },
+    { id: 'admin_status', label: 'Status' }
+  ];
+
+  const FULL_APPS_FIELDS = [
+    { id: 'date', label: 'Date' },
+    { id: 'team_name', label: 'Team Name' },
+    { id: 'idea_startup_name', label: 'Idea/Startup Name' },
+    { id: 'leader_name', label: 'Leader Name' },
+    { id: 'leader_phone', label: 'Leader Phone' },
+    { id: 'leader_email', label: 'Leader Email' },
+    { id: 'leader_college', label: 'College' },
+    { id: 'category', label: 'Category' },
+    { id: 'current_stage', label: 'Stage' },
+    { id: 'member_2', label: 'Member 2' },
+    { id: 'member_3', label: 'Member 3' },
+    { id: 'member_4', label: 'Member 4' },
+    { id: 'admin_status', label: 'Status' }
+  ];
+
+  const currentAvailableFields = activeTab === 'quick-leads' ? QUICK_LEADS_FIELDS : FULL_APPS_FIELDS;
+
+  const toggleExportMenu = () => {
+    if (!showExportMenu) {
+      // Set default fields when opening
+      const defaultFields = ['team_name', 'lead_name', 'leader_name', 'lead_phone', 'leader_phone', 'members_names', 'member_2', 'member_3', 'member_4'];
+      const initialFields = currentAvailableFields.filter(f => defaultFields.includes(f.id)).map(f => f.id);
+      setSelectedFields(initialFields);
+    }
+    setShowExportMenu(!showExportMenu);
+  };
+
   const exportGateListCSV = () => {
+    if (selectedFields.length === 0) {
+      showToast('Please select at least one field', 'error');
+      return;
+    }
+
     let csvContent = "data:text/csv;charset=utf-8,";
     
+    // Add Headers
+    const selectedHeaders = currentAvailableFields
+      .filter(f => selectedFields.includes(f.id))
+      .map(f => f.label);
+    csvContent += selectedHeaders.join(",") + "\r\n";
+    
     if (activeTab === 'quick-leads') {
-      const headers = ['Team Name', 'Leader Name', 'Leader Phone', 'Other Members'];
-      csvContent += headers.join(",") + "\r\n";
-      
       filteredLeads.forEach(lead => {
-        const row = [
-          `"${(lead.team_name || '').replace(/"/g, '""')}"`,
-          `"${(lead.lead_name || '').replace(/"/g, '""')}"`,
-          lead.lead_phone || '',
-          `"${(lead.members_names || '').replace(/"/g, '""')}"`
-        ];
+        const row = selectedFields.map(field => {
+          let val = '';
+          switch (field) {
+            case 'date': val = new Date(lead.created_at).toLocaleDateString(); break;
+            case 'participant_type': val = lead.participant_type; break;
+            case 'team_name': val = lead.team_name; break;
+            case 'lead_name': val = lead.lead_name; break;
+            case 'lead_phone': val = lead.lead_phone; break;
+            case 'lead_email': val = lead.lead_email; break;
+            case 'lead_college': val = lead.lead_college; break;
+            case 'idea_category': val = lead.idea_category; break;
+            case 'members_names': val = lead.members_names; break;
+            case 'admin_status': val = lead.admin_status || 'pending'; break;
+          }
+          return `"${(val || '').toString().replace(/"/g, '""')}"`;
+        });
         csvContent += row.join(",") + "\r\n";
       });
     } else {
-      const headers = ['Team Name', 'Leader Name', 'Leader Phone', 'Member 2', 'Member 3', 'Member 4'];
-      csvContent += headers.join(",") + "\r\n";
-      
       filteredApps.forEach(app => {
         const members = app.team_members || [];
         const leader = members.find((m: any) => m.is_leader);
         const others = members.filter((m: any) => !m.is_leader);
         
-        const row = [
-          `"${(app.team_name || '').replace(/"/g, '""')}"`,
-          `"${(leader?.full_name || '').replace(/"/g, '""')}"`,
-          leader?.phone_number || '',
-          `"${(others[0]?.full_name || '').replace(/"/g, '""')}"`,
-          `"${(others[1]?.full_name || '').replace(/"/g, '""')}"`,
-          `"${(others[2]?.full_name || '').replace(/"/g, '""')}"`
-        ];
+        const name = app.participant_type === 'student' ? app.idea_name : app.startup_name;
+        
+        const row = selectedFields.map(field => {
+          let val = '';
+          switch (field) {
+            case 'date': val = new Date(app.created_at).toLocaleDateString(); break;
+            case 'team_name': val = app.team_name; break;
+            case 'idea_startup_name': val = name; break;
+            case 'leader_name': val = leader?.full_name; break;
+            case 'leader_phone': val = leader?.phone_number; break;
+            case 'leader_email': val = leader?.email; break;
+            case 'leader_college': val = leader?.institution; break;
+            case 'category': val = app.category; break;
+            case 'current_stage': val = app.current_stage; break;
+            case 'member_2': val = others[0]?.full_name; break;
+            case 'member_3': val = others[1]?.full_name; break;
+            case 'member_4': val = others[2]?.full_name; break;
+            case 'admin_status': val = app.admin_status || 'pending'; break;
+          }
+          return `"${(val || '').toString().replace(/"/g, '""')}"`;
+        });
         csvContent += row.join(",") + "\r\n";
       });
     }
@@ -347,10 +419,11 @@ export default function AdminDashboard() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `eureka-gate-list-${activeTab}-${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute("download", `eureka-custom-list-${activeTab}-${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    setShowExportMenu(false);
   };
 
   // --- Filtering ---
@@ -656,13 +729,58 @@ export default function AdminDashboard() {
             <Download size={16} />
             Export CSV
           </button>
-          <button 
-            onClick={exportGateListCSV}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#00E5FF]/10 hover:bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/30 rounded-xl transition-colors w-full sm:w-auto justify-center"
-          >
-            <Download size={16} />
-            Gate List (CSV)
-          </button>
+          <div className="relative">
+            <button 
+              onClick={toggleExportMenu}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#00E5FF]/10 hover:bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/30 rounded-xl transition-colors w-full sm:w-auto justify-center"
+            >
+              <Download size={16} />
+              Gate List (CSV)
+            </button>
+            
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-64 bg-[#111] border border-white/10 rounded-xl shadow-2xl p-4 z-50">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-white font-medium text-sm">Select Export Fields</h3>
+                  <button onClick={() => setShowExportMenu(false)} className="text-gray-400 hover:text-white">
+                    <X size={16} />
+                  </button>
+                </div>
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                  {currentAvailableFields.map((field) => (
+                    <label key={field.id} className="flex items-center gap-3 cursor-pointer group">
+                      <div className="relative flex items-center">
+                        <input
+                          type="checkbox"
+                          className="peer sr-only"
+                          checked={selectedFields.includes(field.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedFields([...selectedFields, field.id]);
+                            } else {
+                              setSelectedFields(selectedFields.filter(f => f !== field.id));
+                            }
+                          }}
+                        />
+                        <div className="w-4 h-4 border border-white/20 rounded bg-white/5 peer-checked:bg-[#00E5FF] peer-checked:border-[#00E5FF] transition-all flex items-center justify-center">
+                          <CheckCircle className="w-3 h-3 text-[#111] opacity-0 peer-checked:opacity-100 transition-opacity" />
+                        </div>
+                      </div>
+                      <span className="text-sm text-gray-300 group-hover:text-white transition-colors select-none">
+                        {field.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <button
+                  onClick={exportGateListCSV}
+                  className="w-full mt-4 bg-[#00E5FF] hover:bg-[#00B3CC] text-[#111] font-semibold py-2 rounded-lg transition-colors text-sm"
+                >
+                  Download Selected
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Data Table */}
