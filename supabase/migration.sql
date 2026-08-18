@@ -14,7 +14,7 @@ INSERT INTO immediate_registrations (
     idea_category,
     idea_stage
 )
-SELECT 
+SELECT DISTINCT ON (LOWER(TRIM(r.team_name)))
     r.participant_type,
     r.team_name,
     tm_leader.full_name AS lead_name,
@@ -36,9 +36,11 @@ JOIN
     team_members tm_leader ON tm_leader.registration_id = r.id AND tm_leader.is_leader = true
 WHERE 
     r.status = 'SUBMITTED'
-    -- Prevent duplicate inserts if the team is already in immediate_registrations
+    -- Prevent duplicate inserts if the team name is already in immediate_registrations
     AND NOT EXISTS (
         SELECT 1 
         FROM immediate_registrations ir 
-        WHERE ir.team_name = r.team_name AND ir.lead_email = tm_leader.email
-    );
+        WHERE LOWER(TRIM(ir.team_name)) = LOWER(TRIM(r.team_name))
+    )
+ORDER BY 
+    LOWER(TRIM(r.team_name)), r.submitted_at DESC;
