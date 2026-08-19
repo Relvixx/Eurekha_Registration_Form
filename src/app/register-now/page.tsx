@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import ImmediateRegistrationForm from '@/components/short-form/ImmediateRegistrationForm';
+import CountdownTimer from '@/components/layout/CountdownTimer';
 
 export const metadata: Metadata = {
   title: "Register Now | Eureka - Asia's Largest Startup Launchpad",
@@ -55,7 +56,10 @@ export default function RegisterNowPage() {
             </div>
           </div>
         ) : (
-          <ImmediateRegistrationForm />
+          <>
+            <CountdownTimer deadline="2026-08-19T17:00:00+05:30" />
+            <ImmediateRegistrationForm />
+          </>
         )}
       </div>
     </div>

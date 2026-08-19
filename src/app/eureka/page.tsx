@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import FormShell from '@/components/eureka-form/FormShell';
+import SiteFooter from '@/components/layout/SiteFooter';
+import CountdownTimer from '@/components/layout/CountdownTimer';
 
 export const metadata: Metadata = {
   title: 'Eureka Registration Form | E-Cell MET',
   description: 'Step-by-step registration form for Eureka startup and student tracks.',
 };
-
-import SiteFooter from '@/components/layout/SiteFooter';
 
 export default function EurekaRegistrationPage() {
   // Check if current time is past August 19, 2026, 5:00 PM IST
@@ -49,7 +49,10 @@ export default function EurekaRegistrationPage() {
             </div>
           </div>
         ) : (
-          <FormShell />
+          <div className="w-full flex-1 pt-6">
+            <CountdownTimer deadline="2026-08-19T17:00:00+05:30" />
+            <FormShell />
+          </div>
         )}
       </div>
       
