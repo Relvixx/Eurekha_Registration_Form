@@ -131,6 +131,10 @@ export default function FormShell() {
         }
       }
     } else if (currentStep === 4) {
+      if (!formState.eurekaLinkClicked) {
+        setErrors({ _general: 'You must click the "Register on Eureka" button and register on their platform to proceed.' });
+        return false;
+      }
       const result = step4Schema.safeParse({ eurekaSelfConfirmed: formState.eurekaSelfConfirmed });
       if (!result.success) {
         setErrors({ _general: result.error.issues[0].message });
