@@ -267,7 +267,6 @@ export default function FeedbackForm() {
             <h3 className="text-2xl font-bold text-white font-poppins">How well was the event communicated?</h3>
             <p className="text-gray-400 text-sm">Pre-event information, updates, and instructions</p>
             <StarRating value={communicationRating} onChange={setCommunicationRating} />
-            <p className="text-xs text-gray-500">Optional — skip if you prefer</p>
           </div>
         );
 
@@ -277,7 +276,6 @@ export default function FeedbackForm() {
             <h3 className="text-2xl font-bold text-white font-poppins">Rate the venue & arrangements</h3>
             <p className="text-gray-400 text-sm">Seating, projector, overall comfort</p>
             <StarRating value={venueRating} onChange={setVenueRating} />
-            <p className="text-xs text-gray-500">Optional — skip if you prefer</p>
           </div>
         );
 
@@ -299,7 +297,6 @@ export default function FeedbackForm() {
                 {improvementSuggestion.length}/200
               </div>
             </div>
-            <p className="text-xs text-gray-500">Optional — skip if you prefer</p>
           </div>
         );
 
@@ -315,7 +312,6 @@ export default function FeedbackForm() {
               placeholder="e.g. Team Innovators"
               className="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#1A6FF5]/50 focus:shadow-[0_0_10px_rgba(26,111,245,0.1)] transition-all text-center text-lg"
             />
-            <p className="text-xs text-gray-500">Optional — skip if you prefer</p>
           </div>
         );
 
