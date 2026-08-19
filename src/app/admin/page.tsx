@@ -8,11 +8,25 @@ import {
   ExternalLink
 } from 'lucide-react';
 import {
-  BarChart, Bar, Tooltip, ResponsiveContainer, Cell
+  BarChart, Bar, Tooltip, ResponsiveContainer, Cell,
+  PieChart, Pie
 } from 'recharts';
 
 // --- Types ---
-type Tab = 'quick-leads' | 'full-apps';
+type Tab = 'quick-leads' | 'full-apps' | 'feedback';
+
+interface FeedbackEntry {
+  id: string;
+  overall_experience: number;
+  organization_rating: number;
+  best_parts: string[];
+  would_participate_again: string;
+  communication_rating: number | null;
+  venue_rating: number | null;
+  improvement_suggestion: string | null;
+  participant_name: string | null;
+  created_at: string;
+}
 
 interface QuickLead {
   id: string;
@@ -87,6 +101,10 @@ export default function AdminDashboard() {
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
   
+  const [feedbackData, setFeedbackData] = useState<FeedbackEntry[]>([]);
+  const [isLoadingFeedback, setIsLoadingFeedback] = useState(false);
+  const [feedbackSearchQuery, setFeedbackSearchQuery] = useState('');
+
   const [toasts, setToasts] = useState<{ id: number; message: string; type: 'success' | 'error' }[]>([]);
 
   // --- Auth Check ---
@@ -139,6 +157,7 @@ export default function AdminDashboard() {
     setAuthStatus('unauthenticated');
     setLeads([]);
     setApplications([]);
+    setFeedbackData([]);
     setPassword('');
   };
 
@@ -158,6 +177,23 @@ export default function AdminDashboard() {
       showToast('Error fetching data', 'error');
     } finally {
       setIsLoadingData(false);
+    }
+    // Also fetch feedback
+    fetchFeedback();
+  }
+
+  async function fetchFeedback() {
+    setIsLoadingFeedback(true);
+    try {
+      const res = await fetch('/api/feedback');
+      if (res.ok) {
+        const result = await res.json();
+        setFeedbackData(result.data || []);
+      }
+    } catch (error) {
+      console.error('Error fetching feedback:', error);
+    } finally {
+      setIsLoadingFeedback(false);
     }
   }
 
@@ -192,6 +228,10 @@ export default function AdminDashboard() {
             setSelectedApp((prev) => prev ? { ...prev, ...payload.new } : null);
           }
         }
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'event_feedback' }, (payload) => {
+        setFeedbackData((prev) => [payload.new as FeedbackEntry, ...prev]);
+        showToast('New Feedback Received!', 'success');
       })
       .subscribe();
 
@@ -623,6 +663,16 @@ export default function AdminDashboard() {
           >
             Full Applications
           </button>
+          <button
+            onClick={() => { setActiveTab('feedback'); setSearchQuery(''); setSelectedLead(null); setSelectedApp(null); }}
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              activeTab === 'feedback' 
+                ? 'bg-white/10 text-white shadow-sm border-b-2 border-[#00E5FF]' 
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            Feedback
+          </button>
         </div>
 
         <div className="flex items-center gap-4">
@@ -646,6 +696,8 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 p-6 flex flex-col max-w-7xl mx-auto w-full gap-4">
         
+        {activeTab !== 'feedback' ? (
+        <>
         {/* Bento Statistics Redesign */}
         
         {/* Top Row: 4 Cards */}
@@ -855,6 +907,276 @@ export default function AdminDashboard() {
             </div>
           )}
         </div>
+        </>
+        ) : (
+        /* ====== FEEDBACK TAB CONTENT ====== */
+        <>
+          {/* Feedback Summary Cards */}
+          {(() => {
+            const totalResponses = feedbackData.length;
+            const avgOverall = totalResponses > 0 ? (feedbackData.reduce((s, f) => s + f.overall_experience, 0) / totalResponses) : 0;
+            const avgOrg = totalResponses > 0 ? (feedbackData.reduce((s, f) => s + f.organization_rating, 0) / totalResponses) : 0;
+            const defCount = feedbackData.filter(f => f.would_participate_again === 'definitely').length;
+            const maybeCount = feedbackData.filter(f => f.would_participate_again === 'maybe').length;
+            const noCount = feedbackData.filter(f => f.would_participate_again === 'probably_not').length;
+
+            const emojiForRating = (r: number) => {
+              if (r >= 4.5) return '😍';
+              if (r >= 3.5) return '🙂';
+              if (r >= 2.5) return '😐';
+              if (r >= 1.5) return '🙁';
+              return '😠';
+            };
+
+            // Best parts chart data
+            const partsCount: Record<string, number> = {};
+            feedbackData.forEach(f => {
+              f.best_parts?.forEach(p => {
+                partsCount[p] = (partsCount[p] || 0) + 1;
+              });
+            });
+            const bestPartsChartData = Object.entries(partsCount)
+              .map(([name, count]) => ({ name: name.replace(/^[^\s]+\s/, ''), fullName: name, count }))
+              .sort((a, b) => b.count - a.count);
+
+            const participateChartData = [
+              { name: 'Definitely 🚀', value: defCount, color: '#22c55e' },
+              { name: 'Maybe 🤔', value: maybeCount, color: '#eab308' },
+              { name: 'Probably Not 😅', value: noCount, color: '#ef4444' },
+            ].filter(d => d.value > 0);
+
+            // Star distribution for organization
+            const orgDistribution = [1, 2, 3, 4, 5].map(star => ({
+              star: `${star}★`,
+              count: feedbackData.filter(f => f.organization_rating === star).length
+            }));
+
+            // Filtered feedback for table
+            const filteredFeedback = feedbackSearchQuery.trim()
+              ? feedbackData.filter(f =>
+                  (f.participant_name || '').toLowerCase().includes(feedbackSearchQuery.toLowerCase()) ||
+                  (f.improvement_suggestion || '').toLowerCase().includes(feedbackSearchQuery.toLowerCase())
+                )
+              : feedbackData;
+
+            return (
+              <>
+                {/* Top Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Total Responses</div>
+                    <div>
+                      <div className="text-3xl font-bold text-[#00E5FF] font-poppins tracking-wider leading-none mb-1">{totalResponses}</div>
+                      <div className="text-xs text-gray-500">feedback entries</div>
+                    </div>
+                  </div>
+                  <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Avg. Experience</div>
+                    <div>
+                      <div className="text-3xl font-bold text-white font-poppins tracking-wider leading-none mb-1">{avgOverall.toFixed(1)} {emojiForRating(avgOverall)}</div>
+                      <div className="text-xs text-gray-500">out of 5</div>
+                    </div>
+                  </div>
+                  <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Avg. Organization</div>
+                    <div>
+                      <div className="text-3xl font-bold text-yellow-400 font-poppins tracking-wider leading-none mb-1">{avgOrg.toFixed(1)} ★</div>
+                      <div className="text-xs text-gray-500">out of 5</div>
+                    </div>
+                  </div>
+                  <div className="bg-[#111] border border-white/5 rounded-xl p-4 flex flex-col justify-between">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Would Return</div>
+                    <div>
+                      <div className="text-3xl font-bold text-green-400 font-poppins tracking-wider leading-none mb-1">{totalResponses > 0 ? Math.round((defCount / totalResponses) * 100) : 0}%</div>
+                      <div className="text-xs text-gray-500">said definitely</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Charts Row */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                  {/* Best Parts Bar Chart */}
+                  <div className="md:col-span-5 bg-[#111] border border-white/5 rounded-xl p-4">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">What Participants Enjoyed Most</div>
+                    {bestPartsChartData.length > 0 ? (
+                      <ResponsiveContainer width="100%" height={200}>
+                        <BarChart data={bestPartsChartData} layout="vertical" margin={{ left: 10, right: 10 }}>
+                          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+                          <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+                            {bestPartsChartData.map((_, index) => (
+                              <Cell key={index} fill={['#1A6FF5', '#00E5FF', '#FF1744', '#22c55e', '#eab308', '#a855f7'][index % 6]} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div className="h-[200px] flex items-center justify-center text-gray-500 text-sm">No data yet</div>
+                    )}
+                  </div>
+
+                  {/* Participate Again Pie Chart */}
+                  <div className="md:col-span-3 bg-[#111] border border-white/5 rounded-xl p-4">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Would Participate Again?</div>
+                    {participateChartData.length > 0 ? (
+                      <div>
+                        <ResponsiveContainer width="100%" height={150}>
+                          <PieChart>
+                            <Pie
+                              data={participateChartData}
+                              cx="50%" cy="50%"
+                              innerRadius={35} outerRadius={60}
+                              dataKey="value"
+                              stroke="none"
+                            >
+                              {participateChartData.map((entry, index) => (
+                                <Cell key={index} fill={entry.color} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </ResponsiveContainer>
+                        <div className="flex flex-wrap gap-2 mt-2 justify-center">
+                          {participateChartData.map((d, i) => (
+                            <div key={i} className="flex items-center gap-1.5 text-xs text-gray-400">
+                              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: d.color }} />
+                              {d.name} ({d.value})
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="h-[150px] flex items-center justify-center text-gray-500 text-sm">No data yet</div>
+                    )}
+                  </div>
+
+                  {/* Organization Star Distribution */}
+                  <div className="md:col-span-4 bg-[#111] border border-white/5 rounded-xl p-4">
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">Organization Rating Distribution</div>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <BarChart data={orgDistribution}>
+                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+                        <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                          {orgDistribution.map((_, index) => (
+                            <Cell key={index} fill={['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e'][index]} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Feedback Table Toolbar */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white/5 p-2 rounded-2xl border border-white/10">
+                  <div className="relative w-full sm:w-96">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="text"
+                      placeholder="Search by name or suggestion..."
+                      value={feedbackSearchQuery}
+                      onChange={(e) => setFeedbackSearchQuery(e.target.value)}
+                      className="w-full bg-transparent border-none py-2 pl-10 pr-4 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/20 rounded-xl transition-all"
+                    />
+                  </div>
+                  <button
+                    onClick={() => {
+                      const headers = ['#', 'Name', 'Overall', 'Organization', 'Best Parts', 'Participate Again', 'Communication', 'Venue', 'Suggestion', 'Date'];
+                      const rows = filteredFeedback.map((f, i) => [
+                        i + 1,
+                        f.participant_name || '-',
+                        f.overall_experience,
+                        f.organization_rating,
+                        (f.best_parts || []).join('; '),
+                        f.would_participate_again,
+                        f.communication_rating || '-',
+                        f.venue_rating || '-',
+                        f.improvement_suggestion || '-',
+                        new Date(f.created_at).toLocaleDateString()
+                      ]);
+                      const csv = [headers.join(','), ...rows.map(r => r.map(c => `"${c}"`).join(','))].join('\n');
+                      const blob = new Blob([csv], { type: 'text/csv' });
+                      const url = URL.createObjectURL(blob);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.setAttribute('download', `eureka-feedback-${new Date().toISOString().split('T')[0]}.csv`);
+                      document.body.appendChild(link);
+                      link.click();
+                      link.remove();
+                    }}
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors w-full sm:w-auto justify-center"
+                  >
+                    <Download size={16} />
+                    Export CSV
+                  </button>
+                </div>
+
+                {/* Feedback Table */}
+                <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col relative">
+                  {isLoadingFeedback ? (
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#0A0A0A]/50 backdrop-blur-sm z-10">
+                      <Loader2 className="w-8 h-8 text-[#00E5FF] animate-spin" />
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm text-gray-300">
+                        <thead className="text-xs uppercase bg-white/5 text-gray-400 border-b border-white/10">
+                          <tr>
+                            <th className="px-4 py-4 font-semibold">#</th>
+                            <th className="px-4 py-4 font-semibold">Name</th>
+                            <th className="px-4 py-4 font-semibold">Overall</th>
+                            <th className="px-4 py-4 font-semibold">Org.</th>
+                            <th className="px-4 py-4 font-semibold">Best Parts</th>
+                            <th className="px-4 py-4 font-semibold">Return?</th>
+                            <th className="px-4 py-4 font-semibold">Suggestion</th>
+                            <th className="px-4 py-4 font-semibold">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {filteredFeedback.length === 0 ? (
+                            <tr>
+                              <td colSpan={8} className="px-6 py-16 text-center text-gray-500">
+                                {feedbackSearchQuery ? 'No matching feedback found.' : 'No feedback received yet.'}
+                              </td>
+                            </tr>
+                          ) : (
+                            filteredFeedback.map((f, i) => {
+                              const emojiMap: Record<number, string> = { 1: '😠', 2: '🙁', 3: '😐', 4: '🙂', 5: '😍' };
+                              const returnMap: Record<string, { label: string; color: string }> = {
+                                'definitely': { label: '🚀 Yes', color: 'text-green-400' },
+                                'maybe': { label: '🤔 Maybe', color: 'text-yellow-400' },
+                                'probably_not': { label: '😅 No', color: 'text-red-400' },
+                              };
+                              return (
+                                <tr key={f.id} className="hover:bg-white/5 transition-colors">
+                                  <td className="px-4 py-3 text-gray-500">{i + 1}</td>
+                                  <td className="px-4 py-3 font-medium text-white">{f.participant_name || <span className="text-gray-500 italic">Anonymous</span>}</td>
+                                  <td className="px-4 py-3 text-xl">{emojiMap[f.overall_experience] || f.overall_experience}</td>
+                                  <td className="px-4 py-3 text-yellow-400">{'★'.repeat(f.organization_rating)}{'☆'.repeat(5 - f.organization_rating)}</td>
+                                  <td className="px-4 py-3 max-w-[200px]">
+                                    <div className="flex flex-wrap gap-1">
+                                      {(f.best_parts || []).map((p, j) => (
+                                        <span key={j} className="text-xs bg-[#1A6FF5]/15 text-[#1A6FF5] px-1.5 py-0.5 rounded-md">{p.replace(/^[^\s]+\s/, '')}</span>
+                                      ))}
+                                    </div>
+                                  </td>
+                                  <td className={`px-4 py-3 font-medium ${returnMap[f.would_participate_again]?.color || 'text-gray-400'}`}>
+                                    {returnMap[f.would_participate_again]?.label || f.would_participate_again}
+                                  </td>
+                                  <td className="px-4 py-3 max-w-[200px] truncate text-gray-400">{f.improvement_suggestion || '-'}</td>
+                                  <td className="px-4 py-3 whitespace-nowrap text-gray-500">{new Date(f.created_at).toLocaleDateString()}</td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </>
+            );
+          })()}
+        </>
+        )}
       </main>
 
       {/* --- QUICK LEAD DETAIL PANEL --- */}
