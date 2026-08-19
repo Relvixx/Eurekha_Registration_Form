@@ -126,7 +126,9 @@ export const step4Schema = z.object({
 });
 
 export const step5Schema = z.object({
-  eurekaRegistrationId: z.string().min(3, "We need your Eureka Registration ID to verify your entry."),
+  eurekaRegistrationId: z.string()
+    .min(3, "We need your Eureka Registration ID to verify your entry.")
+    .regex(/^EU26\d{4,8}$/i, "Invalid format. Your ID must start with 'EU26' followed by numbers (e.g., EU2665520)"),
   proofUploaded: z.boolean().refine(val => val === true, "Please upload a screenshot or document proving your Eureka registration."),
   proofUrl: z.string().min(1, "Please wait for the proof document to finish uploading.").optional().or(z.literal(''))
 });

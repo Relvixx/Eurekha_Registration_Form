@@ -134,7 +134,7 @@ export default function StepProof({ errors }: StepProofProps) {
             type="text"
             value={formState.eurekaRegistrationId}
             onChange={handleIdChange}
-            placeholder="e.g. EUR2023-XXXX"
+            placeholder="e.g. EU2612345"
             className={`glass-input w-full p-4 rounded-xl text-white ${errors?.eurekaRegistrationId ? 'border-error shadow-[0_0_10px_rgba(255,37,58,0.1)]' : 'border-white/10'}`}
           />
           {errors?.eurekaRegistrationId && (
