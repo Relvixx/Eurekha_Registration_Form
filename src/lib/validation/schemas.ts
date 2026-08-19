@@ -75,6 +75,7 @@ export const studentIdeaSchema = z.object({
   currentStage: z.string().min(1, 'Please let us know what stage your idea is currently at'),
   shortDescription: z.string().min(10, 'Please give us a brief description of your idea'),
   websiteUrl: urlSchema,
+  pitchDeckUploaded: z.boolean().optional(),
 }).refine(data => {
   if (data.category === 'Other' && (!data.customCategory || data.customCategory.trim() === '')) {
     return false;
@@ -83,6 +84,13 @@ export const studentIdeaSchema = z.object({
 }, {
   message: 'Please specify your custom category',
   path: ['customCategory']
+}).refine(data => {
+  const hasWebsite = !!data.websiteUrl && data.websiteUrl.trim() !== '';
+  const hasPitchDeck = data.pitchDeckUploaded === true;
+  return hasWebsite || hasPitchDeck;
+}, {
+  message: 'Important for tomorrow\'s pitch: You must either provide a Website/Prototype Link OR upload a Pitch Deck.',
+  path: ['websiteUrl'] // Highlight website field as the anchor for the error
 });
 
 export const startupDetailsSchema = z.object({
@@ -95,6 +103,7 @@ export const startupDetailsSchema = z.object({
   shortDescription: z.string().min(10, 'Please give us a brief description of your startup'),
   websiteUrl: urlSchema,
   linkedinUrl: urlSchema,
+  pitchDeckUploaded: z.boolean().optional(),
 }).refine(data => {
   if (data.category === 'Other' && (!data.customCategory || data.customCategory.trim() === '')) {
     return false;
@@ -103,6 +112,13 @@ export const startupDetailsSchema = z.object({
 }, {
   message: 'Please specify your custom category',
   path: ['customCategory']
+}).refine(data => {
+  const hasWebsite = !!data.websiteUrl && data.websiteUrl.trim() !== '';
+  const hasPitchDeck = data.pitchDeckUploaded === true;
+  return hasWebsite || hasPitchDeck;
+}, {
+  message: 'Important for tomorrow\'s pitch: You must either provide a Website/Prototype Link OR upload a Pitch Deck.',
+  path: ['websiteUrl'] // Highlight website field as the anchor for the error
 });
 
 export const step4Schema = z.object({

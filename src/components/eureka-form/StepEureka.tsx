@@ -126,12 +126,14 @@ export default function StepEureka({ error }: StepEurekaProps) {
       <div className="max-w-2xl mx-auto pt-4">
         <label 
           htmlFor="eureka-confirmation"
-          className={`flex items-start p-5 sm:p-6 rounded-2xl border cursor-pointer transition-all duration-300 ${
-            formState.eurekaSelfConfirmed 
-              ? 'bg-[#00E5FF]/5 border-[#00E5FF]/30 shadow-[0_0_15px_rgba(0,229,255,0.05)]' 
-              : error 
-                ? 'bg-error/5 border-error/30'
-                : 'bg-text-dark border-white/5 hover:border-white/20'
+          className={`flex items-start p-5 sm:p-6 rounded-2xl border transition-all duration-300 ${
+            !formState.eurekaLinkClicked 
+              ? 'opacity-60 cursor-not-allowed bg-text-dark border-white/5'
+              : formState.eurekaSelfConfirmed 
+                ? 'bg-[#00E5FF]/5 border-[#00E5FF]/30 shadow-[0_0_15px_rgba(0,229,255,0.05)] cursor-pointer' 
+                : error 
+                  ? 'bg-error/5 border-error/30 cursor-pointer'
+                  : 'bg-text-dark border-white/5 hover:border-white/20 cursor-pointer'
           }`}
         >
           <div className="shrink-0 mt-0.5">
@@ -140,7 +142,10 @@ export default function StepEureka({ error }: StepEurekaProps) {
               id="eureka-confirmation"
               checked={formState.eurekaSelfConfirmed}
               onChange={handleConfirmChange}
-              className="w-5 h-5 rounded border-white/20 bg-black/50 text-[#00E5FF] focus:ring-[#00E5FF] focus:ring-offset-black cursor-pointer accent-[#00E5FF]"
+              disabled={!formState.eurekaLinkClicked}
+              className={`w-5 h-5 rounded border-white/20 bg-black/50 focus:ring-[#00E5FF] focus:ring-offset-black accent-[#00E5FF] ${
+                !formState.eurekaLinkClicked ? 'cursor-not-allowed' : 'cursor-pointer text-[#00E5FF]'
+              }`}
               aria-describedby={error ? "eureka-error" : undefined}
             />
           </div>
@@ -148,6 +153,11 @@ export default function StepEureka({ error }: StepEurekaProps) {
             <span className={`block font-semibold font-inter text-lg ${formState.eurekaSelfConfirmed ? 'text-[#00E5FF]' : 'text-white'}`}>
               I have completed my Eureka registration using the NEC ID provided above.
             </span>
+            {!formState.eurekaLinkClicked && (
+              <span className="text-[#FF1744] text-xs font-medium mt-2 mb-2 block bg-[#FF1744]/10 border border-[#FF1744]/20 py-1.5 px-3 rounded-md w-fit">
+                You must register on the Eureka platform to proceed. Please click the button above.
+              </span>
+            )}
             <span className="block text-sm text-text-muted font-inter mt-2">
               By checking this box, you confirm that you have successfully submitted your team details on the official Eureka platform.
             </span>

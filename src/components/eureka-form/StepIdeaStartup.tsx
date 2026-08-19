@@ -338,7 +338,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="flex items-center text-sm font-semibold text-white mb-3 font-inter text-left">
-              Website / Demo URL <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
+              Website / Demo URL <span className="text-primary text-xs font-normal ml-2 font-inter bg-primary/10 px-2 py-0.5 rounded-md border border-primary/20">Required: At least one</span>
             </label>
             <input
               type="url"
@@ -352,7 +352,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="flex items-center text-sm font-semibold text-white mb-1 font-inter text-left">
-              Pitch Deck / PPT <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
+              Pitch Deck / PPT <span className="text-primary text-xs font-normal ml-2 font-inter bg-primary/10 px-2 py-0.5 rounded-md border border-primary/20">Required: At least one</span>
             </label>
             <div className="mb-4 text-xs text-text-muted text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
@@ -497,7 +497,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="flex items-center text-sm font-semibold text-white mb-3 font-inter text-left">
-              Website URL <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
+              Website URL <span className="text-primary text-xs font-normal ml-2 font-inter bg-primary/10 px-2 py-0.5 rounded-md border border-primary/20">Required: At least one</span>
             </label>
             <input
               type="url"
@@ -511,7 +511,7 @@ export default function StepIdeaStartup({ errors = {} }: StepIdeaStartupProps) {
 
           <div>
             <label className="flex items-center text-sm font-semibold text-white mb-1 font-inter text-left">
-              Pitch Deck / PPT <span className="text-gray-400 text-xs font-normal ml-2 font-inter bg-white/5 px-2 py-0.5 rounded-md border border-white/10">Optional</span>
+              Pitch Deck / PPT <span className="text-primary text-xs font-normal ml-2 font-inter bg-primary/10 px-2 py-0.5 rounded-md border border-primary/20">Required: At least one</span>
             </label>
             <div className="mb-4 text-xs text-text-muted text-left space-y-1.5 p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="flex items-start gap-2">
