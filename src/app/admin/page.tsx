@@ -8,7 +8,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import {
-  BarChart, Bar, Tooltip, ResponsiveContainer, Cell,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
   PieChart, Pie
 } from 'recharts';
 
@@ -999,10 +999,12 @@ export default function AdminDashboard() {
                   <div className="md:col-span-5 bg-[#111] border border-white/5 rounded-xl p-4">
                     <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-4">What Participants Enjoyed Most</div>
                     {bestPartsChartData.length > 0 ? (
-                      <ResponsiveContainer width="100%" height={200}>
-                        <BarChart data={bestPartsChartData} layout="vertical" margin={{ left: 10, right: 10 }}>
+                      <ResponsiveContainer width="100%" height={bestPartsChartData.length * 40 + 20}>
+                        <BarChart data={bestPartsChartData} layout="vertical" margin={{ left: 80, right: 20, top: 5, bottom: 5 }}>
+                          <XAxis type="number" hide />
+                          <YAxis type="category" dataKey="name" width={75} tick={{ fill: '#9ca3af', fontSize: 12 }} axisLine={false} tickLine={false} />
                           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
-                          <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+                          <Bar dataKey="count" radius={[0, 6, 6, 0]} barSize={20}>
                             {bestPartsChartData.map((_, index) => (
                               <Cell key={index} fill={['#1A6FF5', '#00E5FF', '#FF1744', '#22c55e', '#eab308', '#a855f7'][index % 6]} />
                             ))}
@@ -1161,7 +1163,9 @@ export default function AdminDashboard() {
                                   <td className={`px-4 py-3 font-medium ${returnMap[f.would_participate_again]?.color || 'text-gray-400'}`}>
                                     {returnMap[f.would_participate_again]?.label || f.would_participate_again}
                                   </td>
-                                  <td className="px-4 py-3 max-w-[200px] truncate text-gray-400">{f.improvement_suggestion || '-'}</td>
+                                  <td className="px-4 py-3 min-w-[200px] max-w-[300px] text-gray-400">
+                                    <p className="whitespace-pre-wrap break-words">{f.improvement_suggestion || '-'}</p>
+                                  </td>
                                   <td className="px-4 py-3 whitespace-nowrap text-gray-500">{new Date(f.created_at).toLocaleDateString()}</td>
                                 </tr>
                               );
